@@ -1,16 +1,19 @@
 import { MUSCLE_GROUPS } from '../data/exercises';
 import { getFatigueColor } from './muscleCalculations';
 
-// Maps ASCII regions to muscle groups
 const FRONT_MUSCLE_MAP = {
   'HEAD': null,
   'NECK': MUSCLE_GROUPS.TRAPS,
-  'SHOULDER_L': MUSCLE_GROUPS.FRONT_DELTS,
-  'SHOULDER_R': MUSCLE_GROUPS.FRONT_DELTS,
+  'DELT_L': MUSCLE_GROUPS.FRONT_DELTS,
+  'DELT_R': MUSCLE_GROUPS.FRONT_DELTS,
   'CHEST': MUSCLE_GROUPS.CHEST,
   'BICEP_L': MUSCLE_GROUPS.BICEPS,
   'BICEP_R': MUSCLE_GROUPS.BICEPS,
+  'FOREARM_L': MUSCLE_GROUPS.BICEPS,
+  'FOREARM_R': MUSCLE_GROUPS.BICEPS,
   'ABS': MUSCLE_GROUPS.ABS,
+  'OBLIQUE_L': MUSCLE_GROUPS.ABS,
+  'OBLIQUE_R': MUSCLE_GROUPS.ABS,
   'QUAD_L': MUSCLE_GROUPS.QUADS,
   'QUAD_R': MUSCLE_GROUPS.QUADS,
   'CALF_L': MUSCLE_GROUPS.CALVES,
@@ -19,13 +22,16 @@ const FRONT_MUSCLE_MAP = {
 
 const BACK_MUSCLE_MAP = {
   'HEAD': null,
-  'TRAPS': MUSCLE_GROUPS.TRAPS,
-  'SHOULDER_L': MUSCLE_GROUPS.REAR_DELTS,
-  'SHOULDER_R': MUSCLE_GROUPS.REAR_DELTS,
+  'TRAP': MUSCLE_GROUPS.TRAPS,
+  'DELT_L': MUSCLE_GROUPS.REAR_DELTS,
+  'DELT_R': MUSCLE_GROUPS.REAR_DELTS,
   'UPPER_BACK': MUSCLE_GROUPS.UPPER_BACK,
-  'LATS': MUSCLE_GROUPS.LATS,
+  'LAT_L': MUSCLE_GROUPS.LATS,
+  'LAT_R': MUSCLE_GROUPS.LATS,
   'TRICEP_L': MUSCLE_GROUPS.TRICEPS,
   'TRICEP_R': MUSCLE_GROUPS.TRICEPS,
+  'FOREARM_L': MUSCLE_GROUPS.TRICEPS,
+  'FOREARM_R': MUSCLE_GROUPS.TRICEPS,
   'LOWER_BACK': MUSCLE_GROUPS.LOWER_BACK,
   'GLUTE_L': MUSCLE_GROUPS.GLUTES,
   'GLUTE_R': MUSCLE_GROUPS.GLUTES,
@@ -47,168 +53,82 @@ export function generateAsciiBody(fatigue, view = 'front') {
     return fatigueLevel > 0 ? getFatigueColor(fatigueLevel) : DEFAULT_COLOR;
   };
 
-  const colorSpan = (text, region) => {
-    const color = getColor(region);
-    return { text, color };
-  };
+  const c = (text, region) => ({ text, color: getColor(region) });
 
   if (view === 'front') {
-    return generateFrontView(colorSpan);
+    return [
+      // Head
+      [c('     ▄███▄     ', 'HEAD')],
+      [c('     █████     ', 'HEAD')],
+      [c('     ▀███▀     ', 'HEAD')],
+      // Neck
+      [c('      ███      ', 'NECK')],
+      // Shoulders + upper chest
+      [c('  ▄██', 'DELT_L'), c('█████', 'CHEST'), c('██▄  ', 'DELT_R')],
+      [c(' ████', 'DELT_L'), c('█████', 'CHEST'), c('████ ', 'DELT_R')],
+      // Arms + chest
+      [c('██', 'BICEP_L'), c('██', 'DELT_L'), c('███████', 'CHEST'), c('██', 'DELT_R'), c('██', 'BICEP_R')],
+      [c('██', 'BICEP_L'), c('█', 'OBLIQUE_L'), c('███████', 'CHEST'), c('█', 'OBLIQUE_R'), c('██', 'BICEP_R')],
+      [c('██', 'BICEP_L'), c('█', 'OBLIQUE_L'), c('███████', 'CHEST'), c('█', 'OBLIQUE_R'), c('██', 'BICEP_R')],
+      // Arms + abs
+      [c('██', 'BICEP_L'), c('█', 'OBLIQUE_L'), c('███████', 'ABS'), c('█', 'OBLIQUE_R'), c('██', 'BICEP_R')],
+      [c('▐█', 'FOREARM_L'), c('█', 'OBLIQUE_L'), c('███████', 'ABS'), c('█', 'OBLIQUE_R'), c('█▌', 'FOREARM_R')],
+      [c(' █', 'FOREARM_L'), c('█', 'OBLIQUE_L'), c('███████', 'ABS'), c('█', 'OBLIQUE_R'), c('█ ', 'FOREARM_R')],
+      [c(' ▀', 'FOREARM_L'), c('█', 'OBLIQUE_L'), c('███████', 'ABS'), c('█', 'OBLIQUE_R'), c('▀ ', 'FOREARM_R')],
+      // Lower abs
+      [c('  ▀', 'OBLIQUE_L'), c('███████', 'ABS'), c('▀  ', 'OBLIQUE_R')],
+      [c('   ', 'OBLIQUE_L'), c('▀▀▀▀▀▀▀', 'ABS'), c('   ', 'OBLIQUE_R')],
+      // Quads
+      [c('    ███ ███    ', 'QUAD_L')],
+      [c('   ', 'QUAD_L'), c('███', 'QUAD_L'), c(' ', 'HEAD'), c('███', 'QUAD_R'), c('   ', 'QUAD_R')],
+      [c('   ', 'QUAD_L'), c('███', 'QUAD_L'), c(' ', 'HEAD'), c('███', 'QUAD_R'), c('   ', 'QUAD_R')],
+      [c('   ', 'QUAD_L'), c('███', 'QUAD_L'), c(' ', 'HEAD'), c('███', 'QUAD_R'), c('   ', 'QUAD_R')],
+      [c('   ', 'QUAD_L'), c('▐█▌', 'QUAD_L'), c(' ', 'HEAD'), c('▐█▌', 'QUAD_R'), c('   ', 'QUAD_R')],
+      // Calves
+      [c('   ', 'CALF_L'), c('▐█▌', 'CALF_L'), c(' ', 'HEAD'), c('▐█▌', 'CALF_R'), c('   ', 'CALF_R')],
+      [c('   ', 'CALF_L'), c('▐█▌', 'CALF_L'), c(' ', 'HEAD'), c('▐█▌', 'CALF_R'), c('   ', 'CALF_R')],
+      [c('   ', 'CALF_L'), c('▐█▌', 'CALF_L'), c(' ', 'HEAD'), c('▐█▌', 'CALF_R'), c('   ', 'CALF_R')],
+      [c('    █   █    ', 'CALF_L')],
+      // Feet
+      [c('   ▄█▄ ▄█▄   ', 'CALF_L')],
+    ];
   } else {
-    return generateBackView(colorSpan);
+    return [
+      // Head
+      [c('     ▄███▄     ', 'HEAD')],
+      [c('     █████     ', 'HEAD')],
+      [c('     ▀███▀     ', 'HEAD')],
+      // Traps
+      [c('     ▄███▄     ', 'TRAP')],
+      // Shoulders + traps
+      [c('  ▄██', 'DELT_L'), c('█████', 'TRAP'), c('██▄  ', 'DELT_R')],
+      [c(' ████', 'DELT_L'), c('█████', 'TRAP'), c('████ ', 'DELT_R')],
+      // Arms + upper back
+      [c('██', 'TRICEP_L'), c('██', 'DELT_L'), c('███████', 'UPPER_BACK'), c('██', 'DELT_R'), c('██', 'TRICEP_R')],
+      [c('██', 'TRICEP_L'), c('██', 'LAT_L'), c('█████', 'UPPER_BACK'), c('██', 'LAT_R'), c('██', 'TRICEP_R')],
+      [c('██', 'TRICEP_L'), c('██', 'LAT_L'), c('█████', 'UPPER_BACK'), c('██', 'LAT_R'), c('██', 'TRICEP_R')],
+      // Arms + lats + lower back
+      [c('██', 'TRICEP_L'), c('██', 'LAT_L'), c('█████', 'LOWER_BACK'), c('██', 'LAT_R'), c('██', 'TRICEP_R')],
+      [c('▐█', 'FOREARM_L'), c('██', 'LAT_L'), c('█████', 'LOWER_BACK'), c('██', 'LAT_R'), c('█▌', 'FOREARM_R')],
+      [c(' █', 'FOREARM_L'), c('▐█', 'LAT_L'), c('█████', 'LOWER_BACK'), c('█▌', 'LAT_R'), c('█ ', 'FOREARM_R')],
+      [c(' ▀', 'FOREARM_L'), c(' █', 'LAT_L'), c('█████', 'LOWER_BACK'), c('█ ', 'LAT_R'), c('▀ ', 'FOREARM_R')],
+      // Lower back
+      [c('  ▀', 'LAT_L'), c('███████', 'LOWER_BACK'), c('▀  ', 'LAT_R')],
+      [c('   ', 'LAT_L'), c('▄█████▄', 'LOWER_BACK'), c('   ', 'LAT_R')],
+      // Glutes
+      [c('   ', 'GLUTE_L'), c('███', 'GLUTE_L'), c(' ', 'HEAD'), c('███', 'GLUTE_R'), c('   ', 'GLUTE_R')],
+      [c('   ', 'GLUTE_L'), c('███', 'GLUTE_L'), c(' ', 'HEAD'), c('███', 'GLUTE_R'), c('   ', 'GLUTE_R')],
+      // Hamstrings
+      [c('   ', 'HAM_L'), c('███', 'HAM_L'), c(' ', 'HEAD'), c('███', 'HAM_R'), c('   ', 'HAM_R')],
+      [c('   ', 'HAM_L'), c('███', 'HAM_L'), c(' ', 'HEAD'), c('███', 'HAM_R'), c('   ', 'HAM_R')],
+      [c('   ', 'HAM_L'), c('▐█▌', 'HAM_L'), c(' ', 'HEAD'), c('▐█▌', 'HAM_R'), c('   ', 'HAM_R')],
+      // Calves
+      [c('   ', 'CALF_L'), c('▐█▌', 'CALF_L'), c(' ', 'HEAD'), c('▐█▌', 'CALF_R'), c('   ', 'CALF_R')],
+      [c('   ', 'CALF_L'), c('▐█▌', 'CALF_L'), c(' ', 'HEAD'), c('▐█▌', 'CALF_R'), c('   ', 'CALF_R')],
+      [c('   ', 'CALF_L'), c('▐█▌', 'CALF_L'), c(' ', 'HEAD'), c('▐█▌', 'CALF_R'), c('   ', 'CALF_R')],
+      [c('    █   █    ', 'CALF_L')],
+      // Feet
+      [c('   ▄█▄ ▄█▄   ', 'CALF_L')],
+    ];
   }
-}
-
-function generateFrontView(colorSpan) {
-  // Front view ASCII art with muscle regions
-  return [
-    [
-      { text: '       ', color: 'transparent' },
-      colorSpan('O', 'HEAD'),
-    ],
-    [
-      { text: '      ', color: 'transparent' },
-      colorSpan('/', 'SHOULDER_L'),
-      colorSpan('█', 'CHEST'),
-      colorSpan('█', 'CHEST'),
-      colorSpan('█', 'CHEST'),
-      colorSpan('\\', 'SHOULDER_R'),
-    ],
-    [
-      { text: '     ', color: 'transparent' },
-      colorSpan('│', 'BICEP_L'),
-      colorSpan('█', 'CHEST'),
-      colorSpan('█', 'CHEST'),
-      colorSpan('█', 'CHEST'),
-      colorSpan('█', 'CHEST'),
-      colorSpan('█', 'CHEST'),
-      colorSpan('│', 'BICEP_R'),
-    ],
-    [
-      { text: '     ', color: 'transparent' },
-      colorSpan('│', 'BICEP_L'),
-      { text: ' ', color: 'transparent' },
-      colorSpan('█', 'ABS'),
-      colorSpan('█', 'ABS'),
-      colorSpan('█', 'ABS'),
-      { text: ' ', color: 'transparent' },
-      colorSpan('│', 'BICEP_R'),
-    ],
-    [
-      { text: '      ', color: 'transparent' },
-      { text: ' ', color: 'transparent' },
-      colorSpan('█', 'ABS'),
-      colorSpan('█', 'ABS'),
-      colorSpan('█', 'ABS'),
-    ],
-    [
-      { text: '      ', color: 'transparent' },
-      colorSpan('█', 'QUAD_L'),
-      colorSpan('█', 'QUAD_L'),
-      { text: ' ', color: 'transparent' },
-      colorSpan('█', 'QUAD_R'),
-      colorSpan('█', 'QUAD_R'),
-    ],
-    [
-      { text: '      ', color: 'transparent' },
-      colorSpan('█', 'QUAD_L'),
-      colorSpan('█', 'QUAD_L'),
-      { text: ' ', color: 'transparent' },
-      colorSpan('█', 'QUAD_R'),
-      colorSpan('█', 'QUAD_R'),
-    ],
-    [
-      { text: '      ', color: 'transparent' },
-      colorSpan('█', 'CALF_L'),
-      colorSpan('█', 'CALF_L'),
-      { text: ' ', color: 'transparent' },
-      colorSpan('█', 'CALF_R'),
-      colorSpan('█', 'CALF_R'),
-    ],
-    [
-      { text: '      ', color: 'transparent' },
-      colorSpan('▀', 'CALF_L'),
-      colorSpan('▀', 'CALF_L'),
-      { text: ' ', color: 'transparent' },
-      colorSpan('▀', 'CALF_R'),
-      colorSpan('▀', 'CALF_R'),
-    ],
-  ];
-}
-
-function generateBackView(colorSpan) {
-  // Back view ASCII art with muscle regions
-  return [
-    [
-      { text: '       ', color: 'transparent' },
-      colorSpan('O', 'HEAD'),
-    ],
-    [
-      { text: '      ', color: 'transparent' },
-      colorSpan('/', 'SHOULDER_L'),
-      colorSpan('█', 'TRAPS'),
-      colorSpan('█', 'TRAPS'),
-      colorSpan('█', 'TRAPS'),
-      colorSpan('\\', 'SHOULDER_R'),
-    ],
-    [
-      { text: '     ', color: 'transparent' },
-      colorSpan('│', 'TRICEP_L'),
-      colorSpan('█', 'UPPER_BACK'),
-      colorSpan('█', 'UPPER_BACK'),
-      colorSpan('█', 'UPPER_BACK'),
-      colorSpan('█', 'UPPER_BACK'),
-      colorSpan('█', 'UPPER_BACK'),
-      colorSpan('│', 'TRICEP_R'),
-    ],
-    [
-      { text: '     ', color: 'transparent' },
-      colorSpan('│', 'TRICEP_L'),
-      { text: ' ', color: 'transparent' },
-      colorSpan('█', 'LATS'),
-      colorSpan('█', 'LOWER_BACK'),
-      colorSpan('█', 'LATS'),
-      { text: ' ', color: 'transparent' },
-      colorSpan('│', 'TRICEP_R'),
-    ],
-    [
-      { text: '      ', color: 'transparent' },
-      { text: ' ', color: 'transparent' },
-      colorSpan('█', 'LOWER_BACK'),
-      colorSpan('█', 'LOWER_BACK'),
-      colorSpan('█', 'LOWER_BACK'),
-    ],
-    [
-      { text: '      ', color: 'transparent' },
-      colorSpan('█', 'GLUTE_L'),
-      colorSpan('█', 'GLUTE_L'),
-      { text: ' ', color: 'transparent' },
-      colorSpan('█', 'GLUTE_R'),
-      colorSpan('█', 'GLUTE_R'),
-    ],
-    [
-      { text: '      ', color: 'transparent' },
-      colorSpan('█', 'HAM_L'),
-      colorSpan('█', 'HAM_L'),
-      { text: ' ', color: 'transparent' },
-      colorSpan('█', 'HAM_R'),
-      colorSpan('█', 'HAM_R'),
-    ],
-    [
-      { text: '      ', color: 'transparent' },
-      colorSpan('█', 'CALF_L'),
-      colorSpan('█', 'CALF_L'),
-      { text: ' ', color: 'transparent' },
-      colorSpan('█', 'CALF_R'),
-      colorSpan('█', 'CALF_R'),
-    ],
-    [
-      { text: '      ', color: 'transparent' },
-      colorSpan('▀', 'CALF_L'),
-      colorSpan('▀', 'CALF_L'),
-      { text: ' ', color: 'transparent' },
-      colorSpan('▀', 'CALF_R'),
-      colorSpan('▀', 'CALF_R'),
-    ],
-  ];
 }
