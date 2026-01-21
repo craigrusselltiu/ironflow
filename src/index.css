@@ -78,7 +78,7 @@ body {
 /* Main Layout */
 .main-content {
   display: grid;
-  grid-template-columns: 280px 1fr 300px;
+  grid-template-columns: 280px 1fr 400px;
   flex: 1;
   gap: 1px;
   background: var(--border-color);
@@ -295,8 +295,8 @@ body {
 
 .body-views {
   display: flex;
-  justify-content: space-around;
-  gap: 1rem;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .body-view {
@@ -311,11 +311,12 @@ body {
 
 .ascii-body {
   font-family: 'Courier New', Courier, monospace;
-  font-size: 1rem;
-  line-height: 1.2;
+  font-size: 0.7rem;
+  line-height: 1.15;
   background: var(--bg-tertiary);
-  padding: 1rem;
+  padding: 0.5rem;
   border-radius: 8px;
+  white-space: pre;
 }
 
 .fatigue-legend {
@@ -390,7 +391,7 @@ body {
 /* Responsive */
 @media (max-width: 1200px) {
   .main-content {
-    grid-template-columns: 250px 1fr 250px;
+    grid-template-columns: 250px 1fr 350px;
   }
 
   .days-grid {

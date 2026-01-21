@@ -37,11 +37,11 @@ export function MuscleMap({ fatigue }) {
 
   return (
     <div className="muscle-map">
-      <h2>Muscle Fatigue</h2>
+      <h2>Targeted Muscle Groups</h2>
 
       <div className="body-views">
         <div className="body-view">
-          <h4>Front</h4>
+          <h4>FRONT</h4>
           <pre className="ascii-body">
             {frontBody.map((line, i) => (
               <div key={i}>{renderAsciiLine(line)}</div>
@@ -50,7 +50,7 @@ export function MuscleMap({ fatigue }) {
         </div>
 
         <div className="body-view">
-          <h4>Back</h4>
+          <h4>BACK</h4>
           <pre className="ascii-body">
             {backBody.map((line, i) => (
               <div key={i}>{renderAsciiLine(line)}</div>
