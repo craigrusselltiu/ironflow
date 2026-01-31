@@ -5,6 +5,21 @@ All notable changes to IronFlow will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.5.0 - 2026-01-31
+
+### Added
+- Storage abstraction layer with dual-mode support (ApiStorage for logged-in users, LocalStorage for guests)
+- Planned sets and reps fields on scheduled exercises with inline editing
+- SVG muscle map visualization replacing ASCII art for better visual feedback
+- Loading states for routine management operations
+- Support for multiple routines with active routine selection
+
+### Changed
+- RoutineContext now uses storage abstraction based on authentication state
+- Exercise cards now show sets/reps with click-to-edit functionality
+- Muscle map rendering upgraded from ASCII to interactive SVG
+- Auto-create default routine for first-time users
+
 ## v2.4.0 - 2026-01-31
 
 ### Added
