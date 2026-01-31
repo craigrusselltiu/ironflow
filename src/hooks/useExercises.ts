@@ -25,7 +25,7 @@ export function useExercises(options: UseExercisesOptions = {}): UseExercisesRes
   const [currentOffset, setCurrentOffset] = useState(offset);
   const [hasMore, setHasMore] = useState(true);
 
-  const fetchExercises = useCallback(async (loadMore = false) => {
+  const fetchExercises = useCallback(async (offsetToUse: number, append = false) => {
     setIsLoading(true);
     setError(null);
 
@@ -33,7 +33,7 @@ export function useExercises(options: UseExercisesOptions = {}): UseExercisesRes
       let endpoint = '';
       const queryParams = new URLSearchParams();
       queryParams.set('limit', limit.toString());
-      queryParams.set('offset', (loadMore ? currentOffset : 0).toString());
+      queryParams.set('offset', offsetToUse.toString());
 
       if (filters.search) {
         endpoint = `/exercises/search?q=${encodeURIComponent(filters.search)}&${queryParams}`;
@@ -49,36 +49,36 @@ export function useExercises(options: UseExercisesOptions = {}): UseExercisesRes
 
       const data = await api.get<Exercise[]>(endpoint, { skipAuth: true });
 
-      if (loadMore) {
+      if (append) {
         setExercises(prev => [...prev, ...data]);
       } else {
         setExercises(data);
       }
 
       setHasMore(data.length === limit);
-      setCurrentOffset(prev => loadMore ? prev + limit : limit);
+      setCurrentOffset(offsetToUse + limit);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch exercises');
     } finally {
       setIsLoading(false);
     }
-  }, [limit, currentOffset, filters.search, filters.bodyPart, filters.equipment, filters.target]);
+  }, [limit, filters.search, filters.bodyPart, filters.equipment, filters.target]);
 
   useEffect(() => {
     setCurrentOffset(0);
-    fetchExercises(false);
-  }, [filters.search, filters.bodyPart, filters.equipment, filters.target]);
+    fetchExercises(0, false);
+  }, [fetchExercises]);
 
   const refetch = useCallback(() => {
     setCurrentOffset(0);
-    fetchExercises(false);
+    fetchExercises(0, false);
   }, [fetchExercises]);
 
   const loadMore = useCallback(() => {
     if (!isLoading && hasMore) {
-      fetchExercises(true);
+      fetchExercises(currentOffset, true);
     }
-  }, [fetchExercises, isLoading, hasMore]);
+  }, [fetchExercises, isLoading, hasMore, currentOffset]);
 
   return { exercises, isLoading, error, refetch, loadMore, hasMore };
 }

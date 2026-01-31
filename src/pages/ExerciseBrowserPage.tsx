@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useExercises, useExerciseLists } from '../hooks/useExercises';
 import { ExerciseDetailModal } from '../components/ExerciseDetailModal';
 import { useRoutine } from '../contexts/RoutineContext';
@@ -7,7 +7,6 @@ import type { Exercise, ExerciseFilters } from '../types/exercise';
 
 export function ExerciseBrowserPage() {
   const { addExerciseToDay } = useRoutine();
-  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [activeBodyPart, setActiveBodyPart] = useState<string | null>(null);
