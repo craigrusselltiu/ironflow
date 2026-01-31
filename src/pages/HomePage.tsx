@@ -1,9 +1,6 @@
 import { Link } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
 
 export function HomePage() {
-  const { isAuthenticated } = useAuth();
-
   return (
     <div className="home-page">
       {/* Hero Section */}
