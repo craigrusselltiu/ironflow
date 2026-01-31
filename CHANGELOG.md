@@ -5,6 +5,19 @@ All notable changes to IronFlow will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.3.0 - 2026-01-31
+
+### Added
+- Frontend authentication with login and register pages
+- AuthContext for managing authentication state
+- API client with automatic JWT attachment and 401 handling
+- React Router for page navigation
+- ProtectedRoute component for guarding authenticated routes
+
+### Changed
+- Migrated to Tailwind CSS v4 with CSS-based configuration
+- Updated Header component with login/logout buttons
+
 ## v2.2.0 - 2026-01-31
 
 ### Added
