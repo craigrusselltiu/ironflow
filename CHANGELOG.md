@@ -5,9 +5,36 @@ All notable changes to IronFlow will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## v2.3.0 - 2026-01-31
 
-## [2.0.0] - 2026-01-31
+### Added
+- Frontend authentication with login and register pages
+- AuthContext for managing authentication state
+- API client with automatic JWT attachment and 401 handling
+- React Router for page navigation
+- ProtectedRoute component for guarding authenticated routes
+
+### Changed
+- Migrated to Tailwind CSS v4 with CSS-based configuration
+- Updated Header component with login/logout buttons
+
+## v2.2.0 - 2026-01-31
+
+### Added
+- Routine CRUD API endpoints (GET, POST, PUT, DELETE /api/routines)
+- ScheduledExercise management within routines
+- Week-based routine organization
+
+## v2.1.0 - 2026-01-31
+
+### Added
+- ExerciseDB API integration
+- Exercise caching with 7-day expiry
+- Muscle mapping from ExerciseDB to IronFlow format
+- Exercise search and filter endpoints
+- Database seeding script for exercises
+
+## v2.0.0 - 2026-01-31
 
 ### Added
 - Node.js backend with Express and TypeScript
@@ -20,7 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Architecture from client-only to full-stack
 
-## [1.0.0] - 2024-01-01
+## v1.0.0 - 2024-01-01
 
 ### Added
 - Initial prototype release
