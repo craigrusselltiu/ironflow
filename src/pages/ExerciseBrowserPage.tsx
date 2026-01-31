@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
 import { useExercises, useExerciseLists } from '../hooks/useExercises';
 import { ExerciseDetailModal } from '../components/ExerciseDetailModal';
 import { useRoutine } from '../contexts/RoutineContext';
@@ -83,10 +82,9 @@ export function ExerciseBrowserPage() {
     <div className="exercise-browser-page">
       <header className="browser-header">
         <div className="browser-header-content">
-          <Link to="/" className="back-link">&larr; Back to Planner</Link>
           <h1>Exercise Library</h1>
           <p className="browser-subtitle">
-            Browse and search through hundreds of exercises
+            Browse and search through 1300+ exercises with detailed instructions
           </p>
         </div>
       </header>

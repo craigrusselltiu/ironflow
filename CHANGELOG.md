@@ -5,6 +5,30 @@ All notable changes to IronFlow will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.6.0 - 2026-02-01
+
+### Added
+- New Home page with hero section, feature highlights, and call-to-action
+- Tab-based navigation system (Home, Routine Builder, Exercises)
+- Mobile hamburger menu for responsive navigation
+- Dedicated Routine Builder page separated from main layout
+- Floating hero visual cards with animations
+
+### Changed
+- Complete frontend redesign with premium fitness aesthetic
+- New typography using Outfit and JetBrains Mono fonts
+- Refined color system with deeper blacks and better contrast
+- Upgraded button styles with glow effects on hover
+- Enhanced card designs with hover lift and border highlights
+- Improved modal animations with backdrop blur
+- Better responsive breakpoints for all screen sizes
+- Navigation now uses sticky header with blur effect
+- Exercise Browser header simplified (removed back link)
+
+### Removed
+- Old header component with inline navigation
+- Previous App.jsx layout (replaced by MainLayout + RoutineBuilderPage)
+
 ## v2.5.0 - 2026-01-31
 
 ### Added

@@ -1,6 +1,6 @@
 # IronFlow
 
-![Version](https://img.shields.io/badge/version-2.5.0-green)
+![Version](https://img.shields.io/badge/version-2.6.0-green)
 ![React](https://img.shields.io/badge/react-18-blue)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
@@ -90,6 +90,14 @@ npm run dev
 ```
 
 ## Usage
+
+### Navigation
+
+IronFlow has three main sections accessible via the tab navigation:
+
+1. **Home** - Landing page with overview and quick access to features
+2. **Routine Builder** - The main planner with drag-and-drop scheduling
+3. **Exercises** - Browse and search the exercise library
 
 ### Building a Routine
 
