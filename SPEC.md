@@ -52,18 +52,29 @@ Two implementations:
 ## Design System
 
 Based on the reference design, IronFlow uses:
-- **Primary Background**: #0a0a0a (near black)
-- **Secondary Background**: #141414 (dark gray)
-- **Card Background**: #1a1a1a
+- **Primary Background**: #050505 (near black)
+- **Secondary Background**: #0c0c0c (dark gray)
+- **Card Background**: #111111
+- **Elevated Background**: #161616
 - **Accent Color**: #BFFF00 (neon lime/green)
+- **Accent Hover**: #d4ff4d
 - **Text Primary**: #ffffff
-- **Text Secondary**: #888888
-- **Border**: #2a2a2a
+- **Text Secondary**: #737373
+- **Text Tertiary**: #525252
+- **Border**: #222222
+- **Border Subtle**: #1a1a1a
 
 Typography:
-- Bold, modern sans-serif headings
+- **Headings**: Outfit (weight 700-800, tight letter-spacing)
+- **Body**: Outfit (weight 400-500)
+- **Monospace**: JetBrains Mono (for stats, numbers)
 - Accent color highlights on key words
 - High contrast for readability
+
+Navigation:
+- Sticky header with backdrop blur
+- Tab-based navigation (Home, Routine Builder, Exercises)
+- Mobile hamburger menu with slide-down animation
 
 ## Features
 
@@ -100,28 +111,36 @@ Typography:
 - Planned sets/reps fields
 - SVG muscle map visualization
 
-### v2.6.0 - Workout Logging
+### v2.6.0 - Frontend Redesign
+- New Home page with hero section
+- Tab-based navigation system
+- Mobile responsive hamburger menu
+- Premium fitness aesthetic with animations
+- New typography (Outfit, JetBrains Mono)
+- Refined color system
+
+### v2.7.0 - Workout Logging
 - Start workout from planned routine
 - Log sets with weight/reps
 - View previous performance
 - Workout history
 
-### v2.7.0 - Templates
+### v2.8.0 - Templates
 - Pre-built routine templates (PPL, Upper/Lower, Full Body)
 - Save routine as template
 - Apply template to routine
 
-### v2.8.0 - Analytics
+### v2.9.0 - Analytics
 - Volume tracking over time
 - Muscle group frequency
 - Personal records (estimated 1RM)
 - Date range filtering
 
-### v2.9.0 - Polish
-- Mobile responsiveness
-- Loading states
+### v2.10.0 - Polish
+- Loading states refinement
 - Error boundaries
 - Empty states
+- Performance optimization
 
 ---
 
@@ -273,6 +292,25 @@ GET    /api/analytics/prs                Personal records
 ---
 
 ## UI Screens
+
+### Home Page (v2.6.0)
+- Hero section with animated gradient background
+- Feature badge with pulsing dot
+- Large headline with accent color highlights
+- CTA buttons: "Start Building", "Browse Exercises"
+- Stats row: 1300+ Exercises, 13 Muscle Groups, 7 Day Planning
+- Floating visual cards showing app features
+- Features grid section
+- Bottom CTA section with decorative rings
+- Footer with navigation links
+
+### Main Navigation (v2.6.0)
+- Sticky header with backdrop blur
+- Brand logo (barbell icon) and text
+- Tab pills: Home, Routine Builder, Exercises
+- Active tab highlighted with accent color
+- Auth buttons: Sign In, Get Started
+- Mobile: hamburger menu with slide-down panel
 
 ### Login Page (v2.3.0)
 - Dark background with accent highlights
