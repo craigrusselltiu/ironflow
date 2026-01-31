@@ -101,7 +101,10 @@ Fetches all exercises from ExerciseDB and caches locally.
 Each implementation phase should result in a separate PR for user review before merging.
 Do not combine multiple phases into a single PR.
 
-**After creating a PR, prompt the user whether to continue to the next phase.**
+**After creating a PR:**
+1. Prompt the user whether to continue to the next phase
+2. If user agrees, clear context with /clear and create a new feature branch for the next phase
+3. Start fresh with the new phase implementation
 
 ## Documentation
 
