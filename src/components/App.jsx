@@ -14,26 +14,15 @@ import { ExerciseLibrary } from './ExerciseLibrary';
 import { WeeklyPlanner } from './WeeklyPlanner';
 import { MuscleMap } from './MuscleMap';
 import { ExerciseCard } from './ExerciseCard';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import { useRoutine } from '../contexts/RoutineContext';
 import { calculateMuscleFatigue } from '../utils/muscleCalculations';
-import { exercises } from '../data/exercises';
-
-const INITIAL_ROUTINE = {
-  monday: [],
-  tuesday: [],
-  wednesday: [],
-  thursday: [],
-  friday: [],
-  saturday: [],
-  sunday: [],
-};
 
 function generateInstanceId() {
   return `exercise-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 }
 
 export default function App() {
-  const [weeklyRoutine, setWeeklyRoutine] = useLocalStorage('ironflow-routine', INITIAL_ROUTINE);
+  const { weeklyRoutine, setWeeklyRoutine, removeExerciseFromDay, clearRoutine } = useRoutine();
   const [activeExercise, setActiveExercise] = useState(null);
 
   const sensors = useSensors(
@@ -182,16 +171,7 @@ export default function App() {
   };
 
   const handleRemoveExercise = (day, instanceId) => {
-    setWeeklyRoutine(prev => ({
-      ...prev,
-      [day]: prev[day].filter(e => e.instanceId !== instanceId),
-    }));
-  };
-
-  const handleClearRoutine = () => {
-    if (window.confirm('Are you sure you want to clear your entire routine?')) {
-      setWeeklyRoutine(INITIAL_ROUTINE);
-    }
+    removeExerciseFromDay(day, instanceId);
   };
 
   return (
@@ -203,7 +183,7 @@ export default function App() {
       onDragEnd={handleDragEnd}
     >
       <div className="app">
-        <Header onClearRoutine={handleClearRoutine} />
+        <Header onClearRoutine={clearRoutine} />
 
         <main className="main-content">
           <aside className="sidebar left-sidebar">

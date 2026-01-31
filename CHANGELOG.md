@@ -5,6 +5,21 @@ All notable changes to IronFlow will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.4.0 - 2026-01-31
+
+### Added
+- Exercise Browser page with search functionality
+- Filter exercises by body part and equipment
+- Exercise detail modal with animated GIF preview
+- Add to day functionality from exercise browser
+- RoutineContext for shared routine state management
+- Exercise hooks for API data fetching (useExercises, useExerciseLists)
+- TypeScript types for Exercise data
+
+### Changed
+- Header now includes "Browse Exercises" navigation link
+- Routine state moved to context for cross-page access
+
 ## v2.3.0 - 2026-01-31
 
 ### Added
