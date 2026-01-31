@@ -1,13 +1,32 @@
+import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+
 export function Header({ onClearRoutine }) {
+  const { user, isAuthenticated, logout } = useAuth();
+
   return (
     <header className="app-header">
       <div className="header-content">
         <h1>IronFlow</h1>
         <p className="tagline">Build your perfect gym routine</p>
       </div>
-      <button className="clear-btn" onClick={onClearRoutine}>
-        Clear Routine
-      </button>
+      <div className="header-actions">
+        <button className="clear-btn" onClick={onClearRoutine}>
+          Clear Routine
+        </button>
+        {isAuthenticated ? (
+          <>
+            <span className="user-info">{user?.name}</span>
+            <button className="logout-btn" onClick={logout}>
+              Logout
+            </button>
+          </>
+        ) : (
+          <Link to="/login" className="login-btn">
+            Login
+          </Link>
+        )}
+      </div>
     </header>
   );
 }
