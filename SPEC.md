@@ -6,6 +6,49 @@ Version: 2.0.0
 
 IronFlow is a full-stack gym routine builder that helps users plan weekly workout routines, track exercises, log workouts, and analyze progress.
 
+## Offline-First Architecture
+
+The frontend operates in **dual mode** to support deployment on GitHub Pages without a backend:
+
+### Online Mode (with backend)
+- User authentication (login/register)
+- Data synced to PostgreSQL via API
+- ExerciseDB integration with caching
+- Multi-device support
+
+### Offline Mode (without backend)
+- No login required
+- Data stored in localStorage (like v1)
+- Uses bundled exercise data
+- Works on GitHub Pages
+
+### Mode Detection
+The storage mode is determined by login state:
+- **Logged in** → API storage (synced to backend)
+- **Not logged in (guest)** → localStorage (local only)
+
+This means:
+- Users can use the full routine builder without creating an account
+- Guest data persists in browser localStorage
+- Logging in does NOT migrate guest data (keeps them separate)
+- Backend availability is checked only when user attempts to login
+
+### Storage Abstraction
+The app uses a unified storage interface:
+```typescript
+interface RoutineStorage {
+  getRoutines(): Promise<Routine[]>
+  getRoutine(id: string): Promise<Routine>
+  createRoutine(data: CreateRoutineInput): Promise<Routine>
+  updateRoutine(id: string, data: UpdateRoutineInput): Promise<Routine>
+  deleteRoutine(id: string): Promise<void>
+  // ... exercise methods
+}
+```
+Two implementations:
+- `ApiStorage` - calls backend REST API
+- `LocalStorage` - uses browser localStorage
+
 ## Design System
 
 Based on the reference design, IronFlow uses:

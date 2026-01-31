@@ -64,6 +64,30 @@ Based on reference design:
 
 ## Code Patterns
 
+### Offline-First Storage
+
+The app supports dual-mode operation (online with backend, offline with localStorage).
+
+```
+/src/storage/
+  index.ts        - Storage interface and factory
+  apiStorage.ts   - Backend API implementation
+  localStorage.ts - Browser localStorage implementation
+```
+
+Use the storage factory to get the appropriate implementation:
+```typescript
+import { getStorage } from '@/storage'
+const storage = getStorage() // Returns ApiStorage or LocalStorage
+const routines = await storage.getRoutines()
+```
+
+Mode is determined by login state:
+- Logged in → ApiStorage (backend)
+- Not logged in (guest) → LocalStorage (browser)
+
+Guest users get full routine builder functionality without an account.
+
 ### API Client (frontend)
 Use /src/api/client.ts with fetch wrapper.
 Auto-attaches JWT from localStorage.
