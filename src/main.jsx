@@ -13,16 +13,16 @@ import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/ironflow">
       <AuthProvider>
         <RoutineProvider>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route element={<MainLayout />}>
+            <Route path="/" element={<MainLayout />}>
               <Route index element={<HomePage />} />
-              <Route path="/builder" element={<RoutineBuilderPage />} />
-              <Route path="/exercises" element={<ExerciseBrowserPage />} />
+              <Route path="builder" element={<RoutineBuilderPage />} />
+              <Route path="exercises" element={<ExerciseBrowserPage />} />
             </Route>
           </Routes>
         </RoutineProvider>

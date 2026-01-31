@@ -13,7 +13,7 @@ const DAY_NAMES = {
   sunday: 'Sunday',
 };
 
-export function DayBucket({ day, scheduledExercises, onRemoveExercise, onUpdateSetsReps }) {
+export function DayBucket({ day, dayAbbrev, dayIndex, scheduledExercises, onRemoveExercise, onUpdateSetsReps }) {
   const { setNodeRef, isOver } = useDroppable({
     id: day,
     data: {
@@ -27,21 +27,32 @@ export function DayBucket({ day, scheduledExercises, onRemoveExercise, onUpdateS
     return { ...instance, exercise };
   }).filter(instance => instance.exercise);
 
+  const hasExercises = scheduledExercises.length > 0;
+  const isWeekend = day === 'saturday' || day === 'sunday';
+
   return (
-    <div className={`day-bucket ${isOver ? 'drag-over' : ''}`}>
-      <div className="day-header">
-        <h3>{DAY_NAMES[day]}</h3>
-        <span className="exercise-count">{scheduledExercises.length}</span>
+    <div
+      className={`day-bucket-modern ${isOver ? 'drag-over' : ''} ${hasExercises ? 'has-exercises' : ''} ${isWeekend ? 'weekend' : ''}`}
+      style={{ '--day-index': dayIndex }}
+    >
+      <div className="day-header-modern">
+        <div className="day-label">
+          <span className="day-abbrev">{dayAbbrev}</span>
+          <span className="day-full">{DAY_NAMES[day]}</span>
+        </div>
+        {hasExercises && (
+          <span className="exercise-count-modern">{scheduledExercises.length}</span>
+        )}
       </div>
       <div
         ref={setNodeRef}
-        className="day-exercises"
+        className="day-content"
       >
         <SortableContext
           items={scheduledExercises.map(e => e.instanceId)}
           strategy={verticalListSortingStrategy}
         >
-          {exerciseInstances.map(instance => (
+          {exerciseInstances.map((instance, idx) => (
             <ExerciseCard
               key={instance.instanceId}
               exercise={instance.exercise}
@@ -51,12 +62,18 @@ export function DayBucket({ day, scheduledExercises, onRemoveExercise, onUpdateS
               plannedReps={instance.plannedReps}
               onUpdateSetsReps={onUpdateSetsReps}
               day={day}
+              exerciseIndex={idx}
             />
           ))}
         </SortableContext>
         {scheduledExercises.length === 0 && (
-          <div className="empty-day">
-            Drop exercises here
+          <div className="empty-day-modern">
+            <div className="empty-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M12 5v14M5 12h14" strokeLinecap="round"/>
+              </svg>
+            </div>
+            <span>Drop here</span>
           </div>
         )}
       </div>

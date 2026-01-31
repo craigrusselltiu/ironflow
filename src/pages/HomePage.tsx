@@ -1,9 +1,6 @@
 import { Link } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
 
 export function HomePage() {
-  const { isAuthenticated } = useAuth();
-
   return (
     <div className="home-page">
       {/* Hero Section */}
@@ -189,11 +186,7 @@ export function HomePage() {
                 <rect x="22" y="8" width="4" height="16" rx="1" fill="currentColor"/>
               </svg>
             </span>
-            <span>IronFlow</span>
-          </div>
-          <div className="footer-links">
-            <Link to="/builder">Routine Builder</Link>
-            <Link to="/exercises">Exercise Library</Link>
+            <span>IronFlow &copy;</span>
           </div>
           <div className="footer-copy">
             Built for lifters who take training seriously.

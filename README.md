@@ -30,25 +30,6 @@ IronFlow works without an account - your routines save to your browser automatic
 **External APIs:**
 - [ExerciseDB](https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb) - Exercise database with 1300+ exercises
 
-## Architecture
-
-**Offline-First Design:**
-
-```
-Guest Mode (no login)          Logged In Mode
-┌─────────────────────┐        ┌─────────────────────┐
-│     React App       │        │     React App       │
-│         │           │        │         │           │
-│         ▼           │        │         ▼           │
-│   localStorage      │        │    REST API         │
-│   (browser only)    │        │         │           │
-└─────────────────────┘        │         ▼           │
-                               │   PostgreSQL        │
-                               └─────────────────────┘
-```
-
-The app works entirely in the browser for guests. Logged-in users sync to the backend.
-
 ## Getting Started
 
 ### Prerequisites
@@ -165,7 +146,3 @@ npm run dev          # Start dev server
 npm test             # Run tests
 npm run test:coverage # Run tests with coverage
 ```
-
-## License
-
-MIT
