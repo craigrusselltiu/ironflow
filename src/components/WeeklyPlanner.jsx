@@ -2,7 +2,7 @@ import { DayBucket } from './DayBucket';
 
 const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
-export function WeeklyPlanner({ weeklyRoutine, onRemoveExercise }) {
+export function WeeklyPlanner({ weeklyRoutine, onRemoveExercise, onUpdateSetsReps }) {
   return (
     <div className="weekly-planner">
       <h2>Weekly Schedule</h2>
@@ -13,6 +13,7 @@ export function WeeklyPlanner({ weeklyRoutine, onRemoveExercise }) {
             day={day}
             scheduledExercises={weeklyRoutine[day] || []}
             onRemoveExercise={(instanceId) => onRemoveExercise(day, instanceId)}
+            onUpdateSetsReps={onUpdateSetsReps}
           />
         ))}
       </div>

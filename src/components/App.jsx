@@ -12,7 +12,7 @@ import { arrayMove } from '@dnd-kit/sortable';
 import { Header } from './Header';
 import { ExerciseLibrary } from './ExerciseLibrary';
 import { WeeklyPlanner } from './WeeklyPlanner';
-import { MuscleMap } from './MuscleMap';
+import { SvgMuscleMap } from './SvgMuscleMap';
 import { ExerciseCard } from './ExerciseCard';
 import { useRoutine } from '../contexts/RoutineContext';
 import { calculateMuscleFatigue } from '../utils/muscleCalculations';
@@ -22,7 +22,7 @@ function generateInstanceId() {
 }
 
 export default function App() {
-  const { weeklyRoutine, setWeeklyRoutine, removeExerciseFromDay, clearRoutine } = useRoutine();
+  const { weeklyRoutine, setWeeklyRoutine, removeExerciseFromDay, clearRoutine, updateExerciseSetsReps, isLoading, activeRoutine } = useRoutine();
   const [activeExercise, setActiveExercise] = useState(null);
 
   const sensors = useSensors(
@@ -191,14 +191,19 @@ export default function App() {
           </aside>
 
           <section className="planner-section">
-            <WeeklyPlanner
-              weeklyRoutine={weeklyRoutine}
-              onRemoveExercise={handleRemoveExercise}
-            />
+            {isLoading ? (
+              <div className="loading-state">Loading routine...</div>
+            ) : (
+              <WeeklyPlanner
+                weeklyRoutine={weeklyRoutine}
+                onRemoveExercise={handleRemoveExercise}
+                onUpdateSetsReps={updateExerciseSetsReps}
+              />
+            )}
           </section>
 
           <aside className="sidebar right-sidebar">
-            <MuscleMap fatigue={fatigue} />
+            <SvgMuscleMap fatigue={fatigue} />
           </aside>
         </main>
       </div>

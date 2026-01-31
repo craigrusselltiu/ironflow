@@ -13,7 +13,7 @@ const DAY_NAMES = {
   sunday: 'Sunday',
 };
 
-export function DayBucket({ day, scheduledExercises, onRemoveExercise }) {
+export function DayBucket({ day, scheduledExercises, onRemoveExercise, onUpdateSetsReps }) {
   const { setNodeRef, isOver } = useDroppable({
     id: day,
     data: {
@@ -47,6 +47,10 @@ export function DayBucket({ day, scheduledExercises, onRemoveExercise }) {
               exercise={instance.exercise}
               instanceId={instance.instanceId}
               onRemove={onRemoveExercise}
+              plannedSets={instance.plannedSets}
+              plannedReps={instance.plannedReps}
+              onUpdateSetsReps={onUpdateSetsReps}
+              day={day}
             />
           ))}
         </SortableContext>

@@ -1,14 +1,14 @@
 # IronFlow
 
-![Version](https://img.shields.io/badge/version-2.0.0-green)
+![Version](https://img.shields.io/badge/version-2.5.0-green)
 ![React](https://img.shields.io/badge/react-18-blue)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
-**IronFlow** is a gym routine builder with drag-and-drop planning and muscle coverage visualization.
+**IronFlow** is a gym routine builder with drag-and-drop planning, muscle coverage visualization, and workout tracking.
 
 ## Overview
 
-IronFlow is a web application for building weekly workout routines. It features an interactive drag-and-drop interface for scheduling exercises across the week, and a muscle heatmap that shows which muscles you're targeting to help identify imbalances.
+IronFlow is a web application for building weekly workout routines. It features an interactive drag-and-drop interface for scheduling exercises across the week, and an SVG muscle heatmap that shows which muscles you're targeting to help identify imbalances.
 
 IronFlow works without an account - your routines save to your browser automatically. Optionally create an account to sync routines across devices.
 
@@ -93,10 +93,11 @@ npm run dev
 
 ### Building a Routine
 
-1. **Browse exercises** - Search or filter by muscle group
+1. **Browse exercises** - Search or filter by muscle group in the Exercise Browser
 2. **Drag to schedule** - Drop exercises into any day (Monday-Sunday)
-3. **Reorder** - Drag exercises within a day to reorder
-4. **Remove** - Click the delete button on any exercise
+3. **Set reps & sets** - Click on an exercise to configure planned sets and reps
+4. **Reorder** - Drag exercises within a day to reorder
+5. **Remove** - Click the × button on any exercise to remove it
 
 ### Reading the Muscle Map
 
