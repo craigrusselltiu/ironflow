@@ -1,54 +1,162 @@
-# IronFlow - Gym Routine Builder
+# IronFlow
+
+![Version](https://img.shields.io/badge/version-2.0.0-green)
+![React](https://img.shields.io/badge/react-18-blue)
+![License](https://img.shields.io/badge/license-MIT-blue)
+
+**IronFlow** is a gym routine builder with drag-and-drop planning and muscle coverage visualization.
+
+## Overview
+
+IronFlow is a web application for building weekly workout routines. It features an interactive drag-and-drop interface for scheduling exercises across the week, and a muscle heatmap that shows which muscles you're targeting to help identify imbalances.
+
+IronFlow works without an account - your routines save to your browser automatically. Optionally create an account to sync routines across devices.
 
 **[Try it live](https://craigrusselltiu.github.io/ironflow/)**
 
-Plan your weekly workout routine with an interactive drag-and-drop interface and see your muscle coverage at a glance.
+<!-- TODO: Add screenshot -->
 
-## How to Use
+## Built With
 
-### Building Your Routine
+- [React](https://react.dev/) - UI framework
+- [Vite](https://vitejs.dev/) - Build tool
+- [Tailwind CSS](https://tailwindcss.com/) - Styling
+- [dnd-kit](https://dndkit.com/) - Drag and drop
+- [Node.js](https://nodejs.org/) - Backend runtime
+- [Express](https://expressjs.com/) - API framework
+- [Prisma](https://www.prisma.io/) - Database ORM
+- [PostgreSQL](https://www.postgresql.org/) - Database
 
-1. **Browse the Exercise Library** - Choose from 40+ exercises organized by muscle group
-2. **Drag exercises into your week** - Drop them into any day (Monday through Sunday)
-3. **Organize your schedule** - Reorder exercises within a day or move them between days
-4. **Remove exercises** - Click the delete button on any exercise to remove it
+**External APIs:**
+- [ExerciseDB](https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb) - Exercise database with 1300+ exercises
 
-### Understanding the Muscle Map
+## Architecture
 
-The ASCII body visualization shows which muscles you're training throughout the week:
+**Offline-First Design:**
 
-- **Gray** - Not targeted
-- **Green** - Lightly trained
-- **Yellow/Orange** - Moderately trained
-- **Red** - Heavily trained
+```
+Guest Mode (no login)          Logged In Mode
+┌─────────────────────┐        ┌─────────────────────┐
+│     React App       │        │     React App       │
+│         │           │        │         │           │
+│         ▼           │        │         ▼           │
+│   localStorage      │        │    REST API         │
+│   (browser only)    │        │         │           │
+└─────────────────────┘        │         ▼           │
+                               │   PostgreSQL        │
+                               └─────────────────────┘
+```
 
-Both front and back views are displayed so you can ensure balanced muscle coverage.
+The app works entirely in the browser for guests. Logged-in users sync to the backend.
 
-### Muscle Fatigue System
+## Getting Started
 
-Each exercise contributes to muscle fatigue:
-- **Primary muscles** receive more stimulus
-- **Secondary muscles** receive supporting stimulus
+### Prerequisites
 
-This helps you identify:
-- Overworked muscle groups (too much red)
-- Neglected areas (gray zones)
-- Whether you have adequate recovery between sessions
+- [Node.js](https://nodejs.org/) 18 or later
+- [PostgreSQL](https://www.postgresql.org/) (optional, for backend)
 
-### Saving Your Routine
+### Installation
 
-Your routine is automatically saved to your browser's local storage. When you return to the app, your workout plan will be right where you left it.
+Clone the repository:
 
-## Muscle Groups Tracked
+```bash
+git clone https://github.com/craigrusselltiu/ironflow.git
+cd ironflow
+```
 
-**Upper Body (Front)**
-- Chest, Front Delts, Biceps
+### Frontend Only (Guest Mode)
 
-**Upper Body (Back)**
-- Traps, Upper Back, Lats, Rear Delts, Triceps
+```bash
+npm install
+npm run dev
+```
 
-**Core**
-- Abs, Lower Back
+Open http://localhost:5173 in your browser.
 
-**Lower Body**
-- Quads, Hamstrings, Glutes, Calves
+### Full Stack (with Backend)
+
+```bash
+# Terminal 1: Frontend
+npm install
+npm run dev
+
+# Terminal 2: Backend
+cd server
+npm install
+cp .env.example .env  # Edit with your DATABASE_URL and EXERCISEDB_API_KEY
+npx prisma migrate dev
+npm run dev
+```
+
+## Usage
+
+### Building a Routine
+
+1. **Browse exercises** - Search or filter by muscle group
+2. **Drag to schedule** - Drop exercises into any day (Monday-Sunday)
+3. **Reorder** - Drag exercises within a day to reorder
+4. **Remove** - Click the delete button on any exercise
+
+### Reading the Muscle Map
+
+The heatmap shows training intensity per muscle:
+
+| Color | Meaning |
+|-------|---------|
+| Gray | Not targeted |
+| Green | Lightly trained |
+| Yellow/Orange | Moderately trained |
+| Red | Heavily trained |
+
+Use this to spot overworked muscles (too much red) or neglected areas (gray).
+
+### Muscle Groups Tracked
+
+| Region | Muscles |
+|--------|---------|
+| Upper Front | Chest, Front Delts, Biceps |
+| Upper Back | Traps, Upper Back, Lats, Rear Delts, Triceps |
+| Core | Abs, Lower Back |
+| Lower Body | Quads, Hamstrings, Glutes, Calves |
+
+## Configuration
+
+### Environment Variables
+
+Create a `.env` file in `/server`:
+
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/ironflow"
+JWT_SECRET="your-secret-key"
+EXERCISEDB_API_KEY="your-rapidapi-key"
+PORT=3001
+```
+
+## Contributing
+
+Contributions are welcome. Please follow these guidelines:
+
+1. **Fork and branch** - Create a feature branch from `master`
+2. **Code style** - Run linting before committing
+3. **Testing** - Add tests for new functionality
+4. **Pull request** - Submit a PR with a clear description
+
+### Development Commands
+
+```bash
+# Frontend
+npm run dev          # Start dev server
+npm run build        # Production build
+npm run preview      # Preview production build
+
+# Backend
+cd server
+npm run dev          # Start dev server
+npm test             # Run tests
+npm run test:coverage # Run tests with coverage
+```
+
+## License
+
+MIT
