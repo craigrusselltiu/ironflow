@@ -1,152 +1,197 @@
 import { MUSCLE_GROUPS } from '../data/exercises';
 import { getFatigueColor } from '../utils/muscleCalculations';
 
-// Muscle paths for front view
+// More anatomically accurate muscle paths for front view
 const FRONT_MUSCLES = {
   [MUSCLE_GROUPS.CHEST]: {
-    path: 'M35,55 Q45,50 55,52 L58,65 Q50,70 42,65 Z M65,55 Q55,50 45,52 L42,65 Q50,70 58,65 Z',
+    // Pectorals - left and right
+    path: `
+      M32,48 Q38,44 50,46 Q50,52 46,58 Q40,60 34,56 Q30,52 32,48 Z
+      M68,48 Q62,44 50,46 Q50,52 54,58 Q60,60 66,56 Q70,52 68,48 Z
+    `,
     label: 'Chest',
-    cx: 50,
-    cy: 58,
   },
   [MUSCLE_GROUPS.FRONT_DELTS]: {
-    path: 'M28,52 Q32,45 38,50 L35,62 Q30,60 28,55 Z M72,52 Q68,45 62,50 L65,62 Q70,60 72,55 Z',
+    // Front deltoids - caps on shoulders
+    path: `
+      M26,44 Q30,38 34,42 Q34,50 30,54 Q26,52 24,48 Q24,44 26,44 Z
+      M74,44 Q70,38 66,42 Q66,50 70,54 Q74,52 76,48 Q76,44 74,44 Z
+    `,
     label: 'Front Delts',
-    cx: 30,
-    cy: 55,
   },
   [MUSCLE_GROUPS.BICEPS]: {
-    path: 'M22,62 Q26,60 28,65 L26,80 Q22,78 20,72 Z M78,62 Q74,60 72,65 L74,80 Q78,78 80,72 Z',
+    // Biceps - upper arm front
+    path: `
+      M22,56 Q26,54 28,58 L26,74 Q22,76 20,72 Q18,64 22,56 Z
+      M78,56 Q74,54 72,58 L74,74 Q78,76 80,72 Q82,64 78,56 Z
+    `,
     label: 'Biceps',
-    cx: 24,
-    cy: 70,
   },
   [MUSCLE_GROUPS.ABS]: {
-    path: 'M42,68 L58,68 L58,100 Q50,102 42,100 Z',
+    // Abdominals - 6-pack area
+    path: `
+      M42,60 L58,60 L58,68 L42,68 Z
+      M42,70 L58,70 L58,78 L42,78 Z
+      M42,80 L58,80 L58,90 Q50,92 42,90 Z
+    `,
     label: 'Abs',
-    cx: 50,
-    cy: 84,
   },
   [MUSCLE_GROUPS.QUADS]: {
-    path: 'M38,105 Q42,102 48,105 L46,145 Q42,148 38,145 Z M62,105 Q58,102 52,105 L54,145 Q58,148 62,145 Z',
+    // Quadriceps - front thighs
+    path: `
+      M36,98 Q42,94 48,98 L46,130 Q42,134 36,130 Q34,114 36,98 Z
+      M64,98 Q58,94 52,98 L54,130 Q58,134 64,130 Q66,114 64,98 Z
+    `,
     label: 'Quads',
-    cx: 43,
-    cy: 125,
   },
   [MUSCLE_GROUPS.CALVES]: {
-    path: 'M40,150 Q44,148 46,152 L45,175 Q42,178 40,175 Z M60,150 Q56,148 54,152 L55,175 Q58,178 60,175 Z',
+    // Calves - lower legs front
+    path: `
+      M38,138 Q42,136 46,140 L44,162 Q40,166 38,162 Q36,150 38,138 Z
+      M62,138 Q58,136 54,140 L56,162 Q60,166 62,162 Q64,150 62,138 Z
+    `,
     label: 'Calves',
-    cx: 43,
-    cy: 162,
   },
 };
 
-// Muscle paths for back view
+// More anatomically accurate muscle paths for back view
 const BACK_MUSCLES = {
   [MUSCLE_GROUPS.TRAPS]: {
-    path: 'M40,42 Q50,38 60,42 L58,55 Q50,52 42,55 Z',
+    // Trapezius - upper back/neck
+    path: `
+      M38,36 Q50,32 62,36 L60,48 Q50,44 40,48 Z
+    `,
     label: 'Traps',
-    cx: 50,
-    cy: 48,
   },
   [MUSCLE_GROUPS.REAR_DELTS]: {
-    path: 'M28,52 Q32,48 36,52 L34,62 Q30,60 28,58 Z M72,52 Q68,48 64,52 L66,62 Q70,60 72,58 Z',
+    // Rear deltoids
+    path: `
+      M26,44 Q30,40 34,44 L32,54 Q28,52 26,48 Z
+      M74,44 Q70,40 66,44 L68,54 Q72,52 74,48 Z
+    `,
     label: 'Rear Delts',
-    cx: 30,
-    cy: 56,
   },
   [MUSCLE_GROUPS.UPPER_BACK]: {
-    path: 'M40,55 Q50,52 60,55 L58,72 Q50,70 42,72 Z',
+    // Rhomboids/mid-back
+    path: `
+      M40,50 Q50,46 60,50 L58,66 Q50,62 42,66 Z
+    `,
     label: 'Upper Back',
-    cx: 50,
-    cy: 63,
   },
   [MUSCLE_GROUPS.LATS]: {
-    path: 'M35,65 Q40,62 42,70 L40,88 Q35,85 32,78 Z M65,65 Q60,62 58,70 L60,88 Q65,85 68,78 Z',
+    // Latissimus dorsi - wings
+    path: `
+      M32,54 Q38,50 42,58 L40,80 Q36,84 32,78 Q28,66 32,54 Z
+      M68,54 Q62,50 58,58 L60,80 Q64,84 68,78 Q72,66 68,54 Z
+    `,
     label: 'Lats',
-    cx: 36,
-    cy: 76,
   },
   [MUSCLE_GROUPS.TRICEPS]: {
-    path: 'M24,62 Q28,60 30,66 L28,82 Q24,80 22,74 Z M76,62 Q72,60 70,66 L72,82 Q76,80 78,74 Z',
+    // Triceps - back of arm
+    path: `
+      M22,56 Q26,54 28,58 L26,76 Q22,78 20,74 Q18,66 22,56 Z
+      M78,56 Q74,54 72,58 L74,76 Q78,78 80,74 Q82,66 78,56 Z
+    `,
     label: 'Triceps',
-    cx: 26,
-    cy: 72,
   },
   [MUSCLE_GROUPS.LOWER_BACK]: {
-    path: 'M42,78 L58,78 L56,98 Q50,100 44,98 Z',
+    // Erector spinae
+    path: `
+      M44,72 L56,72 L54,92 Q50,94 46,92 Z
+    `,
     label: 'Lower Back',
-    cx: 50,
-    cy: 88,
   },
   [MUSCLE_GROUPS.GLUTES]: {
-    path: 'M38,100 Q45,98 50,102 Q55,98 62,100 L60,118 Q50,122 40,118 Z',
+    // Gluteus maximus
+    path: `
+      M36,94 Q44,90 50,94 Q56,90 64,94 L62,112 Q50,118 38,112 Z
+    `,
     label: 'Glutes',
-    cx: 50,
-    cy: 108,
   },
   [MUSCLE_GROUPS.HAMSTRINGS]: {
-    path: 'M40,120 Q44,118 48,122 L46,150 Q42,152 40,148 Z M60,120 Q56,118 52,122 L54,150 Q58,152 60,148 Z',
+    // Hamstrings - back of thighs
+    path: `
+      M38,114 Q44,110 48,116 L46,142 Q42,146 38,142 Q36,128 38,114 Z
+      M62,114 Q56,110 52,116 L54,142 Q58,146 62,142 Q64,128 62,114 Z
+    `,
     label: 'Hamstrings',
-    cx: 44,
-    cy: 135,
   },
 };
 
-// Body outline for front view
+// Body outline for front view - more anatomical
 const FRONT_OUTLINE = `
-  M50,15
-  Q60,15 62,25
-  Q64,35 60,40
-  L60,42
-  Q70,42 75,52
-  L80,62
-  Q82,75 78,85
-  L75,88
-  Q72,90 72,95
-  L70,105
-  Q65,102 50,102
-  Q35,102 30,105
-  L28,95
-  Q28,90 25,88
-  L22,85
-  Q18,75 20,62
-  L25,52
-  Q30,42 40,42
-  L40,40
-  Q36,35 38,25
-  Q40,15 50,15
+  M50,8
+  Q58,8 60,16
+  Q62,24 58,30
+  L58,34
+  Q68,36 76,46
+  Q82,54 80,62
+  L78,78
+  Q76,82 78,86
+  L80,90
+  Q78,92 76,90
+  L72,92
+  Q70,94 68,92
+  L66,94
+  L64,94
+  L62,96
+  Q56,94 50,96
+  Q44,94 38,96
+  L36,94
+  L34,94
+  L32,92
+  Q30,94 28,92
+  L24,90
+  Q22,92 20,90
+  L22,86
+  Q24,82 22,78
+  L20,62
+  Q18,54 24,46
+  Q32,36 42,34
+  L42,30
+  Q38,24 40,16
+  Q42,8 50,8
   Z
-  M30,105 L28,145 Q25,150 28,175 L32,180 L36,180 L40,175 Q42,150 40,145 L38,105 Z
-  M70,105 L72,145 Q75,150 72,175 L68,180 L64,180 L60,175 Q58,150 60,145 L62,105 Z
+  M38,96 L36,130 Q34,138 36,146 L38,168 L42,172 L46,168 L48,146 Q50,136 48,130 L46,96 Z
+  M62,96 L64,130 Q66,138 64,146 L62,168 L58,172 L54,168 L52,146 Q50,136 52,130 L54,96 Z
 `;
 
-// Body outline for back view
+// Body outline for back view - more anatomical
 const BACK_OUTLINE = `
-  M50,15
-  Q60,15 62,25
-  Q64,35 60,40
-  L60,42
-  Q70,42 75,52
-  L80,62
-  Q82,75 78,85
-  L75,88
-  Q72,90 72,95
-  L70,105
-  Q65,102 50,102
-  Q35,102 30,105
-  L28,95
-  Q28,90 25,88
-  L22,85
-  Q18,75 20,62
-  L25,52
-  Q30,42 40,42
-  L40,40
-  Q36,35 38,25
-  Q40,15 50,15
+  M50,8
+  Q58,8 60,16
+  Q62,24 58,30
+  L58,34
+  Q68,36 76,46
+  Q82,54 80,62
+  L78,78
+  Q76,82 78,86
+  L80,90
+  Q78,92 76,90
+  L72,92
+  Q70,94 68,92
+  L66,94
+  L64,94
+  L62,96
+  Q56,94 50,96
+  Q44,94 38,96
+  L36,94
+  L34,94
+  L32,92
+  Q30,94 28,92
+  L24,90
+  Q22,92 20,90
+  L22,86
+  Q24,82 22,78
+  L20,62
+  Q18,54 24,46
+  Q32,36 42,34
+  L42,30
+  Q38,24 40,16
+  Q42,8 50,8
   Z
-  M30,105 L28,145 Q25,150 28,175 L32,180 L36,180 L40,175 Q42,150 40,145 L38,105 Z
-  M70,105 L72,145 Q75,150 72,175 L68,180 L64,180 L60,175 Q58,150 60,145 L62,105 Z
+  M38,96 L36,130 Q34,138 36,146 L38,168 L42,172 L46,168 L48,146 Q50,136 48,130 L46,96 Z
+  M62,96 L64,130 Q66,138 64,146 L62,168 L58,172 L54,168 L52,146 Q50,136 52,130 L54,96 Z
 `;
 
 function MuscleGroup({ path, color, opacity }) {
@@ -157,6 +202,7 @@ function MuscleGroup({ path, color, opacity }) {
       fillOpacity={opacity}
       stroke={color}
       strokeWidth="0.5"
+      strokeLinejoin="round"
       style={{ transition: 'fill 0.3s, fill-opacity 0.3s' }}
     />
   );
@@ -167,7 +213,7 @@ function BodyView({ title, muscles, outline, fatigue }) {
     <div className="svg-body-view">
       <h4>{title}</h4>
       <svg
-        viewBox="0 0 100 200"
+        viewBox="0 0 100 180"
         className="muscle-svg"
         aria-label={`${title} muscle map`}
       >
@@ -175,7 +221,7 @@ function BodyView({ title, muscles, outline, fatigue }) {
         <path
           d={outline}
           fill="none"
-          stroke="#3a3a3a"
+          stroke="#4a4a4a"
           strokeWidth="1.5"
           strokeLinejoin="round"
         />
@@ -184,7 +230,7 @@ function BodyView({ title, muscles, outline, fatigue }) {
         {Object.entries(muscles).map(([muscleKey, muscle]) => {
           const fatigueLevel = fatigue[muscleKey] || 0;
           const color = fatigueLevel > 0 ? getFatigueColor(fatigueLevel) : '#2a2a2a';
-          const opacity = fatigueLevel > 0 ? 0.8 + (fatigueLevel / 100) * 0.2 : 0.3;
+          const opacity = fatigueLevel > 0 ? 0.85 + (fatigueLevel / 100) * 0.15 : 0.4;
 
           return (
             <MuscleGroup
@@ -252,7 +298,7 @@ export function SvgMuscleMap({ fatigue }) {
       <div className="muscle-list">
         <h4>Muscle Breakdown</h4>
         {sortedMuscles.length === 0 ? (
-          <p className="no-fatigue">Add exercises to see muscle fatigue</p>
+          <p className="no-fatigue">Add exercises to see muscle engagement</p>
         ) : (
           <ul>
             {sortedMuscles.map(([muscle, value]) => (
