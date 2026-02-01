@@ -7,11 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## v2.7.0 - 2026-02-01
 
+### Added
+- Hero section background image with gradient overlay
+
 ### Fixed
 - Exercise routines now persist correctly in localStorage for guest users
 - Page refresh no longer shows 404 on non-root routes (GitHub Pages SPA fix)
 - 401 redirect now uses correct base path (/ironflow/login)
 - Exercise cards in browser now maintain consistent size regardless of filter selection
+- Sidebar exercise cards now have consistent height with 2-line text clamp
+- Exercise card fade-in animation now plays when switching category filters
 
 ## v2.6.0 - 2026-02-01
 

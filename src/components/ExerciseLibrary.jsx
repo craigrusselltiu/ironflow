@@ -92,7 +92,7 @@ export function ExerciseLibrary() {
         ))}
       </div>
 
-      <div className="exercise-list-modern">
+      <div className="exercise-list-modern" key={selectedCategory}>
         <SortableContext
           items={filteredExercises.map(e => e.id)}
           strategy={verticalListSortingStrategy}
