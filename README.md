@@ -1,10 +1,13 @@
-# IronFlow
+<img width="2516" height="1268" alt="image" src="https://github.com/user-attachments/assets/771cc9b3-a892-48e0-8052-9e8dde9f175c" /># IronFlow
 
 ![Version](https://img.shields.io/badge/version-2.7.0-green)
 ![React](https://img.shields.io/badge/react-18-blue)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
 **IronFlow** is a gym routine builder with drag-and-drop planning, muscle coverage visualization, and workout tracking.
+
+<img width="2516" height="1268" alt="image" src="https://github.com/user-attachments/assets/cbdfea1e-e650-414c-84e7-db1c74b1de5f" />
+
 
 ## Overview
 
@@ -146,3 +149,4 @@ npm run dev          # Start dev server
 npm test             # Run tests
 npm run test:coverage # Run tests with coverage
 ```
+
