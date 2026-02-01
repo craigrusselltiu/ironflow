@@ -1,4 +1,4 @@
-<img width="2516" height="1268" alt="image" src="https://github.com/user-attachments/assets/771cc9b3-a892-48e0-8052-9e8dde9f175c" /># IronFlow
+# IronFlow
 
 ![Version](https://img.shields.io/badge/version-2.7.0-green)
 ![React](https://img.shields.io/badge/react-18-blue)
