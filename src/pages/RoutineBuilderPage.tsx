@@ -11,6 +11,7 @@ import { arrayMove } from '@dnd-kit/sortable';
 import { ExerciseLibrary } from '../components/ExerciseLibrary';
 import { WeeklyPlanner } from '../components/WeeklyPlanner';
 import { SvgMuscleMap } from '../components/SvgMuscleMap';
+import { MuscleBreakdown } from '../components/MuscleBreakdown';
 import { ExerciseCard } from '../components/ExerciseCard';
 import { useRoutine } from '../contexts/RoutineContext';
 import { calculateMuscleFatigue } from '../utils/muscleCalculations';
@@ -190,11 +191,14 @@ export function RoutineBuilderPage() {
                 <p>Loading your routine...</p>
               </div>
             ) : (
-              <WeeklyPlanner
-                weeklyRoutine={weeklyRoutine}
-                onRemoveExercise={handleRemoveExercise}
-                onUpdateSetsReps={updateExerciseSetsReps}
-              />
+              <>
+                <WeeklyPlanner
+                  weeklyRoutine={weeklyRoutine}
+                  onRemoveExercise={handleRemoveExercise}
+                  onUpdateSetsReps={updateExerciseSetsReps}
+                />
+                <MuscleBreakdown fatigue={fatigue} />
+              </>
             )}
           </main>
 
