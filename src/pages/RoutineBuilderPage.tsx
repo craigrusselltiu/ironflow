@@ -11,16 +11,13 @@ import { arrayMove } from '@dnd-kit/sortable';
 import { ExerciseLibrary } from '../components/ExerciseLibrary';
 import { WeeklyPlanner } from '../components/WeeklyPlanner';
 import { SvgMuscleMap } from '../components/SvgMuscleMap';
+import { MuscleBreakdown } from '../components/MuscleBreakdown';
 import { ExerciseCard } from '../components/ExerciseCard';
 import { useRoutine } from '../contexts/RoutineContext';
 import { calculateMuscleFatigue } from '../utils/muscleCalculations';
 
-function generateInstanceId() {
-  return `exercise-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-}
-
 export function RoutineBuilderPage() {
-  const { weeklyRoutine, setWeeklyRoutine, removeExerciseFromDay, clearRoutine, updateExerciseSetsReps, isLoading } = useRoutine();
+  const { weeklyRoutine, setWeeklyRoutine, addExerciseToDay, removeExerciseFromDay, clearRoutine, updateExerciseSetsReps, isLoading } = useRoutine();
   const [activeExercise, setActiveExercise] = useState(null);
 
   const sensors = useSensors(
@@ -119,15 +116,7 @@ export function RoutineBuilderPage() {
 
       if (!targetDay) return;
 
-      const newInstance = {
-        exerciseId: activeData.exercise.id,
-        instanceId: generateInstanceId(),
-      };
-
-      setWeeklyRoutine(prev => ({
-        ...prev,
-        [targetDay]: [...prev[targetDay], newInstance],
-      }));
+      addExerciseToDay(activeData.exercise.id, targetDay);
       return;
     }
 
@@ -202,11 +191,14 @@ export function RoutineBuilderPage() {
                 <p>Loading your routine...</p>
               </div>
             ) : (
-              <WeeklyPlanner
-                weeklyRoutine={weeklyRoutine}
-                onRemoveExercise={handleRemoveExercise}
-                onUpdateSetsReps={updateExerciseSetsReps}
-              />
+              <>
+                <WeeklyPlanner
+                  weeklyRoutine={weeklyRoutine}
+                  onRemoveExercise={handleRemoveExercise}
+                  onUpdateSetsReps={updateExerciseSetsReps}
+                />
+                <MuscleBreakdown fatigue={fatigue} />
+              </>
             )}
           </main>
 

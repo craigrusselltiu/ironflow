@@ -11,9 +11,11 @@ import { RegisterPage } from './pages/RegisterPage'
 import { ExerciseBrowserPage } from './pages/ExerciseBrowserPage'
 import './index.css'
 
+const basename = import.meta.env.PROD ? '/ironflow' : '/';
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter basename="/ironflow">
+    <BrowserRouter basename={basename}>
       <AuthProvider>
         <RoutineProvider>
           <Routes>
