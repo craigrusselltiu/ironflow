@@ -3,6 +3,29 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { CATEGORY_COLORS } from '../data/exercises';
 
+// Body part colors (matches ExerciseLibrary)
+const BODY_PART_COLORS = {
+  back: '#7c4dff',
+  chest: '#4a90d9',
+  shoulders: '#00bcd4',
+  'upper arms': '#ff9800',
+  'lower arms': '#ff5722',
+  'upper legs': '#ff6b6b',
+  'lower legs': '#e91e63',
+  waist: '#ffd93d',
+  neck: '#9c27b0',
+  cardio: '#6bcb77',
+};
+
+// Format label for display
+function formatLabel(str) {
+  if (!str) return '';
+  return str
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+}
+
 export function ExerciseCard({
   exercise,
   instanceId,
@@ -34,12 +57,20 @@ export function ExerciseCard({
     }
   });
 
-  const categoryColor = CATEGORY_COLORS[exercise.category] || '#888';
+  // Use bodyPart color if available, otherwise fall back to category color
+  const cardColor = exercise.bodyPart
+    ? BODY_PART_COLORS[exercise.bodyPart] || '#888'
+    : CATEGORY_COLORS[exercise.category] || '#888';
+
+  // Display target muscle if available, otherwise category
+  const displayLabel = exercise.target
+    ? formatLabel(exercise.target)
+    : exercise.category || '';
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    '--category-color': categoryColor,
+    '--category-color': cardColor,
     '--card-index': exerciseIndex,
   };
 
@@ -108,7 +139,7 @@ export function ExerciseCard({
         </div>
 
         <div className="card-bottom">
-          <span className="exercise-category-modern">{exercise.category}</span>
+          <span className="exercise-category-modern">{displayLabel}</span>
 
           {!isLibraryItem && (
             <div className="sets-reps-modern">

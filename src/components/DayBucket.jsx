@@ -1,7 +1,7 @@
 import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { ExerciseCard } from './ExerciseCard';
-import { exercises } from '../data/exercises';
+import { getExerciseById } from '../data/exerciseCache';
 
 const DAY_NAMES = {
   monday: 'Monday',
@@ -23,7 +23,7 @@ export function DayBucket({ day, dayAbbrev, dayIndex, scheduledExercises, onRemo
   });
 
   const exerciseInstances = scheduledExercises.map(instance => {
-    const exercise = exercises.find(e => e.id === instance.exerciseId);
+    const exercise = getExerciseById(instance.exerciseId);
     return { ...instance, exercise };
   }).filter(instance => instance.exercise);
 

@@ -7,8 +7,9 @@ export interface Exercise {
   gifUrl: string;
   secondaryMuscles: string[];
   instructions: string[];
-  primaryMuscle: string | null;
-  secondaryMusclesMapping: string[];
+  // These are optional - set by backend enrichment but not always available
+  primaryMuscle?: string | null;
+  secondaryMusclesMapping?: string[];
 }
 
 export interface ExerciseFilters {
