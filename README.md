@@ -1,6 +1,6 @@
 # IronFlow
 
-![Version](https://img.shields.io/badge/version-2.6.2-green)
+![Version](https://img.shields.io/badge/version-2.7.1-green)
 ![React](https://img.shields.io/badge/react-18-blue)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
@@ -30,8 +30,8 @@ IronFlow works without an account - your routines save to your browser automatic
 - [Prisma](https://www.prisma.io/) - Database ORM
 - [PostgreSQL](https://www.postgresql.org/) - Database
 
-**External APIs:**
-- [ExerciseDB](https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb) - Exercise database with 1300+ exercises
+**Exercise Data:**
+- Bundled JSON with 1,100+ exercises (no external API required)
 
 ## Getting Started
 
@@ -68,7 +68,7 @@ npm run dev
 # Terminal 2: Backend
 cd server
 npm install
-cp .env.example .env  # Edit with your DATABASE_URL and EXERCISEDB_API_KEY
+cp .env.example .env  # Edit with your DATABASE_URL
 npx prisma migrate dev
 npm run dev
 ```
@@ -122,7 +122,6 @@ Create a `.env` file in `/server`:
 ```env
 DATABASE_URL="postgresql://user:password@localhost:5432/ironflow"
 JWT_SECRET="your-secret-key"
-EXERCISEDB_API_KEY="your-rapidapi-key"
 PORT=3001
 ```
 

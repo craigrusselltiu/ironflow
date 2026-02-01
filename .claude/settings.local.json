@@ -12,8 +12,7 @@
       "Bash(git pull:*)",
       "Bash(gh pr merge:*)",
       "Bash(npm install:*)",
-      "Bash(npm run build:*)",
-      "WebFetch(domain:exercisedb.dev)"
+      "Bash(npm run build:*)"
     ]
   }
 }

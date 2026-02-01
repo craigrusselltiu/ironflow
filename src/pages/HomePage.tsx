@@ -186,7 +186,7 @@ export function HomePage() {
                 <rect x="22" y="8" width="4" height="16" rx="1" fill="currentColor"/>
               </svg>
             </span>
-            <span>IronFlow &copy;</span>
+            <span>IronFlow &copy; 2026</span>
           </div>
           <div className="footer-copy">
             Built for lifters who take training seriously.

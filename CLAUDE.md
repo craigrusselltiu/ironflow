@@ -18,69 +18,20 @@
    - Frontend: `npm run dev` (root)
    - Backend: `cd server && npm run dev`
 
-## ExerciseDB API
+## Exercise Data
 
-API Base: https://exercisedb.dev/api/v1
-No authentication required (open source)
-Docs: https://exercisedb.dev/docs
-
-**IMPORTANT:** The exercisedb.dev API does not support CORS. All exercise
-API calls must go through the backend server as a proxy. The frontend
-cannot call exercisedb.dev directly.
-
-### Endpoints Used
-- GET /api/v1/exercises - All exercises (paginated with limit/offset)
-- GET /api/v1/exercises/{id} - Single exercise
-- GET /api/v1/muscles/{muscle}/exercises - Filter by muscle
-- GET /api/v1/bodyparts/{bodyPart}/exercises - Filter by body part
-- GET /api/v1/equipments/{equipment}/exercises - Filter by equipment
-- GET /api/v1/muscles - List all muscles
-- GET /api/v1/bodyparts - List all body parts
-- GET /api/v1/equipments - List all equipment
-
-### Response Format
-
-**Exercise list endpoints** return:
-```json
-{
-  "success": true,
-  "metadata": {
-    "totalPages": 750,
-    "totalExercises": 1500,
-    "currentPage": 1,
-    "previousPage": null,
-    "nextPage": "..."
-  },
-  "data": [
-    { "exerciseId": "...", "name": "...", ... }
-  ]
-}
-```
-
-**List endpoints** (bodyparts, equipments, muscles) return objects:
-```json
-{
-  "success": true,
-  "data": [
-    { "name": "back" },
-    { "name": "chest" }
-  ]
-}
-```
+Exercise data is bundled as a static JSON file at `/src/data/exercises.json`.
+No external API calls are required. The frontend reads and filters exercises in-memory.
 
 ### Exercise Fields
-- exerciseId (normalized to id internally)
+- id - Unique identifier
 - name
 - gifUrl
-- targetMuscles (array, normalized to first item as target)
-- bodyParts (array, normalized to first item as bodyPart)
-- equipments (array, normalized to first item as equipment)
-- secondaryMuscles (array of strings)
-- instructions (array of strings)
-
-### Caching Strategy
-Cache responses in CachedExercise table for 7 days.
-Check cache before API call. Update fetchedAt on cache hit refresh.
+- target - Primary target muscle
+- bodyPart - Body part category
+- equipment - Required equipment
+- secondaryMuscles - Array of secondary muscles
+- instructions - Array of instruction strings
 
 ## Muscle Mapping
 
@@ -162,9 +113,9 @@ Always include userId in WHERE for user-owned data.
 2. Run: `cd server && npx prisma migrate dev --name description`
 3. Update SPEC.md data models section
 
-### Seed exercises
-Run: `cd server && npm run seed:exercises`
-Fetches all exercises from ExerciseDB and caches locally.
+### Update exercise data
+Exercise data is bundled in `/src/data/exercises.json`.
+To update, replace the JSON file with new exercise data.
 
 ## Development Workflow
 
@@ -176,6 +127,12 @@ Do not combine multiple phases into a single PR.
 1. Prompt the user whether to continue to the next phase
 2. If user agrees, clear context with /clear and create a new feature branch for the next phase
 3. Start fresh with the new phase implementation
+
+## Versioning
+
+Use patch version increments (e.g., v2.7.1 to v2.7.2) for bugfixes unless the user
+explicitly says to start the next phase. Only bump minor version (e.g., v2.7.x to v2.8.0)
+when starting a new feature phase.
 
 ## Documentation
 
