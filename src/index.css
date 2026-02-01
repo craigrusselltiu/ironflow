@@ -2,15 +2,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @theme {
-  --color-background-primary: #050505;
-  --color-background-secondary: #0c0c0c;
-  --color-background-card: #111111;
-  --color-background-elevated: #161616;
+  --color-background-primary: #0f0f0f;
+  --color-background-secondary: #161616;
+  --color-background-card: #1c1c1c;
+  --color-background-elevated: #242424;
   --color-accent: #BFFF00;
   --color-accent-hover: #d4ff4d;
   --color-accent-dim: rgba(191, 255, 0, 0.15);
-  --color-border: #222222;
-  --color-border-subtle: #1a1a1a;
+  --color-border: #2a2a2a;
+  --color-border-subtle: #222222;
   --color-text-primary: #ffffff;
   --color-text-secondary: #737373;
   --color-text-tertiary: #525252;
