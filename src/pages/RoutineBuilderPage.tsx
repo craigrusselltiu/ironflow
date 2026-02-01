@@ -15,12 +15,8 @@ import { ExerciseCard } from '../components/ExerciseCard';
 import { useRoutine } from '../contexts/RoutineContext';
 import { calculateMuscleFatigue } from '../utils/muscleCalculations';
 
-function generateInstanceId() {
-  return `exercise-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-}
-
 export function RoutineBuilderPage() {
-  const { weeklyRoutine, setWeeklyRoutine, removeExerciseFromDay, clearRoutine, updateExerciseSetsReps, isLoading } = useRoutine();
+  const { weeklyRoutine, setWeeklyRoutine, addExerciseToDay, removeExerciseFromDay, clearRoutine, updateExerciseSetsReps, isLoading } = useRoutine();
   const [activeExercise, setActiveExercise] = useState(null);
 
   const sensors = useSensors(
@@ -119,15 +115,7 @@ export function RoutineBuilderPage() {
 
       if (!targetDay) return;
 
-      const newInstance = {
-        exerciseId: activeData.exercise.id,
-        instanceId: generateInstanceId(),
-      };
-
-      setWeeklyRoutine(prev => ({
-        ...prev,
-        [targetDay]: [...prev[targetDay], newInstance],
-      }));
+      addExerciseToDay(activeData.exercise.id, targetDay);
       return;
     }
 

@@ -5,6 +5,14 @@ All notable changes to IronFlow will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.7.0 - 2026-02-01
+
+### Fixed
+- Exercise routines now persist correctly in localStorage for guest users
+- Page refresh no longer shows 404 on non-root routes (GitHub Pages SPA fix)
+- 401 redirect now uses correct base path (/ironflow/login)
+- Exercise cards in browser now maintain consistent size regardless of filter selection
+
 ## v2.6.0 - 2026-02-01
 
 ### Added

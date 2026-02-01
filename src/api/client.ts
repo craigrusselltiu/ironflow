@@ -42,7 +42,7 @@ class ApiClient {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('user');
-      window.location.href = '/login';
+      window.location.href = '/ironflow/login';
       throw new Error('Unauthorized');
     }
 
