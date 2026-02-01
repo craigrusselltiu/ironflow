@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useExercises, useExerciseLists } from '../hooks/useExercises';
 import { ExerciseDetailModal } from '../components/ExerciseDetailModal';
 import { useRoutine } from '../contexts/RoutineContext';
+import { cacheExercise } from '../data/exerciseCache';
 import type { Exercise, ExerciseFilters } from '../types/exercise';
 
 export function ExerciseBrowserPage() {
@@ -206,6 +207,8 @@ export function ExerciseBrowserPage() {
           exercise={selectedExercise}
           onClose={() => setSelectedExercise(null)}
           onAddToDay={(exercise, day) => {
+            // Cache the API exercise so it can be looked up by DayBucket
+            cacheExercise(exercise);
             addExerciseToDay(exercise.id, day);
           }}
           showAddToDay={true}

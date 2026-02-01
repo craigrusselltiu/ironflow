@@ -1180,6 +1180,69 @@
     font-size: 0.8125rem;
   }
 
+  .library-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    color: var(--color-text-tertiary);
+    gap: 0.75rem;
+    font-size: 0.8125rem;
+  }
+
+  .loading-spinner-small {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--color-border);
+    border-top-color: var(--color-accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  .library-fallback-notice {
+    padding: 0.5rem 0.75rem;
+    margin: 0 0.5rem 0.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-size: 0.6875rem;
+    color: var(--color-text-tertiary);
+    text-align: center;
+  }
+
+  .library-loading-more {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .library-end-notice {
+    text-align: center;
+    padding: 0.75rem;
+    font-size: 0.6875rem;
+    color: var(--color-text-tertiary);
+  }
+
+  .library-load-more-btn {
+    width: 100%;
+    padding: 0.625rem;
+    margin-top: 0.5rem;
+    background: transparent;
+    border: 1px dashed var(--color-border);
+    border-radius: 8px;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .library-load-more-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background: rgba(191, 255, 0, 0.05);
+  }
+
   /* ============================================
      EXERCISE CARD - MODERN
      ============================================ */

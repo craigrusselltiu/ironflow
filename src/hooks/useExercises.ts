@@ -1,6 +1,104 @@
 import { useState, useEffect, useCallback } from 'react';
 import { api } from '../api/client';
+import { getExerciseGifUrl, type ExerciseDbExercise } from '../api/exerciseDb';
 import type { Exercise, ExerciseFilters } from '../types/exercise';
+
+// Map ExerciseDB target/muscle to IronFlow muscle name
+// Supports both old RapidAPI names and new exercisedb.dev names
+const targetToMuscle: Record<string, string> = {
+  // Core muscles
+  abs: 'abs',
+  abdominals: 'abs',
+  'lower abs': 'abs',
+  obliques: 'abs',
+  core: 'abs',
+
+  // Back muscles
+  lats: 'lats',
+  'latissimus dorsi': 'lats',
+  'upper back': 'upperBack',
+  back: 'upperBack',
+  rhomboids: 'upperBack',
+  'lower back': 'lowerBack',
+  spine: 'lowerBack',
+
+  // Shoulder muscles
+  delts: 'frontDelts',
+  deltoids: 'frontDelts',
+  shoulders: 'frontDelts',
+  'rear deltoids': 'rearDelts',
+  'rotator cuff': 'rearDelts',
+
+  // Arm muscles
+  biceps: 'biceps',
+  brachialis: 'biceps',
+  triceps: 'triceps',
+  forearms: 'forearms',
+  'wrist extensors': 'forearms',
+  'wrist flexors': 'forearms',
+  'grip muscles': 'forearms',
+  wrists: 'forearms',
+  hands: 'forearms',
+
+  // Chest muscles
+  pectorals: 'chest',
+  chest: 'chest',
+  'upper chest': 'chest',
+  'serratus anterior': 'chest',
+
+  // Neck/Trap muscles
+  traps: 'traps',
+  trapezius: 'traps',
+  'levator scapulae': 'traps',
+  sternocleidomastoid: 'traps',
+
+  // Leg muscles
+  quads: 'quads',
+  quadriceps: 'quads',
+  adductors: 'quads',
+  'inner thighs': 'quads',
+  hamstrings: 'hamstrings',
+  glutes: 'glutes',
+  abductors: 'glutes',
+  'hip flexors': 'glutes',
+  groin: 'quads',
+  calves: 'calves',
+  soleus: 'calves',
+  shins: 'calves',
+  'ankle stabilizers': 'calves',
+  ankles: 'calves',
+  feet: 'calves',
+};
+
+function mapTargetToMuscle(target: string): string | null {
+  return targetToMuscle[target.toLowerCase()] || null;
+}
+
+// Enrich exercise with muscle mappings (same logic as backend)
+function enrichExercise(e: ExerciseDbExercise): Exercise {
+  const primaryMuscle = mapTargetToMuscle(e.target);
+  const secondaryMusclesMapping: string[] = [];
+
+  for (const muscle of e.secondaryMuscles) {
+    const mapped = mapTargetToMuscle(muscle);
+    if (mapped && mapped !== primaryMuscle) {
+      secondaryMusclesMapping.push(mapped);
+    }
+  }
+
+  return {
+    id: e.id,
+    name: e.name,
+    bodyPart: e.bodyPart,
+    target: e.target,
+    equipment: e.equipment,
+    gifUrl: getExerciseGifUrl(),
+    secondaryMuscles: e.secondaryMuscles,
+    instructions: e.instructions,
+    primaryMuscle,
+    secondaryMusclesMapping,
+  };
+}
 
 interface UseExercisesOptions {
   limit?: number;
@@ -25,29 +123,26 @@ export function useExercises(options: UseExercisesOptions = {}): UseExercisesRes
   const [currentOffset, setCurrentOffset] = useState(offset);
   const [hasMore, setHasMore] = useState(true);
 
-  const fetchExercises = useCallback(async (offsetToUse: number, append = false) => {
+  const fetchData = useCallback(async (offsetToUse: number, append = false) => {
     setIsLoading(true);
     setError(null);
 
     try {
-      let endpoint = '';
-      const queryParams = new URLSearchParams();
-      queryParams.set('limit', limit.toString());
-      queryParams.set('offset', offsetToUse.toString());
-
+      let endpoint: string;
       if (filters.search) {
-        endpoint = `/exercises/search?q=${encodeURIComponent(filters.search)}&${queryParams}`;
+        endpoint = `/exercises/search?q=${encodeURIComponent(filters.search)}&limit=${limit}&offset=${offsetToUse}`;
       } else if (filters.bodyPart) {
-        endpoint = `/exercises/bodyPart/${encodeURIComponent(filters.bodyPart)}?${queryParams}`;
+        endpoint = `/exercises/bodyPart/${encodeURIComponent(filters.bodyPart)}?limit=${limit}&offset=${offsetToUse}`;
       } else if (filters.equipment) {
-        endpoint = `/exercises/equipment/${encodeURIComponent(filters.equipment)}?${queryParams}`;
+        endpoint = `/exercises/equipment/${encodeURIComponent(filters.equipment)}?limit=${limit}&offset=${offsetToUse}`;
       } else if (filters.target) {
-        endpoint = `/exercises/target/${encodeURIComponent(filters.target)}?${queryParams}`;
+        endpoint = `/exercises/target/${encodeURIComponent(filters.target)}?limit=${limit}&offset=${offsetToUse}`;
       } else {
-        endpoint = `/exercises?${queryParams}`;
+        endpoint = `/exercises?limit=${limit}&offset=${offsetToUse}`;
       }
 
-      const data = await api.get<Exercise[]>(endpoint, { skipAuth: true });
+      const rawData = await api.get<ExerciseDbExercise[]>(endpoint, { skipAuth: true });
+      const data = rawData.map(enrichExercise);
 
       if (append) {
         setExercises(prev => [...prev, ...data]);
@@ -66,19 +161,19 @@ export function useExercises(options: UseExercisesOptions = {}): UseExercisesRes
 
   useEffect(() => {
     setCurrentOffset(0);
-    fetchExercises(0, false);
-  }, [fetchExercises]);
+    fetchData(0, false);
+  }, [fetchData]);
 
   const refetch = useCallback(() => {
     setCurrentOffset(0);
-    fetchExercises(0, false);
-  }, [fetchExercises]);
+    fetchData(0, false);
+  }, [fetchData]);
 
   const loadMore = useCallback(() => {
     if (!isLoading && hasMore) {
-      fetchExercises(currentOffset, true);
+      fetchData(currentOffset, true);
     }
-  }, [fetchExercises, isLoading, hasMore, currentOffset]);
+  }, [fetchData, isLoading, hasMore, currentOffset]);
 
   return { exercises, isLoading, error, refetch, loadMore, hasMore };
 }
@@ -100,13 +195,13 @@ export function useExercise(id: string | null): UseExerciseResult {
       return;
     }
 
-    const fetchExercise = async () => {
+    const fetchData = async () => {
       setIsLoading(true);
       setError(null);
 
       try {
-        const data = await api.get<Exercise>(`/exercises/${id}`, { skipAuth: true });
-        setExercise(data);
+        const rawData = await api.get<ExerciseDbExercise>(`/exercises/${id}`, { skipAuth: true });
+        setExercise(enrichExercise(rawData));
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch exercise');
       } finally {
@@ -114,7 +209,7 @@ export function useExercise(id: string | null): UseExerciseResult {
       }
     };
 
-    fetchExercise();
+    fetchData();
   }, [id]);
 
   return { exercise, isLoading, error };
@@ -146,7 +241,6 @@ export function useExerciseLists(): UseExerciseListsResult {
           api.get<string[]>('/exercises/lists/equipment', { skipAuth: true }),
           api.get<string[]>('/exercises/lists/targets', { skipAuth: true }),
         ]);
-
         setBodyParts(bodyPartsData);
         setEquipment(equipmentData);
         setTargets(targetsData);

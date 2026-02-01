@@ -1,4 +1,5 @@
-import { MUSCLE_GROUPS, exercises } from '../data/exercises';
+import { MUSCLE_GROUPS } from '../data/exercises';
+import { getExerciseById } from '../data/exerciseCache';
 
 const PRIMARY_FATIGUE = 40;
 const SECONDARY_FATIGUE = 20;
@@ -15,18 +16,27 @@ export function calculateMuscleFatigue(weeklyRoutine) {
   // Calculate fatigue from all exercises in the week
   Object.values(weeklyRoutine).forEach(dayExercises => {
     dayExercises.forEach(exerciseInstance => {
-      const exercise = exercises.find(e => e.id === exerciseInstance.exerciseId);
+      // Use the unified lookup that checks hardcoded + cached API exercises
+      const exercise = getExerciseById(exerciseInstance.exerciseId);
       if (!exercise) return;
 
       // Add primary muscle fatigue
-      exercise.primaryMuscles.forEach(muscle => {
-        fatigue[muscle] = Math.min(MAX_FATIGUE, fatigue[muscle] + PRIMARY_FATIGUE);
-      });
+      if (exercise.primaryMuscles) {
+        exercise.primaryMuscles.forEach(muscle => {
+          if (fatigue[muscle] !== undefined) {
+            fatigue[muscle] = Math.min(MAX_FATIGUE, fatigue[muscle] + PRIMARY_FATIGUE);
+          }
+        });
+      }
 
       // Add secondary muscle fatigue
-      exercise.secondaryMuscles.forEach(muscle => {
-        fatigue[muscle] = Math.min(MAX_FATIGUE, fatigue[muscle] + SECONDARY_FATIGUE);
-      });
+      if (exercise.secondaryMuscles) {
+        exercise.secondaryMuscles.forEach(muscle => {
+          if (fatigue[muscle] !== undefined) {
+            fatigue[muscle] = Math.min(MAX_FATIGUE, fatigue[muscle] + SECONDARY_FATIGUE);
+          }
+        });
+      }
     });
   });
 

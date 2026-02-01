@@ -18,31 +18,58 @@ import { getExerciseMuscles } from '../utils/muscleMapping.js';
 
 const router = Router();
 
-// Helper to cache exercise
+// Helper to cache exercise (silent failure if DB unavailable)
 async function cacheExercise(exercise: ExerciseDbExercise) {
-  await prisma.cachedExercise.upsert({
-    where: { id: exercise.id },
-    update: {
-      name: exercise.name,
-      bodyPart: exercise.bodyPart,
-      target: exercise.target,
-      equipment: exercise.equipment,
-      gifUrl: exercise.gifUrl,
-      secondaryMuscles: exercise.secondaryMuscles,
-      instructions: exercise.instructions,
-      fetchedAt: new Date(),
-    },
-    create: {
-      id: exercise.id,
-      name: exercise.name,
-      bodyPart: exercise.bodyPart,
-      target: exercise.target,
-      equipment: exercise.equipment,
-      gifUrl: exercise.gifUrl,
-      secondaryMuscles: exercise.secondaryMuscles,
-      instructions: exercise.instructions,
-    },
-  });
+  try {
+    await prisma.cachedExercise.upsert({
+      where: { id: exercise.id },
+      update: {
+        name: exercise.name,
+        bodyPart: exercise.bodyPart,
+        target: exercise.target,
+        equipment: exercise.equipment,
+        gifUrl: exercise.gifUrl,
+        secondaryMuscles: exercise.secondaryMuscles,
+        instructions: exercise.instructions,
+        fetchedAt: new Date(),
+      },
+      create: {
+        id: exercise.id,
+        name: exercise.name,
+        bodyPart: exercise.bodyPart,
+        target: exercise.target,
+        equipment: exercise.equipment,
+        gifUrl: exercise.gifUrl,
+        secondaryMuscles: exercise.secondaryMuscles,
+        instructions: exercise.instructions,
+      },
+    });
+  } catch {
+    // Silently ignore cache failures - DB may not be connected
+  }
+}
+
+// Helper to get cached exercises (returns null if DB unavailable)
+async function getCachedExercises(options: {
+  skip?: number;
+  take?: number;
+  where?: Record<string, unknown>;
+  orderBy?: Record<string, string>;
+}) {
+  try {
+    return await prisma.cachedExercise.findMany(options);
+  } catch {
+    return null;
+  }
+}
+
+// Helper to get single cached exercise
+async function getCachedExercise(id: string) {
+  try {
+    return await prisma.cachedExercise.findUnique({ where: { id } });
+  } catch {
+    return null;
+  }
 }
 
 // Helper to enrich exercise with muscle mapping
@@ -75,21 +102,21 @@ router.get('/', async (req, res, next) => {
     const offset = parseInt(req.query.offset as string) || 0;
 
     // Try cache first
-    const cached = await prisma.cachedExercise.findMany({
+    const cached = await getCachedExercises({
       skip: offset,
       take: limit,
       orderBy: { name: 'asc' },
     });
 
-    if (cached.length > 0 && !isCacheExpired(cached[0].fetchedAt)) {
+    if (cached && cached.length > 0 && !isCacheExpired(cached[0].fetchedAt)) {
       return res.json(cached.map(enrichExercise));
     }
 
     // Fetch from API
     const exercises = await fetchExercises(limit, offset);
 
-    // Cache results
-    await Promise.all(exercises.map(cacheExercise));
+    // Cache results (non-blocking)
+    Promise.all(exercises.map(cacheExercise)).catch(() => {});
 
     res.json(exercises.map(enrichExercise));
   } catch (err) {
@@ -139,7 +166,7 @@ router.get('/search', async (req, res, next) => {
     const offset = parseInt(req.query.offset as string) || 0;
 
     // Try cache first
-    const cached = await prisma.cachedExercise.findMany({
+    const cached = await getCachedExercises({
       where: {
         name: { contains: query, mode: 'insensitive' },
       },
@@ -147,13 +174,13 @@ router.get('/search', async (req, res, next) => {
       take: limit,
     });
 
-    if (cached.length > 0) {
+    if (cached && cached.length > 0) {
       return res.json(cached.map(enrichExercise));
     }
 
     // Fetch from API
     const exercises = await fetchExercisesByName(query, limit, offset);
-    await Promise.all(exercises.map(cacheExercise));
+    Promise.all(exercises.map(cacheExercise)).catch(() => {});
 
     res.json(exercises.map(enrichExercise));
   } catch (err) {
@@ -169,19 +196,19 @@ router.get('/bodyPart/:bodyPart', async (req, res, next) => {
     const offset = parseInt(req.query.offset as string) || 0;
 
     // Try cache first
-    const cached = await prisma.cachedExercise.findMany({
+    const cached = await getCachedExercises({
       where: { bodyPart: { equals: bodyPart, mode: 'insensitive' } },
       skip: offset,
       take: limit,
     });
 
-    if (cached.length > 0 && !isCacheExpired(cached[0].fetchedAt)) {
+    if (cached && cached.length > 0 && !isCacheExpired(cached[0].fetchedAt)) {
       return res.json(cached.map(enrichExercise));
     }
 
     // Fetch from API
     const exercises = await fetchExercisesByBodyPart(bodyPart, limit, offset);
-    await Promise.all(exercises.map(cacheExercise));
+    Promise.all(exercises.map(cacheExercise)).catch(() => {});
 
     res.json(exercises.map(enrichExercise));
   } catch (err) {
@@ -197,19 +224,19 @@ router.get('/target/:target', async (req, res, next) => {
     const offset = parseInt(req.query.offset as string) || 0;
 
     // Try cache first
-    const cached = await prisma.cachedExercise.findMany({
+    const cached = await getCachedExercises({
       where: { target: { equals: target, mode: 'insensitive' } },
       skip: offset,
       take: limit,
     });
 
-    if (cached.length > 0 && !isCacheExpired(cached[0].fetchedAt)) {
+    if (cached && cached.length > 0 && !isCacheExpired(cached[0].fetchedAt)) {
       return res.json(cached.map(enrichExercise));
     }
 
     // Fetch from API
     const exercises = await fetchExercisesByTarget(target, limit, offset);
-    await Promise.all(exercises.map(cacheExercise));
+    Promise.all(exercises.map(cacheExercise)).catch(() => {});
 
     res.json(exercises.map(enrichExercise));
   } catch (err) {
@@ -225,19 +252,19 @@ router.get('/equipment/:equipment', async (req, res, next) => {
     const offset = parseInt(req.query.offset as string) || 0;
 
     // Try cache first
-    const cached = await prisma.cachedExercise.findMany({
+    const cached = await getCachedExercises({
       where: { equipment: { equals: equipment, mode: 'insensitive' } },
       skip: offset,
       take: limit,
     });
 
-    if (cached.length > 0 && !isCacheExpired(cached[0].fetchedAt)) {
+    if (cached && cached.length > 0 && !isCacheExpired(cached[0].fetchedAt)) {
       return res.json(cached.map(enrichExercise));
     }
 
     // Fetch from API
     const exercises = await fetchExercisesByEquipment(equipment, limit, offset);
-    await Promise.all(exercises.map(cacheExercise));
+    Promise.all(exercises.map(cacheExercise)).catch(() => {});
 
     res.json(exercises.map(enrichExercise));
   } catch (err) {
@@ -251,7 +278,7 @@ router.get('/:id', async (req, res, next) => {
     const { id } = req.params;
 
     // Try cache first
-    const cached = await prisma.cachedExercise.findUnique({ where: { id } });
+    const cached = await getCachedExercise(id);
 
     if (cached && !isCacheExpired(cached.fetchedAt)) {
       return res.json(enrichExercise(cached));
@@ -259,7 +286,7 @@ router.get('/:id', async (req, res, next) => {
 
     // Fetch from API
     const exercise = await fetchExerciseById(id);
-    await cacheExercise(exercise);
+    cacheExercise(exercise).catch(() => {});
 
     res.json(enrichExercise(exercise));
   } catch (err) {
