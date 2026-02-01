@@ -31,27 +31,74 @@ const bodyPartMapping: Record<string, IronFlowMuscle[]> = {
   cardio: [],
 };
 
-// Maps ExerciseDB target to single IronFlow muscle
+// Maps ExerciseDB target/muscle to single IronFlow muscle
+// Supports both old RapidAPI names and new exercisedb.dev names
 const targetMapping: Record<string, IronFlowMuscle | null> = {
+  // Core muscles
   abs: 'abs',
-  abductors: 'glutes',
-  adductors: 'quads',
-  biceps: 'biceps',
-  calves: 'calves',
-  'cardiovascular system': null,
-  delts: 'frontDelts',
-  forearms: 'forearms',
-  glutes: 'glutes',
-  hamstrings: 'hamstrings',
+  abdominals: 'abs',
+  'lower abs': 'abs',
+  obliques: 'abs',
+  core: 'abs',
+
+  // Back muscles
   lats: 'lats',
-  'levator scapulae': 'traps',
-  pectorals: 'chest',
-  quads: 'quads',
-  'serratus anterior': 'chest',
-  spine: 'lowerBack',
-  traps: 'traps',
-  triceps: 'triceps',
+  'latissimus dorsi': 'lats',
   'upper back': 'upperBack',
+  back: 'upperBack',
+  rhomboids: 'upperBack',
+  'lower back': 'lowerBack',
+  spine: 'lowerBack',
+
+  // Shoulder muscles
+  delts: 'frontDelts',
+  deltoids: 'frontDelts',
+  shoulders: 'frontDelts',
+  'rear deltoids': 'rearDelts',
+  'rotator cuff': 'rearDelts',
+
+  // Arm muscles
+  biceps: 'biceps',
+  brachialis: 'biceps',
+  triceps: 'triceps',
+  forearms: 'forearms',
+  'wrist extensors': 'forearms',
+  'wrist flexors': 'forearms',
+  'grip muscles': 'forearms',
+  wrists: 'forearms',
+  hands: 'forearms',
+
+  // Chest muscles
+  pectorals: 'chest',
+  chest: 'chest',
+  'upper chest': 'chest',
+  'serratus anterior': 'chest',
+
+  // Neck/Trap muscles
+  traps: 'traps',
+  trapezius: 'traps',
+  'levator scapulae': 'traps',
+  sternocleidomastoid: 'traps',
+
+  // Leg muscles
+  quads: 'quads',
+  quadriceps: 'quads',
+  adductors: 'quads',
+  'inner thighs': 'quads',
+  hamstrings: 'hamstrings',
+  glutes: 'glutes',
+  abductors: 'glutes',
+  'hip flexors': 'glutes',
+  groin: 'quads',
+  calves: 'calves',
+  soleus: 'calves',
+  shins: 'calves',
+  'ankle stabilizers': 'calves',
+  ankles: 'calves',
+  feet: 'calves',
+
+  // Cardio (no muscle mapping)
+  'cardiovascular system': null,
 };
 
 export function mapBodyPartToMuscles(bodyPart: string): IronFlowMuscle[] {

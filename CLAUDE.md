@@ -12,7 +12,7 @@
 
 1. Install dependencies: `npm install` (root and /server)
 2. Copy `.env.example` to `.env`
-3. Set `DATABASE_URL` and `EXERCISEDB_API_KEY`
+3. Set `DATABASE_URL`
 4. Run migrations: `cd server && npx prisma migrate dev`
 5. Start dev servers:
    - Frontend: `npm run dev` (root)
@@ -20,16 +20,63 @@
 
 ## ExerciseDB API
 
-API Base: https://exercisedb.p.rapidapi.com
-Rate Limit: 100 requests/day (free tier)
-Docs: https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb
+API Base: https://exercisedb.dev/api/v1
+No authentication required (open source)
+Docs: https://exercisedb.dev/docs
+
+**IMPORTANT:** The exercisedb.dev API does not support CORS. All exercise
+API calls must go through the backend server as a proxy. The frontend
+cannot call exercisedb.dev directly.
 
 ### Endpoints Used
-- GET /exercises - All exercises (paginated)
-- GET /exercises/exercise/{id} - Single exercise
-- GET /exercises/bodyPart/{bodyPart} - Filter by body part
-- GET /exercises/target/{target} - Filter by target muscle
-- GET /exercises/equipment/{equipment} - Filter by equipment
+- GET /api/v1/exercises - All exercises (paginated with limit/offset)
+- GET /api/v1/exercises/{id} - Single exercise
+- GET /api/v1/muscles/{muscle}/exercises - Filter by muscle
+- GET /api/v1/bodyparts/{bodyPart}/exercises - Filter by body part
+- GET /api/v1/equipments/{equipment}/exercises - Filter by equipment
+- GET /api/v1/muscles - List all muscles
+- GET /api/v1/bodyparts - List all body parts
+- GET /api/v1/equipments - List all equipment
+
+### Response Format
+
+**Exercise list endpoints** return:
+```json
+{
+  "success": true,
+  "metadata": {
+    "totalPages": 750,
+    "totalExercises": 1500,
+    "currentPage": 1,
+    "previousPage": null,
+    "nextPage": "..."
+  },
+  "data": [
+    { "exerciseId": "...", "name": "...", ... }
+  ]
+}
+```
+
+**List endpoints** (bodyparts, equipments, muscles) return objects:
+```json
+{
+  "success": true,
+  "data": [
+    { "name": "back" },
+    { "name": "chest" }
+  ]
+}
+```
+
+### Exercise Fields
+- exerciseId (normalized to id internally)
+- name
+- gifUrl
+- targetMuscles (array, normalized to first item as target)
+- bodyParts (array, normalized to first item as bodyPart)
+- equipments (array, normalized to first item as equipment)
+- secondaryMuscles (array of strings)
+- instructions (array of strings)
 
 ### Caching Strategy
 Cache responses in CachedExercise table for 7 days.

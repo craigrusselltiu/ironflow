@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## v2.7.0 - 2026-02-01
 
+### Changed
+- Migrated from RapidAPI ExerciseDB to open-source exercisedb.dev API
+- No API key required - uses free, open-source exercise database
+- Added support for muscle-based filtering via `/muscles/{muscle}/exercises` endpoint
+- Expanded muscle name mapping to support new API's muscle names (46 muscle groups)
+- Updated API response parsing to handle new paginated response format
+
+### Removed
+- RapidAPI ExerciseDB dependency and API key requirement
+- EXERCISEDB_API_KEY environment variable no longer needed
+
+## v2.6.2 - 2026-02-01
+
+### Changed
+- Frontend now calls ExerciseDB API directly (no backend required for exercises)
+- Using placeholder images for exercises (ExerciseDB v2 image endpoint has CORS restrictions)
+- Hardcoded ExerciseDB API key for consistent operation
+
+## v2.6.1 - 2026-02-01
+
 ### Added
 - Hero section background image with gradient overlay
 
