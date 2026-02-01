@@ -39,13 +39,6 @@ const FRONT_MUSCLES = {
       M66,100 Q60,96 52,100 L54,138 Q60,142 66,138 Q68,118 66,100 Z
     `,
   },
-  [MUSCLE_GROUPS.CALVES]: {
-    // Calves - front lower leg
-    path: `
-      M36,146 Q40,144 44,148 L42,172 Q38,176 36,172 Q34,158 36,146 Z
-      M64,146 Q60,144 56,148 L58,172 Q62,176 64,172 Q66,158 64,146 Z
-    `,
-  },
 };
 
 // Traced from anatomical reference - Back view muscles
@@ -100,6 +93,13 @@ const BACK_MUSCLES = {
     path: `
       M36,118 Q42,114 48,120 L46,148 Q40,152 36,148 Q34,132 36,118 Z
       M64,118 Q58,114 52,120 L54,148 Q60,152 64,148 Q66,132 64,118 Z
+    `,
+  },
+  [MUSCLE_GROUPS.CALVES]: {
+    // Calves - back of lower leg
+    path: `
+      M36,152 Q40,150 44,154 L42,174 Q38,178 36,174 Q34,162 36,152 Z
+      M64,152 Q60,150 56,154 L58,174 Q62,178 64,174 Q66,162 64,152 Z
     `,
   },
 };
