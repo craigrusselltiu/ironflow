@@ -1,10 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
-import { api } from '../api/client';
-import { getExerciseGifUrl, type ExerciseDbExercise } from '../api/exerciseDb';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import exercisesData from '../data/exercises.json';
 import type { Exercise, ExerciseFilters } from '../types/exercise';
 
 // Map ExerciseDB target/muscle to IronFlow muscle name
-// Supports both old RapidAPI names and new exercisedb.dev names
 const targetToMuscle: Record<string, string> = {
   // Core muscles
   abs: 'abs',
@@ -74,8 +72,19 @@ function mapTargetToMuscle(target: string): string | null {
   return targetToMuscle[target.toLowerCase()] || null;
 }
 
-// Enrich exercise with muscle mappings (same logic as backend)
-function enrichExercise(e: ExerciseDbExercise): Exercise {
+interface RawExercise {
+  id: string;
+  name: string;
+  bodyPart: string;
+  target: string;
+  equipment: string;
+  gifUrl: string;
+  secondaryMuscles: string[];
+  instructions: string[];
+}
+
+// Enrich exercise with muscle mappings
+function enrichExercise(e: RawExercise): Exercise {
   const primaryMuscle = mapTargetToMuscle(e.target);
   const secondaryMusclesMapping: string[] = [];
 
@@ -92,13 +101,21 @@ function enrichExercise(e: ExerciseDbExercise): Exercise {
     bodyPart: e.bodyPart,
     target: e.target,
     equipment: e.equipment,
-    gifUrl: getExerciseGifUrl(),
+    gifUrl: e.gifUrl,
     secondaryMuscles: e.secondaryMuscles,
     instructions: e.instructions,
     primaryMuscle,
     secondaryMusclesMapping,
   };
 }
+
+// All exercises enriched with muscle mappings
+const allExercises: Exercise[] = (exercisesData as RawExercise[]).map(enrichExercise);
+
+// Derive unique values for filters
+const uniqueBodyParts = [...new Set(allExercises.map(e => e.bodyPart))].filter(Boolean).sort();
+const uniqueEquipment = [...new Set(allExercises.map(e => e.equipment))].filter(Boolean).sort();
+const uniqueTargets = [...new Set(allExercises.map(e => e.target))].filter(Boolean).sort();
 
 interface UseExercisesOptions {
   limit?: number;
@@ -116,66 +133,56 @@ interface UseExercisesResult {
 }
 
 export function useExercises(options: UseExercisesOptions = {}): UseExercisesResult {
-  const { limit = 50, offset = 0, filters = {} } = options;
-  const [exercises, setExercises] = useState<Exercise[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [currentOffset, setCurrentOffset] = useState(offset);
-  const [hasMore, setHasMore] = useState(true);
+  const { limit = 50, filters = {} } = options;
+  const [displayCount, setDisplayCount] = useState(limit);
 
-  const fetchData = useCallback(async (offsetToUse: number, append = false) => {
-    setIsLoading(true);
-    setError(null);
+  // Filter exercises based on filters
+  const filteredExercises = useMemo(() => {
+    let result = allExercises;
 
-    try {
-      let endpoint: string;
-      if (filters.search) {
-        endpoint = `/exercises/search?q=${encodeURIComponent(filters.search)}&limit=${limit}&offset=${offsetToUse}`;
-      } else if (filters.bodyPart) {
-        endpoint = `/exercises/bodyPart/${encodeURIComponent(filters.bodyPart)}?limit=${limit}&offset=${offsetToUse}`;
-      } else if (filters.equipment) {
-        endpoint = `/exercises/equipment/${encodeURIComponent(filters.equipment)}?limit=${limit}&offset=${offsetToUse}`;
-      } else if (filters.target) {
-        endpoint = `/exercises/target/${encodeURIComponent(filters.target)}?limit=${limit}&offset=${offsetToUse}`;
-      } else {
-        endpoint = `/exercises?limit=${limit}&offset=${offsetToUse}`;
-      }
-
-      const rawData = await api.get<ExerciseDbExercise[]>(endpoint, { skipAuth: true });
-      const data = rawData.map(enrichExercise);
-
-      if (append) {
-        setExercises(prev => [...prev, ...data]);
-      } else {
-        setExercises(data);
-      }
-
-      setHasMore(data.length === limit);
-      setCurrentOffset(offsetToUse + limit);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch exercises');
-    } finally {
-      setIsLoading(false);
+    if (filters.search) {
+      const search = filters.search.toLowerCase();
+      result = result.filter(e => e.name.toLowerCase().includes(search));
     }
+
+    if (filters.bodyPart) {
+      result = result.filter(e => e.bodyPart.toLowerCase() === filters.bodyPart!.toLowerCase());
+    }
+
+    if (filters.equipment) {
+      result = result.filter(e => e.equipment.toLowerCase() === filters.equipment!.toLowerCase());
+    }
+
+    if (filters.target) {
+      result = result.filter(e => e.target.toLowerCase() === filters.target!.toLowerCase());
+    }
+
+    return result;
+  }, [filters.search, filters.bodyPart, filters.equipment, filters.target]);
+
+  // Get current page of exercises
+  const exercises = useMemo(() => {
+    return filteredExercises.slice(0, displayCount);
+  }, [filteredExercises, displayCount]);
+
+  const hasMore = displayCount < filteredExercises.length;
+
+  // Reset display count when filters change
+  useEffect(() => {
+    setDisplayCount(limit);
   }, [limit, filters.search, filters.bodyPart, filters.equipment, filters.target]);
 
-  useEffect(() => {
-    setCurrentOffset(0);
-    fetchData(0, false);
-  }, [fetchData]);
-
   const refetch = useCallback(() => {
-    setCurrentOffset(0);
-    fetchData(0, false);
-  }, [fetchData]);
+    setDisplayCount(limit);
+  }, [limit]);
 
   const loadMore = useCallback(() => {
-    if (!isLoading && hasMore) {
-      fetchData(currentOffset, true);
+    if (hasMore) {
+      setDisplayCount(prev => prev + limit);
     }
-  }, [fetchData, isLoading, hasMore, currentOffset]);
+  }, [hasMore, limit]);
 
-  return { exercises, isLoading, error, refetch, loadMore, hasMore };
+  return { exercises, isLoading: false, error: null, refetch, loadMore, hasMore };
 }
 
 interface UseExerciseResult {
@@ -185,34 +192,12 @@ interface UseExerciseResult {
 }
 
 export function useExercise(id: string | null): UseExerciseResult {
-  const [exercise, setExercise] = useState<Exercise | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!id) {
-      setExercise(null);
-      return;
-    }
-
-    const fetchData = async () => {
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        const rawData = await api.get<ExerciseDbExercise>(`/exercises/${id}`, { skipAuth: true });
-        setExercise(enrichExercise(rawData));
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch exercise');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
+  const exercise = useMemo(() => {
+    if (!id) return null;
+    return allExercises.find(e => e.id === id) || null;
   }, [id]);
 
-  return { exercise, isLoading, error };
+  return { exercise, isLoading: false, error: null };
 }
 
 interface UseExerciseListsResult {
@@ -224,35 +209,11 @@ interface UseExerciseListsResult {
 }
 
 export function useExerciseLists(): UseExerciseListsResult {
-  const [bodyParts, setBodyParts] = useState<string[]>([]);
-  const [equipment, setEquipment] = useState<string[]>([]);
-  const [targets, setTargets] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchLists = async () => {
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        const [bodyPartsData, equipmentData, targetsData] = await Promise.all([
-          api.get<string[]>('/exercises/lists/bodyParts', { skipAuth: true }),
-          api.get<string[]>('/exercises/lists/equipment', { skipAuth: true }),
-          api.get<string[]>('/exercises/lists/targets', { skipAuth: true }),
-        ]);
-        setBodyParts(bodyPartsData);
-        setEquipment(equipmentData);
-        setTargets(targetsData);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch exercise lists');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchLists();
-  }, []);
-
-  return { bodyParts, equipment, targets, isLoading, error };
+  return {
+    bodyParts: uniqueBodyParts,
+    equipment: uniqueEquipment,
+    targets: uniqueTargets,
+    isLoading: false,
+    error: null,
+  };
 }

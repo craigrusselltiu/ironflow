@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useMemo, useCallback, useRef } from 'react';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { ExerciseCard } from './ExerciseCard';
-import { getHardcodedExercises, cacheExercise } from '../data/exerciseCache';
-import { api } from '../api/client';
+import { cacheExercise } from '../data/exerciseCache';
+import { useExercises, useExerciseLists } from '../hooks/useExercises';
 
 // Body part display names and colors
 const BODY_PART_CONFIG = {
@@ -18,73 +18,6 @@ const BODY_PART_CONFIG = {
   cardio: { label: 'Cardio', color: '#6bcb77' },
 };
 
-// Map ExerciseDB target/muscle to IronFlow muscle name
-// Supports both old RapidAPI names and new exercisedb.dev names
-const targetToMuscle = {
-  // Core muscles
-  abs: 'abs',
-  abdominals: 'abs',
-  'lower abs': 'abs',
-  obliques: 'abs',
-  core: 'abs',
-
-  // Back muscles
-  lats: 'lats',
-  'latissimus dorsi': 'lats',
-  'upper back': 'upperBack',
-  back: 'upperBack',
-  rhomboids: 'upperBack',
-  'lower back': 'lowerBack',
-  spine: 'lowerBack',
-
-  // Shoulder muscles
-  delts: 'frontDelts',
-  deltoids: 'frontDelts',
-  shoulders: 'frontDelts',
-  'rear deltoids': 'rearDelts',
-  'rotator cuff': 'rearDelts',
-
-  // Arm muscles
-  biceps: 'biceps',
-  brachialis: 'biceps',
-  triceps: 'triceps',
-  forearms: 'forearms',
-  'wrist extensors': 'forearms',
-  'wrist flexors': 'forearms',
-  'grip muscles': 'forearms',
-  wrists: 'forearms',
-  hands: 'forearms',
-
-  // Chest muscles
-  pectorals: 'chest',
-  chest: 'chest',
-  'upper chest': 'chest',
-  'serratus anterior': 'chest',
-
-  // Neck/Trap muscles
-  traps: 'traps',
-  trapezius: 'traps',
-  'levator scapulae': 'traps',
-  sternocleidomastoid: 'traps',
-
-  // Leg muscles
-  quads: 'quads',
-  quadriceps: 'quads',
-  adductors: 'quads',
-  'inner thighs': 'quads',
-  hamstrings: 'hamstrings',
-  glutes: 'glutes',
-  abductors: 'glutes',
-  'hip flexors': 'glutes',
-  groin: 'quads',
-  calves: 'calves',
-  soleus: 'calves',
-  shins: 'calves',
-  'ankle stabilizers': 'calves',
-  ankles: 'calves',
-  feet: 'calves',
-};
-
 // Format exercise name to title case
 function formatName(name) {
   return name
@@ -93,24 +26,10 @@ function formatName(name) {
     .join(' ');
 }
 
-// Map API exercise to display format with proper muscle groups
+// Map exercise to display format with proper muscle groups
 function mapExercise(exercise) {
-  // Get muscle mappings
-  const primaryMuscle = exercise.primaryMuscle || targetToMuscle[exercise.target?.toLowerCase()] || null;
-  const secondaryMusclesMapping = exercise.secondaryMusclesMapping ||
-    (exercise.secondaryMuscles || [])
-      .map(m => targetToMuscle[m.toLowerCase()])
-      .filter(m => m && m !== primaryMuscle);
-
-  // Create exercise with proper muscle arrays for caching
-  const enriched = {
-    ...exercise,
-    primaryMuscle,
-    secondaryMusclesMapping,
-  };
-
   // Cache the exercise for lookup in DayBucket and muscle calculations
-  cacheExercise(enriched);
+  cacheExercise(exercise);
 
   return {
     id: exercise.id,
@@ -118,114 +37,48 @@ function mapExercise(exercise) {
     bodyPart: exercise.bodyPart,
     target: exercise.target,
     equipment: exercise.equipment,
-    primaryMuscles: primaryMuscle ? [primaryMuscle] : [],
-    secondaryMuscles: secondaryMusclesMapping,
+    primaryMuscles: exercise.primaryMuscle ? [exercise.primaryMuscle] : [],
+    secondaryMuscles: exercise.secondaryMusclesMapping || [],
   };
 }
 
 export function ExerciseLibrary() {
   const [selectedBodyPart, setSelectedBodyPart] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [exercises, setExercises] = useState([]);
-  const [bodyParts, setBodyParts] = useState(Object.keys(BODY_PART_CONFIG));
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [error, setError] = useState(null);
-  const [offset, setOffset] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
+
+  // Get body parts from the exercise lists hook
+  const { bodyParts: availableBodyParts } = useExerciseLists();
+
+  // Fetch exercises with filters
+  const filters = useMemo(() => ({
+    search: searchTerm || undefined,
+    bodyPart: selectedBodyPart !== 'all' ? selectedBodyPart : undefined,
+  }), [searchTerm, selectedBodyPart]);
+
+  const { exercises: rawExercises, loadMore, hasMore } = useExercises({
+    limit: 50,
+    filters,
+  });
+
+  // Map exercises to display format
+  const exercises = useMemo(() => {
+    return rawExercises.map(mapExercise);
+  }, [rawExercises]);
+
+  // Filter body parts to only those in config
+  const bodyParts = useMemo(() => {
+    return availableBodyParts.filter(bp => BODY_PART_CONFIG[bp]);
+  }, [availableBodyParts]);
+
+  // Scroll-based loading
   const listRef = useRef(null);
-  const BATCH_SIZE = 30;
-
-  // Fetch body part list on mount
-  useEffect(() => {
-    const fetchBodyParts = async () => {
-      try {
-        const data = await api.get('/exercises/lists/bodyParts', { skipAuth: true });
-        setBodyParts(data);
-      } catch {
-        // Use default body parts if backend unavailable
-        setBodyParts(Object.keys(BODY_PART_CONFIG));
-      }
-    };
-    fetchBodyParts();
-  }, []);
-
-  // Fetch exercises from backend API
-  const fetchData = useCallback(async (bodyPart, currentOffset, append = false) => {
-    if (currentOffset === 0) {
-      setIsLoading(true);
-    } else {
-      setIsLoadingMore(true);
-    }
-    setError(null);
-
-    try {
-      let endpoint;
-      if (bodyPart === 'all') {
-        endpoint = `/exercises?limit=${BATCH_SIZE}&offset=${currentOffset}`;
-      } else {
-        endpoint = `/exercises/bodyPart/${encodeURIComponent(bodyPart)}?limit=${BATCH_SIZE}&offset=${currentOffset}`;
-      }
-      const data = await api.get(endpoint, { skipAuth: true });
-      const mapped = data.map(mapExercise);
-
-      if (append) {
-        setExercises(prev => [...prev, ...mapped]);
-      } else {
-        setExercises(mapped);
-      }
-
-      setHasMore(data.length === BATCH_SIZE);
-      setOffset(currentOffset + BATCH_SIZE);
-    } catch (err) {
-      console.error('Failed to fetch exercises:', err);
-      setError(err.message);
-      // Fallback to hardcoded on complete failure
-      if (currentOffset === 0) {
-        const hardcoded = getHardcodedExercises();
-        const filtered = bodyPart === 'all'
-          ? hardcoded
-          : hardcoded.filter(e => {
-              const categoryToBodyPart = {
-                push: ['chest', 'shoulders', 'upper arms'],
-                pull: ['back', 'upper arms', 'lower arms'],
-                legs: ['upper legs', 'lower legs'],
-                core: ['waist'],
-                cardio: ['cardio'],
-              };
-              return categoryToBodyPart[e.category]?.includes(bodyPart);
-            });
-        setExercises(filtered);
-        setHasMore(false);
-      }
-    } finally {
-      setIsLoading(false);
-      setIsLoadingMore(false);
-    }
-  }, []);
-
-  // Reset and fetch when filter changes
-  useEffect(() => {
-    setOffset(0);
-    setHasMore(true);
-    setExercises([]);
-    fetchData(selectedBodyPart, 0, false);
-  }, [selectedBodyPart, fetchData]);
-
-  // Handle scroll for lazy loading
   const handleScroll = useCallback((e) => {
-    if (isLoading || isLoadingMore || !hasMore) return;
-
+    if (!hasMore) return;
     const { scrollTop, scrollHeight, clientHeight } = e.target;
     if (scrollHeight - scrollTop <= clientHeight + 100) {
-      fetchData(selectedBodyPart, offset, true);
+      loadMore();
     }
-  }, [isLoading, isLoadingMore, hasMore, offset, selectedBodyPart, fetchData]);
-
-  // Filter by search term
-  const filteredExercises = exercises.filter(exercise =>
-    exercise.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  }, [hasMore, loadMore]);
 
   const handleBodyPartClick = (bodyPart) => {
     setSearchTerm('');
@@ -237,8 +90,8 @@ export function ExerciseLibrary() {
       <div className="library-header">
         <h2>Exercises</h2>
         <span className="exercise-total">
-          {isLoading ? '...' : filteredExercises.length}
-          {hasMore && !isLoading ? '+' : ''}
+          {exercises.length}
+          {hasMore ? '+' : ''}
         </span>
       </div>
 
@@ -287,62 +140,32 @@ export function ExerciseLibrary() {
         })}
       </div>
 
-      {error && !isLoading && exercises.length > 0 && (
-        <div className="library-fallback-notice">
-          Using offline exercises
-        </div>
-      )}
-
       <div
         className="exercise-list-modern"
         ref={listRef}
         onScroll={handleScroll}
       >
-        {isLoading ? (
-          <div className="library-loading">
-            <div className="loading-spinner-small"></div>
-            <span>Loading exercises...</span>
+        <SortableContext
+          items={exercises.map(e => e.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          {exercises.map((exercise, idx) => (
+            <ExerciseCard
+              key={exercise.id}
+              exercise={exercise}
+              isLibraryItem={true}
+              exerciseIndex={idx}
+            />
+          ))}
+        </SortableContext>
+
+        {!hasMore && exercises.length > 0 && (
+          <div className="library-end-notice">
+            {exercises.length} exercises
           </div>
-        ) : (
-          <>
-            <SortableContext
-              items={filteredExercises.map(e => e.id)}
-              strategy={verticalListSortingStrategy}
-            >
-              {filteredExercises.map((exercise, idx) => (
-                <ExerciseCard
-                  key={exercise.id}
-                  exercise={exercise}
-                  isLibraryItem={true}
-                  exerciseIndex={idx}
-                />
-              ))}
-            </SortableContext>
-
-            {isLoadingMore && (
-              <div className="library-loading-more">
-                <div className="loading-spinner-small"></div>
-              </div>
-            )}
-
-            {!isLoadingMore && hasMore && filteredExercises.length > 0 && (
-              <button
-                className="library-load-more-btn"
-                onClick={() => fetchData(selectedBodyPart, offset, true)}
-              >
-                Load More
-              </button>
-            )}
-
-            {!hasMore && filteredExercises.length > 0 && (
-              <div className="library-end-notice">
-                {filteredExercises.length} exercises
-              </div>
-            )}
-          </>
         )}
 
-        {!isLoading && filteredExercises.length === 0 && (
+        {exercises.length === 0 && (
           <div className="no-results">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
               <circle cx="11" cy="11" r="8"/>
