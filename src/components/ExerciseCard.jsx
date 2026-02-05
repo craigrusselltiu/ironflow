@@ -3,18 +3,21 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { CATEGORY_COLORS } from '../data/exercises';
 
-// Body part colors (matches ExerciseLibrary)
-const BODY_PART_COLORS = {
-  back: '#7c4dff',
-  chest: '#4a90d9',
-  shoulders: '#00bcd4',
-  'upper arms': '#ff9800',
-  'lower arms': '#ff5722',
-  'upper legs': '#ff6b6b',
-  'lower legs': '#e91e63',
-  waist: '#ffd93d',
-  neck: '#9c27b0',
-  cardio: '#6bcb77',
+// Target muscle colors (matches ExerciseLibrary)
+const TARGET_COLORS = {
+  abs: '#ffd93d',
+  lats: '#7c4dff',
+  'upper back': '#9575cd',
+  delts: '#00bcd4',
+  biceps: '#ff9800',
+  triceps: '#ff5722',
+  forearms: '#e64a19',
+  hamstrings: '#ec407a',
+  glutes: '#f06292',
+  calves: '#e91e63',
+  abductors: '#ad1457',
+  adductors: '#c2185b',
+  'cardiovascular system': '#6bcb77',
 };
 
 // Format label for display
@@ -57,9 +60,9 @@ export function ExerciseCard({
     }
   });
 
-  // Use bodyPart color if available, otherwise fall back to category color
-  const cardColor = exercise.bodyPart
-    ? BODY_PART_COLORS[exercise.bodyPart] || '#888'
+  // Use target color if available, otherwise fall back to category color
+  const cardColor = exercise.target
+    ? TARGET_COLORS[exercise.target] || '#888'
     : CATEGORY_COLORS[exercise.category] || '#888';
 
   // Display target muscle if available, otherwise category

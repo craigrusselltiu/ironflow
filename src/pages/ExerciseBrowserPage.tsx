@@ -9,7 +9,7 @@ export function ExerciseBrowserPage() {
   const { addExerciseToDay } = useRoutine();
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
-  const [activeBodyPart, setActiveBodyPart] = useState<string | null>(null);
+  const [activeTarget, setActiveTarget] = useState<string | null>(null);
   const [activeEquipment, setActiveEquipment] = useState<string | null>(null);
   const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
 
@@ -24,9 +24,11 @@ export function ExerciseBrowserPage() {
   const filters: ExerciseFilters = {};
   if (debouncedSearch) {
     filters.search = debouncedSearch;
-  } else if (activeBodyPart) {
-    filters.bodyPart = activeBodyPart;
-  } else if (activeEquipment) {
+  }
+  if (activeTarget) {
+    filters.target = activeTarget;
+  }
+  if (activeEquipment) {
     filters.equipment = activeEquipment;
   }
 
@@ -35,31 +37,29 @@ export function ExerciseBrowserPage() {
     filters,
   });
 
-  const { bodyParts, equipment, isLoading: listsLoading } = useExerciseLists();
+  const { targets, equipment, isLoading: listsLoading } = useExerciseLists();
 
-  const handleBodyPartClick = (bodyPart: string) => {
+  const handleTargetClick = (target: string) => {
     setSearchTerm('');
-    setActiveEquipment(null);
-    setActiveBodyPart(prev => prev === bodyPart ? null : bodyPart);
+    setActiveTarget(prev => prev === target ? null : target);
   };
 
   const handleEquipmentClick = (equip: string) => {
     setSearchTerm('');
-    setActiveBodyPart(null);
     setActiveEquipment(prev => prev === equip ? null : equip);
   };
 
   const handleSearchChange = (value: string) => {
     setSearchTerm(value);
     if (value) {
-      setActiveBodyPart(null);
+      setActiveTarget(null);
       setActiveEquipment(null);
     }
   };
 
   const clearFilters = () => {
     setSearchTerm('');
-    setActiveBodyPart(null);
+    setActiveTarget(null);
     setActiveEquipment(null);
   };
 
@@ -77,7 +77,7 @@ export function ExerciseBrowserPage() {
       .join(' ');
   };
 
-  const hasActiveFilters = debouncedSearch || activeBodyPart || activeEquipment;
+  const hasActiveFilters = debouncedSearch || activeTarget || activeEquipment;
 
   return (
     <div className="exercise-browser-page">
@@ -110,15 +110,15 @@ export function ExerciseBrowserPage() {
           {!listsLoading && (
             <>
               <div className="filter-section">
-                <h3>Body Part</h3>
+                <h3>Target Muscle</h3>
                 <div className="filter-chips">
-                  {bodyParts.map((part) => (
+                  {targets.map((target) => (
                     <button
-                      key={part}
-                      className={`filter-chip ${activeBodyPart === part ? 'active' : ''}`}
-                      onClick={() => handleBodyPartClick(part)}
+                      key={target}
+                      className={`filter-chip ${activeTarget === target ? 'active' : ''}`}
+                      onClick={() => handleTargetClick(target)}
                     >
-                      {formatLabel(part)}
+                      {formatLabel(target)}
                     </button>
                   ))}
                 </div>

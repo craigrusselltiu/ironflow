@@ -85,7 +85,7 @@ Navigation:
 
 ### v2.1.0 - ExerciseDB Integration
 - Exercise search and browse
-- Body part and equipment filters
+- Target muscle and equipment filters (can be combined)
 - Cached exercise data (7-day TTL)
 
 ### v2.2.0 - Routine API

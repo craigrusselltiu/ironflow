@@ -1258,7 +1258,7 @@
     user-select: none;
     transition: all 0.2s ease;
     overflow: hidden;
-    min-height: 52px;
+    min-height: 64px;
     animation: cardSlideIn 0.25s ease-out backwards;
     animation-delay: calc(var(--card-index, 0) * 0.02s);
   }
@@ -2174,6 +2174,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 280px));
     gap: 1.25rem;
+    padding-top: 4px;
   }
 
   .exercise-browser-card {

@@ -33,6 +33,13 @@ No external API calls are required. The frontend reads and filters exercises in-
 - secondaryMuscles - Array of secondary muscles
 - instructions - Array of instruction strings
 
+## Target Muscles (for filtering)
+
+The app filters by these 13 target muscles:
+- abs, abductors, adductors, biceps, calves
+- cardiovascular system, delts, forearms, glutes
+- hamstrings, lats, triceps, upper back
+
 ## Muscle Mapping
 
 ExerciseDB uses different muscle names than our visualization.
