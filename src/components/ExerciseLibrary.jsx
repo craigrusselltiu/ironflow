@@ -4,18 +4,21 @@ import { ExerciseCard } from './ExerciseCard';
 import { cacheExercise } from '../data/exerciseCache';
 import { useExercises, useExerciseLists } from '../hooks/useExercises';
 
-// Body part display names and colors
-const BODY_PART_CONFIG = {
-  back: { label: 'Back', color: '#7c4dff' },
-  chest: { label: 'Chest', color: '#4a90d9' },
-  shoulders: { label: 'Shoulders', color: '#00bcd4' },
-  'upper arms': { label: 'Arms', color: '#ff9800' },
-  'lower arms': { label: 'Forearms', color: '#ff5722' },
-  'upper legs': { label: 'Legs', color: '#ff6b6b' },
-  'lower legs': { label: 'Calves', color: '#e91e63' },
-  waist: { label: 'Core', color: '#ffd93d' },
-  neck: { label: 'Neck', color: '#9c27b0' },
-  cardio: { label: 'Cardio', color: '#6bcb77' },
+// Target muscle display names and colors
+const TARGET_CONFIG = {
+  abs: { label: 'Abs', color: '#ffd93d' },
+  lats: { label: 'Lats', color: '#7c4dff' },
+  'upper back': { label: 'Upper Back', color: '#9575cd' },
+  delts: { label: 'Delts', color: '#00bcd4' },
+  biceps: { label: 'Biceps', color: '#ff9800' },
+  triceps: { label: 'Triceps', color: '#ff5722' },
+  forearms: { label: 'Forearms', color: '#e64a19' },
+  hamstrings: { label: 'Hamstrings', color: '#ec407a' },
+  glutes: { label: 'Glutes', color: '#f06292' },
+  calves: { label: 'Calves', color: '#e91e63' },
+  abductors: { label: 'Abductors', color: '#ad1457' },
+  adductors: { label: 'Adductors', color: '#c2185b' },
+  'cardiovascular system': { label: 'Cardio', color: '#6bcb77' },
 };
 
 // Format exercise name to title case
@@ -43,17 +46,17 @@ function mapExercise(exercise) {
 }
 
 export function ExerciseLibrary() {
-  const [selectedBodyPart, setSelectedBodyPart] = useState('all');
+  const [selectedTarget, setSelectedTarget] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Get body parts from the exercise lists hook
-  const { bodyParts: availableBodyParts } = useExerciseLists();
+  // Get targets from the exercise lists hook
+  const { targets: availableTargets } = useExerciseLists();
 
   // Fetch exercises with filters
   const filters = useMemo(() => ({
     search: searchTerm || undefined,
-    bodyPart: selectedBodyPart !== 'all' ? selectedBodyPart : undefined,
-  }), [searchTerm, selectedBodyPart]);
+    target: selectedTarget !== 'all' ? selectedTarget : undefined,
+  }), [searchTerm, selectedTarget]);
 
   const { exercises: rawExercises, loadMore, hasMore } = useExercises({
     limit: 50,
@@ -65,10 +68,10 @@ export function ExerciseLibrary() {
     return rawExercises.map(mapExercise);
   }, [rawExercises]);
 
-  // Filter body parts to only those in config
-  const bodyParts = useMemo(() => {
-    return availableBodyParts.filter(bp => BODY_PART_CONFIG[bp]);
-  }, [availableBodyParts]);
+  // Filter targets to only those in config
+  const targets = useMemo(() => {
+    return availableTargets.filter(t => TARGET_CONFIG[t]);
+  }, [availableTargets]);
 
   // Scroll-based loading
   const listRef = useRef(null);
@@ -80,9 +83,9 @@ export function ExerciseLibrary() {
     }
   }, [hasMore, loadMore]);
 
-  const handleBodyPartClick = (bodyPart) => {
+  const handleTargetClick = (target) => {
     setSearchTerm('');
-    setSelectedBodyPart(prev => prev === bodyPart ? 'all' : bodyPart);
+    setSelectedTarget(prev => prev === target ? 'all' : target);
   };
 
   return (
@@ -120,18 +123,18 @@ export function ExerciseLibrary() {
 
       <div className="category-tabs">
         <button
-          className={`category-tab ${selectedBodyPart === 'all' ? 'active' : ''}`}
-          onClick={() => setSelectedBodyPart('all')}
+          className={`category-tab ${selectedTarget === 'all' ? 'active' : ''}`}
+          onClick={() => setSelectedTarget('all')}
         >
           <span className="tab-label">All</span>
         </button>
-        {bodyParts.map((part) => {
-          const config = BODY_PART_CONFIG[part] || { label: part, color: '#888' };
+        {targets.map((target) => {
+          const config = TARGET_CONFIG[target] || { label: target, color: '#888' };
           return (
             <button
-              key={part}
-              className={`category-tab ${selectedBodyPart === part ? 'active' : ''}`}
-              onClick={() => handleBodyPartClick(part)}
+              key={target}
+              className={`category-tab ${selectedTarget === target ? 'active' : ''}`}
+              onClick={() => handleTargetClick(target)}
               style={{ '--tab-color': config.color }}
             >
               <span className="tab-label">{config.label}</span>
