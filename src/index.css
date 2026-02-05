@@ -1258,8 +1258,13 @@
     user-select: none;
     transition: all 0.2s ease;
     min-height: 52px;
+    height: auto;
     animation: cardSlideIn 0.25s ease-out backwards;
     animation-delay: calc(var(--card-index, 0) * 0.02s);
+  }
+
+  .library-item.exercise-card-modern {
+    height: fit-content;
   }
 
   @keyframes cardSlideIn {
@@ -1303,6 +1308,8 @@
     justify-content: space-between;
     gap: 0.25rem;
     min-width: 0;
+    height: auto;
+    flex-shrink: 0;
   }
 
   .card-top {
