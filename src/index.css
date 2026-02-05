@@ -1311,6 +1311,8 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: 0.5rem;
+    width: 100%;
+    min-width: 0;
   }
 
   .exercise-name-modern {
@@ -1324,8 +1326,12 @@
 
   .library-item .exercise-name-modern {
     color: #ffffff;
+    white-space: normal;
     word-wrap: break-word;
     overflow-wrap: break-word;
+    hyphens: auto;
+    width: 100%;
+    max-width: 100%;
   }
 
   .scheduled-item .exercise-name-modern {
