@@ -1257,7 +1257,6 @@
     cursor: grab;
     user-select: none;
     transition: all 0.2s ease;
-    overflow: hidden;
     min-height: 52px;
     animation: cardSlideIn 0.25s ease-out backwards;
     animation-delay: calc(var(--card-index, 0) * 0.02s);
