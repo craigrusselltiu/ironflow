@@ -1257,6 +1257,7 @@
     cursor: grab;
     user-select: none;
     transition: all 0.2s ease;
+    overflow: hidden;
     min-height: 52px;
     height: auto;
     animation: cardSlideIn 0.25s ease-out backwards;
