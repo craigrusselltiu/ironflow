@@ -1324,10 +1324,8 @@
 
   .library-item .exercise-name-modern {
     color: #ffffff;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   .scheduled-item .exercise-name-modern {
