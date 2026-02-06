@@ -4,6 +4,7 @@ export const MUSCLE_GROUPS = {
   REAR_DELTS: 'rearDelts',
   BICEPS: 'biceps',
   TRICEPS: 'triceps',
+  FOREARMS: 'forearms',
   TRAPS: 'traps',
   LATS: 'lats',
   UPPER_BACK: 'upperBack',

@@ -5,6 +5,23 @@ All notable changes to IronFlow will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.7.4 - 2026-02-07
+
+### Added
+- Forearms muscle group to muscle breakdown and SVG heatmap (front and back views)
+- Collapsible filter panel in exercise library sidebar to save vertical space
+
+### Changed
+- Exercise Detail Modal GIF panel now uses explicit square dimensions instead of aspect-ratio
+- Exercise Detail Modal GIF panel widened for larger GIF display
+- Day select dropdown uses custom styled arrow with proper spacing
+- "Add to Day" button has fixed width to prevent layout shift when switching days
+
+### Fixed
+- Exercise Detail Modal GIF panel not rendering as a square due to flex stretch
+- GIF cropping in detail modal (object-fit: contain instead of cover)
+- Custom dropdown arrow too close to right edge of select box
+
 ## v2.7.3 - 2026-02-06
 
 ### Added

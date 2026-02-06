@@ -7,6 +7,7 @@ const MUSCLE_LABELS = {
   [MUSCLE_GROUPS.REAR_DELTS]: 'Rear Delts',
   [MUSCLE_GROUPS.BICEPS]: 'Biceps',
   [MUSCLE_GROUPS.TRICEPS]: 'Triceps',
+  [MUSCLE_GROUPS.FOREARMS]: 'Forearms',
   [MUSCLE_GROUPS.TRAPS]: 'Traps',
   [MUSCLE_GROUPS.UPPER_BACK]: 'Upper Back',
   [MUSCLE_GROUPS.LATS]: 'Lats',

@@ -32,6 +32,11 @@ const FRONT_MUSCLES = {
     path: `M34,40 Q36,38 38,40 L37,52 Q35,54 33,52 Z
            M66,40 Q64,38 62,40 L63,52 Q65,54 67,52 Z`,
   },
+  [MUSCLE_GROUPS.FOREARMS]: {
+    // Lower arms front
+    path: `M33,54 Q35,52 37,54 L36,62 Q34,64 32,62 Z
+           M67,54 Q65,52 63,54 L64,62 Q66,64 68,62 Z`,
+  },
   [MUSCLE_GROUPS.ABS]: {
     // Core/abs
     path: `M45,44 L55,44 L55,62 L45,62 Z`,
@@ -67,6 +72,11 @@ const BACK_MUSCLES = {
     // Back of arms
     path: `M34,40 Q36,38 38,40 L37,52 Q35,54 33,52 Z
            M66,40 Q64,38 62,40 L63,52 Q65,54 67,52 Z`,
+  },
+  [MUSCLE_GROUPS.FOREARMS]: {
+    // Back of forearms
+    path: `M33,54 Q35,52 37,54 L36,62 Q34,64 32,62 Z
+           M67,54 Q65,52 63,54 L64,62 Q66,64 68,62 Z`,
   },
   [MUSCLE_GROUPS.LOWER_BACK]: {
     // Lower back

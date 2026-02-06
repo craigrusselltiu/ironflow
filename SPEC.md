@@ -1,6 +1,6 @@
 # IronFlow Product Specification
 
-Version: 2.7.3
+Version: 2.7.4
 
 ## Overview
 
@@ -287,7 +287,7 @@ DELETE /api/templates/:id                Delete template
 - Feature badge with pulsing dot
 - Large headline with accent color highlights
 - CTA buttons: "Start Building", "Browse Exercises"
-- Stats row: 1500+ Exercises, 13 Muscle Groups, 7 Day Planning
+- Stats row: 1500+ Exercises, 15 Muscle Groups, 7 Day Planning
 - Floating visual cards showing app features
 - Features grid section
 - Bottom CTA section with decorative rings
@@ -336,7 +336,8 @@ DELETE /api/templates/:id                Delete template
 - Each day shows scheduled exercises
 - Drag handle on exercises
 - Click exercise to edit sets/reps
-- Muscle map sidebar showing coverage
+- Muscle map sidebar showing coverage (15 muscle groups including forearms)
+- Exercise library sidebar with collapsible muscle filter panel
 
 ### Workout Logger (v2.6.0)
 - Current exercise with GIF

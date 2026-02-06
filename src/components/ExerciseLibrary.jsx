@@ -54,6 +54,7 @@ function mapExercise(exercise) {
 export function ExerciseLibrary() {
   const [selectedTarget, setSelectedTarget] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   // Get targets from the exercise lists hook
   const { targets: availableTargets } = useExerciseLists();
@@ -125,29 +126,47 @@ export function ExerciseLibrary() {
             </button>
           )}
         </div>
+        <button
+          className={`filter-toggle ${filtersOpen ? 'open' : ''} ${selectedTarget !== 'all' ? 'has-active' : ''}`}
+          onClick={() => setFiltersOpen(prev => !prev)}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/>
+          </svg>
+          <span>
+            {selectedTarget !== 'all'
+              ? (TARGET_CONFIG[selectedTarget]?.label || selectedTarget)
+              : 'Filter'}
+          </span>
+          <svg className="filter-toggle-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
       </div>
 
-      <div className="category-tabs">
-        <button
-          className={`category-tab ${selectedTarget === 'all' ? 'active' : ''}`}
-          onClick={() => setSelectedTarget('all')}
-        >
-          <span className="tab-label">All</span>
-        </button>
-        {targets.map((target) => {
-          const config = TARGET_CONFIG[target] || { label: target, color: '#888' };
-          return (
-            <button
-              key={target}
-              className={`category-tab ${selectedTarget === target ? 'active' : ''}`}
-              onClick={() => handleTargetClick(target)}
-              style={{ '--tab-color': config.color }}
-            >
-              <span className="tab-label">{config.label}</span>
-            </button>
-          );
-        })}
-      </div>
+      {filtersOpen && (
+        <div className="category-tabs">
+          <button
+            className={`category-tab ${selectedTarget === 'all' ? 'active' : ''}`}
+            onClick={() => setSelectedTarget('all')}
+          >
+            <span className="tab-label">All</span>
+          </button>
+          {targets.map((target) => {
+            const config = TARGET_CONFIG[target] || { label: target, color: '#888' };
+            return (
+              <button
+                key={target}
+                className={`category-tab ${selectedTarget === target ? 'active' : ''}`}
+                onClick={() => handleTargetClick(target)}
+                style={{ '--tab-color': config.color }}
+              >
+                <span className="tab-label">{config.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       <div
         className="exercise-list-modern"
