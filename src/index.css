@@ -2406,7 +2406,7 @@
   }
 
   .edm-gif-panel {
-    width: 320px;
+    width: clamp(280px, 35vw, 380px);
     aspect-ratio: 1 / 1;
     flex-shrink: 0;
     background: var(--color-background-primary);
