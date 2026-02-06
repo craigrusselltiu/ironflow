@@ -5,6 +5,26 @@ All notable changes to IronFlow will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.7.3 - 2026-02-06
+
+### Added
+- Expanded exercise database from 1,100 to 1,500 exercises
+- Footer on the Exercises page matching the Home page design
+- New target muscle filters: pectorals, quads, traps, spine, serratus anterior, levator scapulae
+
+### Changed
+- Renamed `target` field to `targetMuscles` across frontend, backend, and exercise data
+- Redesigned Exercise Detail Modal with side-by-side layout (GIF left, info right) to show full GIF
+- Exercise instructions reformatted to "Step N - ..." format
+- Exercise sidebar cards now dynamically size to content (no fixed min-height)
+- Removed main page scrollbar from Routine Builder and Exercises pages
+- Improved right sidebar padding for Targeted Muscle Groups heading
+
+### Fixed
+- Exercise GIF cut off in detail modal (was showing only top half)
+- Scroll wiggle on Routine Builder page
+- Exercise card height inconsistency for multi-line names
+
 ## v2.7.2 - 2026-02-05
 
 ### Added

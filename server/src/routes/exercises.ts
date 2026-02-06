@@ -26,7 +26,7 @@ async function cacheExercise(exercise: ExerciseDbExercise) {
       update: {
         name: exercise.name,
         bodyPart: exercise.bodyPart,
-        target: exercise.target,
+        target: exercise.targetMuscles,
         equipment: exercise.equipment,
         gifUrl: exercise.gifUrl,
         secondaryMuscles: exercise.secondaryMuscles,
@@ -37,7 +37,7 @@ async function cacheExercise(exercise: ExerciseDbExercise) {
         id: exercise.id,
         name: exercise.name,
         bodyPart: exercise.bodyPart,
-        target: exercise.target,
+        target: exercise.targetMuscles,
         equipment: exercise.equipment,
         gifUrl: exercise.gifUrl,
         secondaryMuscles: exercise.secondaryMuscles,
@@ -83,13 +83,15 @@ function enrichExercise(exercise: ExerciseDbExercise | {
   secondaryMuscles: string[];
   instructions: string[];
 }) {
+  const targetValue = 'targetMuscles' in exercise ? exercise.targetMuscles : (exercise as { target: string }).target;
   const muscles = getExerciseMuscles(
     exercise.bodyPart,
-    exercise.target,
+    targetValue,
     exercise.secondaryMuscles
   );
   return {
     ...exercise,
+    targetMuscles: targetValue,
     primaryMuscle: muscles.primary,
     secondaryMusclesMapping: muscles.secondary,
   };

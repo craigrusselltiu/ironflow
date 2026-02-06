@@ -1,6 +1,6 @@
 # IronFlow Product Specification
 
-Version: 2.7.1
+Version: 2.7.3
 
 ## Overview
 
@@ -119,24 +119,20 @@ Navigation:
 - New typography (Outfit, JetBrains Mono)
 - Refined color system
 
-### v2.7.0 - Workout Logging
-- Start workout from planned routine
-- Log sets with weight/reps
-- View previous performance
-- Workout history
+### v2.7.0 - Exercise Data Migration
+- Migrated from RapidAPI ExerciseDB to open-source exercisedb.dev API
+- Replaced API calls with bundled JSON file (1,500+ exercises)
+- No external API dependency required
+- Combined filtering (target muscle AND equipment)
+- Exercise filters use target muscle instead of body part
+- Exercise card color-coding based on target muscle
 
 ### v2.8.0 - Templates
 - Pre-built routine templates (PPL, Upper/Lower, Full Body)
 - Save routine as template
 - Apply template to routine
 
-### v2.9.0 - Analytics
-- Volume tracking over time
-- Muscle group frequency
-- Personal records (estimated 1RM)
-- Date range filtering
-
-### v2.10.0 - Polish
+### v2.9.0 - Polish
 - Loading states refinement
 - Error boundaries
 - Empty states
@@ -184,7 +180,7 @@ updatedAt     DateTime  @updatedAt
 id            String    @id // ExerciseDB ID
 name          String
 bodyPart      String
-target        String
+targetMuscles String
 equipment     String
 gifUrl        String
 secondaryMuscles String[]
@@ -214,7 +210,7 @@ rpe           Int?      // 1-10 scale
 createdAt     DateTime  @default(now())
 ```
 
-### Template (v2.7.0)
+### Template (v2.8.0)
 ```
 id            String    @id @default(uuid())
 userId        String?   // null = system template
@@ -274,19 +270,12 @@ PUT    /api/workouts/:id                 Update workout (complete)
 POST   /api/workouts/:id/sets            Log a set
 ```
 
-### Templates (v2.7.0)
+### Templates (v2.8.0)
 ```
 GET    /api/templates                    List templates
 POST   /api/templates                    Create template
 POST   /api/templates/:id/apply          Apply to routine
 DELETE /api/templates/:id                Delete template
-```
-
-### Analytics (v2.8.0)
-```
-GET    /api/analytics/volume             Volume over time
-GET    /api/analytics/frequency          Muscle group frequency
-GET    /api/analytics/prs                Personal records
 ```
 
 ---
@@ -298,7 +287,7 @@ GET    /api/analytics/prs                Personal records
 - Feature badge with pulsing dot
 - Large headline with accent color highlights
 - CTA buttons: "Start Building", "Browse Exercises"
-- Stats row: 1300+ Exercises, 13 Muscle Groups, 7 Day Planning
+- Stats row: 1500+ Exercises, 13 Muscle Groups, 7 Day Planning
 - Floating visual cards showing app features
 - Features grid section
 - Bottom CTA section with decorative rings
@@ -326,17 +315,21 @@ GET    /api/analytics/prs                Personal records
 
 ### Exercise Browser (v2.4.0)
 - Search bar at top
-- Filter chips: body parts, equipment
+- Filter chips: target muscles, equipment
 - Grid of exercise cards
 - Each card shows: name, target muscle, equipment, GIF thumbnail
 - Click opens detail modal
+- Footer matching Home page
 
 ### Exercise Detail Modal (v2.4.0)
-- Large GIF animation
-- Exercise name and details
-- Instructions list
-- "Add to Day" dropdown
+- Side-by-side layout: GIF panel (left), info panel (right)
+- Full GIF animation without clipping
+- Exercise name with meta tags (body part, target muscle, equipment)
+- Secondary muscles list
+- Numbered instructions list
+- "Add to Day" dropdown with day selector
 - Close button
+- Mobile: stacks vertically
 
 ### Weekly Planner (v2.5.0)
 - 7 columns for days (responsive: cards on mobile)
@@ -352,12 +345,6 @@ GET    /api/analytics/prs                Personal records
 - Next/Skip buttons
 - Complete workout button
 
-### Analytics Dashboard (v2.8.0)
-- Date range selector
-- Volume chart (line graph)
-- Muscle frequency chart (bar)
-- PR list with estimated 1RM
-
 ---
 
 ## ExerciseDB Field Mapping
@@ -368,7 +355,7 @@ ExerciseDB returns:
   "id": "0001",
   "name": "3/4 sit-up",
   "bodyPart": "waist",
-  "target": "abs",
+  "targetMuscles": "abs",
   "equipment": "body weight",
   "gifUrl": "https://...",
   "secondaryMuscles": ["hip flexors"],

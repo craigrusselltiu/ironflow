@@ -76,7 +76,7 @@ interface RawExercise {
   id: string;
   name: string;
   bodyPart: string;
-  target: string;
+  targetMuscles: string;
   equipment: string;
   gifUrl: string;
   secondaryMuscles: string[];
@@ -85,7 +85,7 @@ interface RawExercise {
 
 // Enrich exercise with muscle mappings
 function enrichExercise(e: RawExercise): Exercise {
-  const primaryMuscle = mapTargetToMuscle(e.target);
+  const primaryMuscle = mapTargetToMuscle(e.targetMuscles);
   const secondaryMusclesMapping: string[] = [];
 
   for (const muscle of e.secondaryMuscles) {
@@ -99,7 +99,7 @@ function enrichExercise(e: RawExercise): Exercise {
     id: e.id,
     name: e.name,
     bodyPart: e.bodyPart,
-    target: e.target,
+    targetMuscles: e.targetMuscles,
     equipment: e.equipment,
     gifUrl: e.gifUrl,
     secondaryMuscles: e.secondaryMuscles,
@@ -115,7 +115,7 @@ const allExercises: Exercise[] = (exercisesData as RawExercise[]).map(enrichExer
 // Derive unique values for filters
 const uniqueBodyParts = [...new Set(allExercises.map(e => e.bodyPart))].filter(Boolean).sort();
 const uniqueEquipment = [...new Set(allExercises.map(e => e.equipment))].filter(Boolean).sort();
-const uniqueTargets = [...new Set(allExercises.map(e => e.target))].filter(Boolean).sort();
+const uniqueTargets = [...new Set(allExercises.map(e => e.targetMuscles))].filter(Boolean).sort();
 
 interface UseExercisesOptions {
   limit?: number;
@@ -153,12 +153,12 @@ export function useExercises(options: UseExercisesOptions = {}): UseExercisesRes
       result = result.filter(e => e.equipment.toLowerCase() === filters.equipment!.toLowerCase());
     }
 
-    if (filters.target) {
-      result = result.filter(e => e.target.toLowerCase() === filters.target!.toLowerCase());
+    if (filters.targetMuscles) {
+      result = result.filter(e => e.targetMuscles.toLowerCase() === filters.targetMuscles!.toLowerCase());
     }
 
     return result;
-  }, [filters.search, filters.bodyPart, filters.equipment, filters.target]);
+  }, [filters.search, filters.bodyPart, filters.equipment, filters.targetMuscles]);
 
   // Get current page of exercises
   const exercises = useMemo(() => {
@@ -170,7 +170,7 @@ export function useExercises(options: UseExercisesOptions = {}): UseExercisesRes
   // Reset display count when filters change
   useEffect(() => {
     setDisplayCount(limit);
-  }, [limit, filters.search, filters.bodyPart, filters.equipment, filters.target]);
+  }, [limit, filters.search, filters.bodyPart, filters.equipment, filters.targetMuscles]);
 
   const refetch = useCallback(() => {
     setDisplayCount(limit);

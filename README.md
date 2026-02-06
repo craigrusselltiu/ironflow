@@ -1,6 +1,6 @@
 # IronFlow
 
-![Version](https://img.shields.io/badge/version-2.7.2-green)
+![Version](https://img.shields.io/badge/version-2.7.3-green)
 ![React](https://img.shields.io/badge/react-18-blue)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
@@ -31,7 +31,7 @@ IronFlow works without an account - your routines save to your browser automatic
 - [PostgreSQL](https://www.postgresql.org/) - Database
 
 **Exercise Data:**
-- Bundled JSON with 1,100+ exercises (no external API required)
+- Bundled JSON with 1,500+ exercises (no external API required)
 
 ## Getting Started
 

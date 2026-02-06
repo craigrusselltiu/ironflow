@@ -2,7 +2,7 @@ export interface Exercise {
   id: string;
   name: string;
   bodyPart: string;
-  target: string;
+  targetMuscles: string;
   equipment: string;
   gifUrl: string;
   secondaryMuscles: string[];
@@ -16,5 +16,5 @@ export interface ExerciseFilters {
   search?: string;
   bodyPart?: string;
   equipment?: string;
-  target?: string;
+  targetMuscles?: string;
 }

@@ -26,7 +26,7 @@ export function ExerciseBrowserPage() {
     filters.search = debouncedSearch;
   }
   if (activeTarget) {
-    filters.target = activeTarget;
+    filters.targetMuscles = activeTarget;
   }
   if (activeEquipment) {
     filters.equipment = activeEquipment;
@@ -179,7 +179,7 @@ export function ExerciseBrowserPage() {
                 <div className="card-info">
                   <h3 className="card-name">{exercise.name}</h3>
                   <div className="card-meta">
-                    <span className="card-target">{formatLabel(exercise.target)}</span>
+                    <span className="card-target">{formatLabel(exercise.targetMuscles)}</span>
                     <span className="card-equipment">{formatLabel(exercise.equipment)}</span>
                   </div>
                 </div>
@@ -201,6 +201,24 @@ export function ExerciseBrowserPage() {
           )}
         </div>
       </div>
+
+      <footer className="site-footer">
+        <div className="footer-container">
+          <div className="footer-brand">
+            <span className="brand-icon">
+              <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+                <rect x="2" y="12" width="28" height="8" rx="2" fill="currentColor"/>
+                <rect x="6" y="8" width="4" height="16" rx="1" fill="currentColor"/>
+                <rect x="22" y="8" width="4" height="16" rx="1" fill="currentColor"/>
+              </svg>
+            </span>
+            <span>IronFlow &copy; 2026</span>
+          </div>
+          <div className="footer-copy">
+            Built for lifters who take training seriously.
+          </div>
+        </div>
+      </footer>
 
       {selectedExercise && (
         <ExerciseDetailModal

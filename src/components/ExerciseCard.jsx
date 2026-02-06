@@ -3,20 +3,26 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { CATEGORY_COLORS } from '../data/exercises';
 
-// Target muscle colors (matches ExerciseLibrary)
+// Target muscle colors (matches ExerciseLibrary TARGET_CONFIG)
 const TARGET_COLORS = {
   abs: '#ffd93d',
+  pectorals: '#e53935',
   lats: '#7c4dff',
   'upper back': '#9575cd',
   delts: '#00bcd4',
   biceps: '#ff9800',
   triceps: '#ff5722',
   forearms: '#e64a19',
-  hamstrings: '#ec407a',
   glutes: '#f06292',
+  quads: '#ab47bc',
+  hamstrings: '#ec407a',
   calves: '#e91e63',
+  traps: '#26a69a',
+  spine: '#8d6e63',
+  'serratus anterior': '#ef5350',
   abductors: '#ad1457',
   adductors: '#c2185b',
+  'levator scapulae': '#5c6bc0',
   'cardiovascular system': '#6bcb77',
 };
 
@@ -61,13 +67,13 @@ export function ExerciseCard({
   });
 
   // Use target color if available, otherwise fall back to category color
-  const cardColor = exercise.target
-    ? TARGET_COLORS[exercise.target] || '#888'
+  const cardColor = exercise.targetMuscles
+    ? TARGET_COLORS[exercise.targetMuscles] || '#888'
     : CATEGORY_COLORS[exercise.category] || '#888';
 
   // Display target muscle if available, otherwise category
-  const displayLabel = exercise.target
-    ? formatLabel(exercise.target)
+  const displayLabel = exercise.targetMuscles
+    ? formatLabel(exercise.targetMuscles)
     : exercise.category || '';
 
   const style = {

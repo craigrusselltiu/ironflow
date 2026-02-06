@@ -35,7 +35,7 @@ export interface CachedExercise {
   secondaryMuscles: string[];
   // Keep original API fields for reference
   bodyPart?: string;
-  target?: string;
+  targetMuscles?: string;
   equipment?: string;
   gifUrl?: string;
 }
@@ -91,7 +91,7 @@ function apiToCached(exercise: Exercise): CachedExercise {
     primaryMuscles,
     secondaryMuscles,
     bodyPart: exercise.bodyPart,
-    target: exercise.target,
+    targetMuscles: exercise.targetMuscles,
     equipment: exercise.equipment,
     gifUrl: exercise.gifUrl,
   };

@@ -7,17 +7,23 @@ import { useExercises, useExerciseLists } from '../hooks/useExercises';
 // Target muscle display names and colors
 const TARGET_CONFIG = {
   abs: { label: 'Abs', color: '#ffd93d' },
+  pectorals: { label: 'Pectorals', color: '#e53935' },
   lats: { label: 'Lats', color: '#7c4dff' },
   'upper back': { label: 'Upper Back', color: '#9575cd' },
   delts: { label: 'Delts', color: '#00bcd4' },
   biceps: { label: 'Biceps', color: '#ff9800' },
   triceps: { label: 'Triceps', color: '#ff5722' },
   forearms: { label: 'Forearms', color: '#e64a19' },
-  hamstrings: { label: 'Hamstrings', color: '#ec407a' },
   glutes: { label: 'Glutes', color: '#f06292' },
+  quads: { label: 'Quads', color: '#ab47bc' },
+  hamstrings: { label: 'Hamstrings', color: '#ec407a' },
   calves: { label: 'Calves', color: '#e91e63' },
+  traps: { label: 'Traps', color: '#26a69a' },
+  spine: { label: 'Spine', color: '#8d6e63' },
+  'serratus anterior': { label: 'Serratus', color: '#ef5350' },
   abductors: { label: 'Abductors', color: '#ad1457' },
   adductors: { label: 'Adductors', color: '#c2185b' },
+  'levator scapulae': { label: 'Levator Scap.', color: '#5c6bc0' },
   'cardiovascular system': { label: 'Cardio', color: '#6bcb77' },
 };
 
@@ -38,7 +44,7 @@ function mapExercise(exercise) {
     id: exercise.id,
     name: formatName(exercise.name),
     bodyPart: exercise.bodyPart,
-    target: exercise.target,
+    targetMuscles: exercise.targetMuscles,
     equipment: exercise.equipment,
     primaryMuscles: exercise.primaryMuscle ? [exercise.primaryMuscle] : [],
     secondaryMuscles: exercise.secondaryMusclesMapping || [],
@@ -55,7 +61,7 @@ export function ExerciseLibrary() {
   // Fetch exercises with filters
   const filters = useMemo(() => ({
     search: searchTerm || undefined,
-    target: selectedTarget !== 'all' ? selectedTarget : undefined,
+    targetMuscles: selectedTarget !== 'all' ? selectedTarget : undefined,
   }), [searchTerm, selectedTarget]);
 
   const { exercises: rawExercises, loadMore, hasMore } = useExercises({

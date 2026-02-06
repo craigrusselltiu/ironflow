@@ -46,12 +46,12 @@ interface ExerciseDbSingleResponse {
   data: ExerciseDbApiExercise;
 }
 
-// Normalized exercise format used internally (maintains backwards compatibility)
+// Normalized exercise format used internally
 interface ExerciseDbExercise {
   id: string;
   name: string;
   bodyPart: string;
-  target: string;
+  targetMuscles: string;
   equipment: string;
   gifUrl: string;
   secondaryMuscles: string[];
@@ -64,7 +64,7 @@ function normalizeExercise(e: ExerciseDbApiExercise): ExerciseDbExercise {
     id: e.exerciseId,
     name: e.name,
     bodyPart: e.bodyParts[0] || '',
-    target: e.targetMuscles[0] || '',
+    targetMuscles: e.targetMuscles[0] || '',
     equipment: e.equipments[0] || 'body weight',
     gifUrl: e.gifUrl,
     secondaryMuscles: e.secondaryMuscles,
