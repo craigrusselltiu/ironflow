@@ -2406,7 +2406,8 @@
   }
 
   .edm-gif-panel {
-    width: 320px;
+    width: clamp(280px, 35vw, 380px);
+    aspect-ratio: 1 / 1;
     flex-shrink: 0;
     background: var(--color-background-primary);
     display: flex;
@@ -2418,9 +2419,9 @@
 
   .edm-gif {
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
-    object-fit: contain;
+    object-fit: cover;
   }
 
   .edm-info-panel {
@@ -2530,7 +2531,7 @@
 
     .edm-gif-panel {
       width: 100%;
-      max-height: 280px;
+      aspect-ratio: 1 / 1;
       border-radius: 16px 16px 0 0;
     }
 
