@@ -5,6 +5,25 @@ All notable changes to IronFlow will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.7.5 - 2026-02-07
+
+### Added
+- Side Delts as 16th muscle group with SVG heatmap paths (front and back views)
+- Sets-based muscle volume calculation using recommended weekly sets per muscle
+- "Count Secondary" toggle in Routine Builder header to include/exclude secondary muscles from set totals
+- Muscle Breakdown now displays "X / Y sets" format showing actual vs recommended sets
+
+### Changed
+- Fatigue calculation uses actual planned sets per exercise (defaults to 3 if unset) instead of flat constants
+- Lateral Raises now target Side Delts instead of Front Delts
+- Generic "delts" target mapping changed from Front Delts to Side Delts in backend
+- Shoulders body part mapping now includes Side Delts
+- Exercise Browser filters (search, target muscle, equipment) now combine as AND instead of being mutually exclusive
+
+### Fixed
+- Day bucket columns changing width when exercises are added
+- Muscle Breakdown set counts wrapping when both numbers are more than 1 digit
+
 ## v2.7.4 - 2026-02-07
 
 ### Added

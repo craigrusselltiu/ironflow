@@ -33,7 +33,7 @@ export default function App() {
     })
   );
 
-  const fatigue = calculateMuscleFatigue(weeklyRoutine);
+  const { fatigue } = calculateMuscleFatigue(weeklyRoutine);
 
   const findDayContaining = useCallback((instanceId) => {
     for (const [day, exercises] of Object.entries(weeklyRoutine)) {

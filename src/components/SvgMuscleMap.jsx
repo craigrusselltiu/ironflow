@@ -19,9 +19,14 @@ const BODY_OUTLINE = `M44.777,94.501c-1.737,0-3.151-1.414-3.151-3.151V40.284
 // Front view muscle regions mapped to the simple figure
 const FRONT_MUSCLES = {
   [MUSCLE_GROUPS.FRONT_DELTS]: {
-    // Shoulders
-    path: `M35,33 Q38,30 41,33 L40,38 Q37,39 35,36 Z
-           M65,33 Q62,30 59,33 L60,38 Q63,39 65,36 Z`,
+    // Front shoulders (inner)
+    path: `M37,33 Q39,31 41,33 L40,37 Q38,38 37,36 Z
+           M63,33 Q61,31 59,33 L60,37 Q62,38 63,36 Z`,
+  },
+  [MUSCLE_GROUPS.SIDE_DELTS]: {
+    // Outer shoulder cap
+    path: `M34,34 Q36,30 38,33 L37,37 Q35,38 34,36 Z
+           M66,34 Q64,30 62,33 L63,37 Q65,38 66,36 Z`,
   },
   [MUSCLE_GROUPS.CHEST]: {
     // Chest area
@@ -55,9 +60,14 @@ const BACK_MUSCLES = {
     path: `M43,30 Q50,28 57,30 L56,36 Q50,34 44,36 Z`,
   },
   [MUSCLE_GROUPS.REAR_DELTS]: {
-    // Rear shoulders
-    path: `M35,33 Q38,30 41,33 L40,38 Q37,39 35,36 Z
-           M65,33 Q62,30 59,33 L60,38 Q63,39 65,36 Z`,
+    // Rear shoulders (inner)
+    path: `M37,33 Q39,31 41,33 L40,37 Q38,38 37,36 Z
+           M63,33 Q61,31 59,33 L60,37 Q62,38 63,36 Z`,
+  },
+  [MUSCLE_GROUPS.SIDE_DELTS]: {
+    // Outer shoulder cap (back view)
+    path: `M34,34 Q36,30 38,33 L37,37 Q35,38 34,36 Z
+           M66,34 Q64,30 62,33 L63,37 Q65,38 66,36 Z`,
   },
   [MUSCLE_GROUPS.UPPER_BACK]: {
     // Mid back

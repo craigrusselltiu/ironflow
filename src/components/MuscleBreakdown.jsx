@@ -1,9 +1,10 @@
 import { MUSCLE_GROUPS } from '../data/exercises';
-import { getFatigueColor } from '../utils/muscleCalculations';
+import { getFatigueColor, RECOMMENDED_SETS } from '../utils/muscleCalculations';
 
 const MUSCLE_LABELS = {
   [MUSCLE_GROUPS.CHEST]: 'Chest',
   [MUSCLE_GROUPS.FRONT_DELTS]: 'Front Delts',
+  [MUSCLE_GROUPS.SIDE_DELTS]: 'Side Delts',
   [MUSCLE_GROUPS.REAR_DELTS]: 'Rear Delts',
   [MUSCLE_GROUPS.BICEPS]: 'Biceps',
   [MUSCLE_GROUPS.TRICEPS]: 'Triceps',
@@ -19,7 +20,7 @@ const MUSCLE_LABELS = {
   [MUSCLE_GROUPS.CALVES]: 'Calves',
 };
 
-export function MuscleBreakdown({ fatigue }) {
+export function MuscleBreakdown({ fatigue, sets }) {
   const sortedMuscles = Object.entries(fatigue)
     .sort((a, b) => b[1] - a[1])
     .filter(([, value]) => value > 0);
@@ -43,7 +44,7 @@ export function MuscleBreakdown({ fatigue }) {
                   }}
                 />
               </div>
-              <span className="fatigue-value">{value}%</span>
+              <span className="fatigue-value">{sets[muscle]} / {RECOMMENDED_SETS[muscle]}</span>
             </div>
           ))}
         </div>

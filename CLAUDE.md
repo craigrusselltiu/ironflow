@@ -49,7 +49,7 @@ Map in /server/src/utils/muscleMapping.ts:
 |---------------------|------------------|
 | back | upperBack, lats |
 | chest | chest |
-| shoulders | frontDelts, rearDelts |
+| shoulders | frontDelts, sideDelts, rearDelts |
 | upper arms | biceps, triceps |
 | lower arms | forearms |
 | upper legs | quads, hamstrings, glutes |

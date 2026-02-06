@@ -40,21 +40,15 @@ export function ExerciseBrowserPage() {
   const { targets, equipment, isLoading: listsLoading } = useExerciseLists();
 
   const handleTargetClick = (target: string) => {
-    setSearchTerm('');
     setActiveTarget(prev => prev === target ? null : target);
   };
 
   const handleEquipmentClick = (equip: string) => {
-    setSearchTerm('');
     setActiveEquipment(prev => prev === equip ? null : equip);
   };
 
   const handleSearchChange = (value: string) => {
     setSearchTerm(value);
-    if (value) {
-      setActiveTarget(null);
-      setActiveEquipment(null);
-    }
   };
 
   const clearFilters = () => {

@@ -1,6 +1,7 @@
 export const MUSCLE_GROUPS = {
   CHEST: 'chest',
   FRONT_DELTS: 'frontDelts',
+  SIDE_DELTS: 'sideDelts',
   REAR_DELTS: 'rearDelts',
   BICEPS: 'biceps',
   TRICEPS: 'triceps',
@@ -72,7 +73,7 @@ export const exercises = [
     id: 'lateral-raises',
     name: 'Lateral Raises',
     category: CATEGORIES.PUSH,
-    primaryMuscles: [MUSCLE_GROUPS.FRONT_DELTS],
+    primaryMuscles: [MUSCLE_GROUPS.SIDE_DELTS],
     secondaryMuscles: [MUSCLE_GROUPS.TRAPS],
   },
   {

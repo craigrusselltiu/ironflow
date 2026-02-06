@@ -3,6 +3,7 @@
 export type IronFlowMuscle =
   | 'chest'
   | 'frontDelts'
+  | 'sideDelts'
   | 'rearDelts'
   | 'biceps'
   | 'triceps'
@@ -21,7 +22,7 @@ export type IronFlowMuscle =
 const bodyPartMapping: Record<string, IronFlowMuscle[]> = {
   back: ['upperBack', 'lats'],
   chest: ['chest'],
-  shoulders: ['frontDelts', 'rearDelts'],
+  shoulders: ['frontDelts', 'sideDelts', 'rearDelts'],
   'upper arms': ['biceps', 'triceps'],
   'lower arms': ['forearms'],
   'upper legs': ['quads', 'hamstrings', 'glutes'],
@@ -51,9 +52,13 @@ const targetMapping: Record<string, IronFlowMuscle | null> = {
   spine: 'lowerBack',
 
   // Shoulder muscles
-  delts: 'frontDelts',
-  deltoids: 'frontDelts',
-  shoulders: 'frontDelts',
+  delts: 'sideDelts',
+  deltoids: 'sideDelts',
+  shoulders: 'sideDelts',
+  'lateral raise': 'sideDelts',
+  'side delts': 'sideDelts',
+  'front delts': 'frontDelts',
+  'anterior deltoids': 'frontDelts',
   'rear deltoids': 'rearDelts',
   'rotator cuff': 'rearDelts',
 

@@ -19,6 +19,10 @@ import { calculateMuscleFatigue } from '../utils/muscleCalculations';
 export function RoutineBuilderPage() {
   const { weeklyRoutine, setWeeklyRoutine, addExerciseToDay, removeExerciseFromDay, clearRoutine, updateExerciseSetsReps, isLoading } = useRoutine();
   const [activeExercise, setActiveExercise] = useState(null);
+  const [countSecondary, setCountSecondary] = useState(() => {
+    const stored = localStorage.getItem('ironflow_count_secondary');
+    return stored !== null ? JSON.parse(stored) : true;
+  });
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -28,7 +32,15 @@ export function RoutineBuilderPage() {
     })
   );
 
-  const fatigue = calculateMuscleFatigue(weeklyRoutine);
+  const { fatigue, sets } = calculateMuscleFatigue(weeklyRoutine, countSecondary);
+
+  const handleToggleSecondary = () => {
+    setCountSecondary(prev => {
+      const next = !prev;
+      localStorage.setItem('ironflow_count_secondary', JSON.stringify(next));
+      return next;
+    });
+  };
 
   const findDayContaining = useCallback((instanceId) => {
     for (const [day, exercises] of Object.entries(weeklyRoutine)) {
@@ -167,6 +179,18 @@ export function RoutineBuilderPage() {
             <p>Drag exercises to build your weekly plan</p>
           </div>
           <div className="header-right">
+            <label className="secondary-toggle">
+              <span className="secondary-toggle-label">Count Secondary</span>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={countSecondary}
+                className={`secondary-toggle-switch ${countSecondary ? 'active' : ''}`}
+                onClick={handleToggleSecondary}
+              >
+                <span className="secondary-toggle-knob" />
+              </button>
+            </label>
             {totalExercises > 0 && (
               <button className="clear-btn" onClick={clearRoutine}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -197,7 +221,7 @@ export function RoutineBuilderPage() {
                   onRemoveExercise={handleRemoveExercise}
                   onUpdateSetsReps={updateExerciseSetsReps}
                 />
-                <MuscleBreakdown fatigue={fatigue} />
+                <MuscleBreakdown fatigue={fatigue} sets={sets} />
               </>
             )}
           </main>

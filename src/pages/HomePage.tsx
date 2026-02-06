@@ -43,7 +43,7 @@ export function HomePage() {
             </div>
             <div className="stat-divider"></div>
             <div className="stat">
-              <span className="stat-value">13</span>
+              <span className="stat-value">16</span>
               <span className="stat-label">Muscle Groups</span>
             </div>
             <div className="stat-divider"></div>

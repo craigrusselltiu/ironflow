@@ -1,6 +1,6 @@
 # IronFlow Product Specification
 
-Version: 2.7.4
+Version: 2.7.5
 
 ## Overview
 
@@ -287,7 +287,7 @@ DELETE /api/templates/:id                Delete template
 - Feature badge with pulsing dot
 - Large headline with accent color highlights
 - CTA buttons: "Start Building", "Browse Exercises"
-- Stats row: 1500+ Exercises, 15 Muscle Groups, 7 Day Planning
+- Stats row: 1500+ Exercises, 16 Muscle Groups, 7 Day Planning
 - Floating visual cards showing app features
 - Features grid section
 - Bottom CTA section with decorative rings
@@ -314,8 +314,8 @@ DELETE /api/templates/:id                Delete template
 - Link to login page
 
 ### Exercise Browser (v2.4.0)
-- Search bar at top
-- Filter chips: target muscles, equipment
+- Search bar at top (combinable with filter chips)
+- Filter chips: target muscles, equipment (all filters apply simultaneously as AND)
 - Grid of exercise cards
 - Each card shows: name, target muscle, equipment, GIF thumbnail
 - Click opens detail modal
@@ -336,8 +336,10 @@ DELETE /api/templates/:id                Delete template
 - Each day shows scheduled exercises
 - Drag handle on exercises
 - Click exercise to edit sets/reps
-- Muscle map sidebar showing coverage (15 muscle groups including forearms)
+- Muscle map sidebar showing coverage (16 muscle groups including side delts and forearms)
 - Exercise library sidebar with collapsible muscle filter panel
+- "Count Secondary" toggle to include/exclude secondary muscles from set volume
+- Muscle Breakdown shows sets-based volume (X / Y sets per muscle)
 
 ### Workout Logger (v2.6.0)
 - Current exercise with GIF
@@ -369,7 +371,7 @@ ExerciseDB returns:
 |---------------------|------------------|
 | back | upperBack, lats |
 | chest | chest |
-| shoulders | frontDelts, rearDelts |
+| shoulders | frontDelts, sideDelts, rearDelts |
 | upper arms | biceps, triceps |
 | lower arms | forearms |
 | upper legs | quads, hamstrings, glutes |
@@ -385,7 +387,7 @@ ExerciseDB returns:
 | biceps | biceps |
 | calves | calves |
 | cardiovascular system | (none) |
-| delts | frontDelts |
+| delts | sideDelts |
 | forearms | forearms |
 | glutes | glutes |
 | hamstrings | hamstrings |

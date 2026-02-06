@@ -1,46 +1,69 @@
 import { MUSCLE_GROUPS } from '../data/exercises';
 import { getExerciseById } from '../data/exerciseCache';
 
-const PRIMARY_FATIGUE = 40;
-const SECONDARY_FATIGUE = 20;
-const MAX_FATIGUE = 100;
+export const RECOMMENDED_SETS = {
+  [MUSCLE_GROUPS.CHEST]: 16,
+  [MUSCLE_GROUPS.FRONT_DELTS]: 12,
+  [MUSCLE_GROUPS.SIDE_DELTS]: 12,
+  [MUSCLE_GROUPS.REAR_DELTS]: 12,
+  [MUSCLE_GROUPS.BICEPS]: 10,
+  [MUSCLE_GROUPS.TRICEPS]: 12,
+  [MUSCLE_GROUPS.FOREARMS]: 10,
+  [MUSCLE_GROUPS.TRAPS]: 10,
+  [MUSCLE_GROUPS.LATS]: 16,
+  [MUSCLE_GROUPS.UPPER_BACK]: 14,
+  [MUSCLE_GROUPS.LOWER_BACK]: 10,
+  [MUSCLE_GROUPS.ABS]: 10,
+  [MUSCLE_GROUPS.QUADS]: 16,
+  [MUSCLE_GROUPS.HAMSTRINGS]: 12,
+  [MUSCLE_GROUPS.GLUTES]: 14,
+  [MUSCLE_GROUPS.CALVES]: 12,
+};
 
-export function calculateMuscleFatigue(weeklyRoutine) {
-  const fatigue = {};
+export function calculateMuscleFatigue(weeklyRoutine, countSecondary = true) {
+  const sets = {};
 
   // Initialize all muscle groups to 0
   Object.values(MUSCLE_GROUPS).forEach(muscle => {
-    fatigue[muscle] = 0;
+    sets[muscle] = 0;
   });
 
-  // Calculate fatigue from all exercises in the week
+  // Count sets per muscle from all exercises in the week
   Object.values(weeklyRoutine).forEach(dayExercises => {
     dayExercises.forEach(exerciseInstance => {
-      // Use the unified lookup that checks hardcoded + cached API exercises
       const exercise = getExerciseById(exerciseInstance.exerciseId);
       if (!exercise) return;
 
-      // Add primary muscle fatigue
+      const exerciseSets = exerciseInstance.plannedSets || 3;
+
+      // Add primary muscle sets
       if (exercise.primaryMuscles) {
         exercise.primaryMuscles.forEach(muscle => {
-          if (fatigue[muscle] !== undefined) {
-            fatigue[muscle] = Math.min(MAX_FATIGUE, fatigue[muscle] + PRIMARY_FATIGUE);
+          if (sets[muscle] !== undefined) {
+            sets[muscle] += exerciseSets;
           }
         });
       }
 
-      // Add secondary muscle fatigue
-      if (exercise.secondaryMuscles) {
+      // Add secondary muscle sets (only if toggle is on)
+      if (countSecondary && exercise.secondaryMuscles) {
         exercise.secondaryMuscles.forEach(muscle => {
-          if (fatigue[muscle] !== undefined) {
-            fatigue[muscle] = Math.min(MAX_FATIGUE, fatigue[muscle] + SECONDARY_FATIGUE);
+          if (sets[muscle] !== undefined) {
+            sets[muscle] += exerciseSets;
           }
         });
       }
     });
   });
 
-  return fatigue;
+  // Convert to fatigue percentages
+  const fatigue = {};
+  Object.values(MUSCLE_GROUPS).forEach(muscle => {
+    const recommended = RECOMMENDED_SETS[muscle] || 10;
+    fatigue[muscle] = Math.min(100, Math.round((sets[muscle] / recommended) * 100));
+  });
+
+  return { fatigue, sets };
 }
 
 export function getFatigueColor(fatigueLevel) {
