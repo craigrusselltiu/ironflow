@@ -5,6 +5,12 @@ All notable changes to IronFlow will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.7.6 - 2026-02-07
+
+### Changed
+- Delt exercises now filter as separate "Front Delts", "Side Delts", and "Rear Delts" target muscles instead of generic "Delts"
+- Exercise cards show distinct accent colors for each delt variant
+
 ## v2.7.5 - 2026-02-07
 
 ### Added

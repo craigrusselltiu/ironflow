@@ -387,7 +387,9 @@ ExerciseDB returns:
 | biceps | biceps |
 | calves | calves |
 | cardiovascular system | (none) |
-| delts | sideDelts |
+| front delts | frontDelts |
+| side delts | sideDelts |
+| rear delts | rearDelts |
 | forearms | forearms |
 | glutes | glutes |
 | hamstrings | hamstrings |

@@ -21,10 +21,14 @@ const targetToMuscle: Record<string, string> = {
   spine: 'lowerBack',
 
   // Shoulder muscles
-  delts: 'frontDelts',
-  deltoids: 'frontDelts',
-  shoulders: 'frontDelts',
+  delts: 'sideDelts',
+  deltoids: 'sideDelts',
+  shoulders: 'sideDelts',
+  'front delts': 'frontDelts',
+  'side delts': 'sideDelts',
+  'rear delts': 'rearDelts',
   'rear deltoids': 'rearDelts',
+  'anterior deltoids': 'frontDelts',
   'rotator cuff': 'rearDelts',
 
   // Arm muscles

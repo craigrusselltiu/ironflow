@@ -17567,7 +17567,7 @@
     "id": "84RyJf8",
     "name": "dumbbell one arm shoulder press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -17585,7 +17585,7 @@
     "id": "FWdVhcW",
     "name": "cable standing shoulder external rotation",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "rotator cuff",
       "trapezius"
@@ -17605,7 +17605,7 @@
     "id": "bmBf7LN",
     "name": "dumbbell lying external shoulder rotation",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "rotator cuff",
       "triceps"
@@ -17624,7 +17624,7 @@
     "id": "u2X71Np",
     "name": "cable front raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "forearms"
@@ -17644,7 +17644,7 @@
     "id": "5KLbZWx",
     "name": "kettlebell alternating press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "core"
@@ -17663,7 +17663,7 @@
     "id": "PQcUlDi",
     "name": "cable supine reverse fly",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "trapezius",
       "rhomboids"
@@ -17682,7 +17682,7 @@
     "id": "x306lCW",
     "name": "dumbbell upright shoulder external rotation",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "rotator cuff",
       "trapezius"
@@ -17701,7 +17701,7 @@
     "id": "prbWx1D",
     "name": "dumbbell rotation reverse fly",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "trapezius",
       "rhomboids"
@@ -17721,7 +17721,7 @@
     "id": "jgbvVJ0",
     "name": "dumbbell incline t-raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "traps",
       "rhomboids"
@@ -17740,7 +17740,7 @@
     "id": "mWBtgmb",
     "name": "dumbbell single arm overhead carry",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "traps",
       "core"
@@ -17759,7 +17759,7 @@
     "id": "AQ0mC4Y",
     "name": "dumbbell full can lateral raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "traps",
       "rotator cuff"
@@ -17778,7 +17778,7 @@
     "id": "G61cXLk",
     "name": "cable kneeling rear delt row (with rope) (male)",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "trapezius",
       "rhomboids",
@@ -17799,7 +17799,7 @@
     "id": "hxyTtWj",
     "name": "dumbbell seated lateral raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "traps",
       "upper back"
@@ -17818,7 +17818,7 @@
     "id": "wdRZISl",
     "name": "barbell standing close grip military press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -17837,7 +17837,7 @@
     "id": "tc5dYrf",
     "name": "band standing rear delt row",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "trapezius",
       "rhomboids",
@@ -17858,7 +17858,7 @@
     "id": "JzQbv7J",
     "name": "dumbbell seated bent arm lateral raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "trapezius",
       "rhomboids"
@@ -17877,7 +17877,7 @@
     "id": "xMjBKwn",
     "name": "dumbbell lateral to front raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "trapezius",
       "biceps"
@@ -17898,7 +17898,7 @@
     "id": "aTNKZiC",
     "name": "dumbbell incline one arm lateral raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "trapezius",
       "triceps"
@@ -17918,7 +17918,7 @@
     "id": "Ys97II0",
     "name": "dumbbell seated front raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "trapezius",
       "biceps"
@@ -17937,7 +17937,7 @@
     "id": "S37C94C",
     "name": "kettlebell one arm jerk",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "core"
@@ -17959,7 +17959,7 @@
     "id": "vqsbmL0",
     "name": "lever shoulder press v. 2",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "chest"
@@ -17979,7 +17979,7 @@
     "id": "EAs3xL9",
     "name": "dumbbell reverse fly",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "trapezius",
       "rhomboids"
@@ -17999,7 +17999,7 @@
     "id": "QT5Q0nK",
     "name": "dumbbell seated alternate press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "chest"
@@ -18019,7 +18019,7 @@
     "id": "mTT3KLn",
     "name": "cable front shoulder raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "trapezius",
       "biceps"
@@ -18039,7 +18039,7 @@
     "id": "gSw59a4",
     "name": "dumbbell lying one arm deltoid rear",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "trapezius",
       "rhomboids"
@@ -18058,7 +18058,7 @@
     "id": "UDm6cGl",
     "name": "kettlebell seesaw press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "core"
@@ -18077,7 +18077,7 @@
     "id": "aqvSOQE",
     "name": "cable cross-over revers fly",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "rhomboids",
       "trapezius"
@@ -18097,7 +18097,7 @@
     "id": "dCPESfR",
     "name": "barbell standing bradford press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -18115,7 +18115,7 @@
     "id": "f7Y9eDZ",
     "name": "barbell thruster",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "quadriceps",
       "glutes",
@@ -18136,7 +18136,7 @@
     "id": "cALKspW",
     "name": "cable upright row",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "traps",
       "biceps"
@@ -18156,7 +18156,7 @@
     "id": "bBi35y3",
     "name": "dumbbell standing alternate overhead press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "core"
@@ -18175,7 +18175,7 @@
     "id": "cALkHHX",
     "name": "dumbbell iron cross",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "triceps",
       "chest"
@@ -18193,7 +18193,7 @@
     "id": "RgJDRR1",
     "name": "barbell wide-grip upright row",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "traps",
       "biceps"
@@ -18212,7 +18212,7 @@
     "id": "x825CZm",
     "name": "cable seated rear lateral raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "traps",
       "rhomboids"
@@ -18231,7 +18231,7 @@
     "id": "Ln9iTbU",
     "name": "barbell rear delt raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "traps",
       "rhomboids"
@@ -18250,7 +18250,7 @@
     "id": "xUwnBMT",
     "name": "smith seated shoulder press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -18271,7 +18271,7 @@
     "id": "c9MnDRp",
     "name": "dumbbell raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "traps",
       "rhomboids"
@@ -18290,7 +18290,7 @@
     "id": "S9zHIvU",
     "name": "barbell rear delt row",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "trapezius",
       "rhomboids",
@@ -18311,7 +18311,7 @@
     "id": "gH5fRsC",
     "name": "dumbbell seated alternate front raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "trapezius",
       "biceps"
@@ -18331,7 +18331,7 @@
     "id": "UDlhcO8",
     "name": "barbell upright row",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "traps",
       "biceps"
@@ -18350,7 +18350,7 @@
     "id": "n5cWCsI",
     "name": "dumbbell one arm lateral raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "trapezius",
       "triceps"
@@ -18370,7 +18370,7 @@
     "id": "QfAKy1G",
     "name": "dumbbell cuban press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -18389,7 +18389,7 @@
     "id": "nFUwqG6",
     "name": "smith rear delt row",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "trapezius",
       "rhomboids",
@@ -18409,7 +18409,7 @@
     "id": "yCvYdi7",
     "name": "kettlebell one arm military press to the side",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "core"
@@ -18428,7 +18428,7 @@
     "id": "aXcUyKb",
     "name": "kettlebell one arm snatch",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "trapezius",
       "forearms",
@@ -18448,7 +18448,7 @@
     "id": "7Ba7bQ2",
     "name": "kettlebell two arm clean",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "traps",
       "forearms"
@@ -18467,7 +18467,7 @@
     "id": "53Ttlck",
     "name": "dumbbell lying rear lateral raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "traps",
       "rhomboids"
@@ -18486,7 +18486,7 @@
     "id": "KHPZL0b",
     "name": "cable alternate shoulder press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -18507,7 +18507,7 @@
     "id": "vYk8lqw",
     "name": "dumbbell incline rear lateral raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "traps",
       "rhomboids"
@@ -18527,7 +18527,7 @@
     "id": "v1qBec9",
     "name": "dumbbell rear lateral raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "traps",
       "rhomboids"
@@ -18546,7 +18546,7 @@
     "id": "BkxB8LW",
     "name": "kettlebell seated press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "core"
@@ -18565,7 +18565,7 @@
     "id": "DsgkuIt",
     "name": "dumbbell lateral raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "traps"
     ],
@@ -18583,7 +18583,7 @@
     "id": "aHDy5O5",
     "name": "band y-raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "traps",
       "rhomboids"
@@ -18602,7 +18602,7 @@
     "id": "eXMFHww",
     "name": "landmine lateral raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "traps",
       "upper back"
@@ -18621,7 +18621,7 @@
     "id": "wEulIzp",
     "name": "cable one arm lateral raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "traps",
       "triceps"
@@ -18640,7 +18640,7 @@
     "id": "kuXhl0o",
     "name": "kettlebell pirate supper legs",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "forearms"
@@ -18660,7 +18660,7 @@
     "id": "q7qkONO",
     "name": "dumbbell seated alternate shoulder",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -18679,7 +18679,7 @@
     "id": "0dCyly0",
     "name": "barbell seated bradford rocky press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -18698,7 +18698,7 @@
     "id": "vzAxBtt",
     "name": "kettlebell one arm clean and jerk",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "core"
@@ -18717,7 +18717,7 @@
     "id": "sTfvVsG",
     "name": "band reverse fly",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "upper back",
       "trapezius"
@@ -18737,7 +18737,7 @@
     "id": "yUdIGNs",
     "name": "cable rear delt row (stirrups)",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "trapezius",
       "rhomboids",
@@ -18759,7 +18759,7 @@
     "id": "Xy4jlWA",
     "name": "dumbbell arnold press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper chest"
@@ -18778,7 +18778,7 @@
     "id": "VLYXo8S",
     "name": "weighted round arm",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -18798,7 +18798,7 @@
     "id": "FS63wTN",
     "name": "dumbbell push press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "core"
@@ -18816,7 +18816,7 @@
     "id": "8DiFDVA",
     "name": "dumbbell rear fly",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "trapezius",
       "rhomboids"
@@ -18836,7 +18836,7 @@
     "id": "3eGE2JC",
     "name": "dumbbell front raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "biceps",
       "trapezius"
@@ -18854,11 +18854,10 @@
     "id": "P5p0j8B",
     "name": "cable standing cross-over high reverse fly",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "trapezius",
-      "rhomboids",
-      "rear deltoids"
+      "rhomboids"
     ],
     "equipment": "cable",
     "gifUrl": "https://static.exercisedb.dev/media/P5p0j8B.gif",
@@ -18876,7 +18875,7 @@
     "id": "A6wtbuL",
     "name": "dumbbell standing overhead press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -18894,7 +18893,7 @@
     "id": "RSOsp5d",
     "name": "dumbbell standing around world",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "triceps",
       "forearms"
@@ -18913,7 +18912,7 @@
     "id": "u4bAmKp",
     "name": "band twisting overhead press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -18934,7 +18933,7 @@
     "id": "UzkLrem",
     "name": "dumbbell rear lateral raise (support head)",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "traps",
       "rhomboids"
@@ -18953,7 +18952,7 @@
     "id": "RJa4tCo",
     "name": "battling ropes",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "forearms",
       "core"
@@ -18972,7 +18971,7 @@
     "id": "I4KkPdl",
     "name": "kettlebell double push press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "core"
@@ -18992,7 +18991,7 @@
     "id": "ainizkb",
     "name": "dumbbell upright row",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "traps",
       "biceps"
@@ -19011,7 +19010,7 @@
     "id": "tznL2Ad",
     "name": "kettlebell double jerk",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "core"
@@ -19033,7 +19032,7 @@
     "id": "sTg7iys",
     "name": "band front lateral raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "traps",
       "upper back"
@@ -19051,7 +19050,7 @@
     "id": "SxHteRW",
     "name": "dumbbell standing alternate raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "traps",
       "forearms"
@@ -19072,7 +19071,7 @@
     "id": "eOrFCnx",
     "name": "dumbbell arnold press v. 2",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper chest"
@@ -19091,7 +19090,7 @@
     "id": "goJ6ezq",
     "name": "cable lateral raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "traps",
       "triceps"
@@ -19110,7 +19109,7 @@
     "id": "hvHhCv8",
     "name": "cable forward raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "forearms"
@@ -19129,7 +19128,7 @@
     "id": "UilDHSs",
     "name": "dumbbell standing palms in press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "chest"
@@ -19147,7 +19146,7 @@
     "id": "xifhB5W",
     "name": "rear deltoid stretch",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "trapezius",
       "rhomboids"
@@ -19166,7 +19165,7 @@
     "id": "Rr7S3yg",
     "name": "dumbbell front raise v. 2",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "trapezius",
       "biceps"
@@ -19185,7 +19184,7 @@
     "id": "TFA88iB",
     "name": "band front raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -19203,7 +19202,7 @@
     "id": "nxW6BkN",
     "name": "dumbbell incline raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "trapezius",
       "triceps"
@@ -19222,7 +19221,7 @@
     "id": "hoXt6wv",
     "name": "left hook. boxing",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "biceps",
       "triceps",
@@ -19242,7 +19241,7 @@
     "id": "1DN3iz4",
     "name": "smith upright row",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "traps",
       "biceps"
@@ -19262,7 +19261,7 @@
     "id": "znQUdHY",
     "name": "dumbbell seated shoulder press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -19281,7 +19280,7 @@
     "id": "UM8mgyG",
     "name": "kettlebell arnold press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -19299,7 +19298,7 @@
     "id": "Ion0XWz",
     "name": "dumbbell lying on floor rear delt raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "trapezius",
       "rhomboids"
@@ -19318,7 +19317,7 @@
     "id": "wqNPGCg",
     "name": "cable rear delt row (with rope)",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "trapezius",
       "rhomboids",
@@ -19340,7 +19339,7 @@
     "id": "ht8xDrP",
     "name": "smith standing behind head military press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -19363,7 +19362,7 @@
     "id": "dNFYIU1",
     "name": "lever shoulder press v. 3",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "chest"
@@ -19383,7 +19382,7 @@
     "id": "6cKQC5E",
     "name": "dumbbell one arm upright row",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "traps",
       "biceps"
@@ -19402,7 +19401,7 @@
     "id": "vmwLyCg",
     "name": "dumbbell w-press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "chest"
@@ -19421,7 +19420,7 @@
     "id": "PzQanLE",
     "name": "cable shoulder press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -19441,7 +19440,7 @@
     "id": "Iptlv6x",
     "name": "dumbbell upright row (back pov)",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "traps",
       "biceps"
@@ -19461,7 +19460,7 @@
     "id": "83HoW9X",
     "name": "barbell upright row v. 2",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "traps",
       "biceps"
@@ -19480,7 +19479,7 @@
     "id": "fI18Rbc",
     "name": "barbell upright row v. 3",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "traps",
       "biceps"
@@ -19499,7 +19498,7 @@
     "id": "jjUPrze",
     "name": "smith standing military press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -19519,7 +19518,7 @@
     "id": "ZEkjZDi",
     "name": "kettlebell seated two arm military press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -19538,7 +19537,7 @@
     "id": "peAeMR3",
     "name": "band shoulder press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -19557,7 +19556,7 @@
     "id": "S8mo30S",
     "name": "barbell standing front raise over head",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -19577,7 +19576,7 @@
     "id": "b2Uoz54",
     "name": "barbell front raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "biceps",
       "triceps"
@@ -19595,7 +19594,7 @@
     "id": "7uFJuXp",
     "name": "weighted kneeling step with swing",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "core"
@@ -19613,7 +19612,7 @@
     "id": "f1jf47L",
     "name": "dumbbell seated shoulder press (parallel grip)",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -19632,7 +19631,7 @@
     "id": "5vfAI0I",
     "name": "dumbbell scott press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "chest"
@@ -19651,7 +19650,7 @@
     "id": "M74kdvm",
     "name": "kettlebell double snatch",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "trapezius",
       "forearms",
@@ -19671,7 +19670,7 @@
     "id": "3d7wHyd",
     "name": "dumbbell bench seated press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "chest"
@@ -19690,7 +19689,7 @@
     "id": "hrrS0Ed",
     "name": "dumbbell seated lateral raise v. 2",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "traps",
       "triceps"
@@ -19709,7 +19708,7 @@
     "id": "2KGnL6M",
     "name": "lever one arm shoulder press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -19728,7 +19727,7 @@
     "id": "67n3r98",
     "name": "lever shoulder press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "chest"
@@ -19747,7 +19746,7 @@
     "id": "BqgCRif",
     "name": "dumbbell cuban press v. 2",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -19766,7 +19765,7 @@
     "id": "fTlkJop",
     "name": "dumbbell side lying one hand raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "trapezius",
       "rhomboids"
@@ -19785,7 +19784,7 @@
     "id": "ngPpyRS",
     "name": "barbell seated behind head military press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -19805,7 +19804,7 @@
     "id": "CggQhII",
     "name": "lever military press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper chest"
@@ -19824,7 +19823,7 @@
     "id": "blBXysN",
     "name": "kettlebell two arm military press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -19842,7 +19841,7 @@
     "id": "YPoVrBi",
     "name": "cable seated shoulder internal rotation",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "rotator cuff",
       "triceps"
@@ -19862,7 +19861,7 @@
     "id": "Yg7MJAT",
     "name": "dumbbell one arm lateral raise with support",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "trapezius",
       "rotator cuff"
@@ -19883,7 +19882,7 @@
     "id": "ocYc6Db",
     "name": "dumbbell standing one arm palm in press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "core"
@@ -19902,7 +19901,7 @@
     "id": "xHKN2s8",
     "name": "barbell one arm snatch",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "traps",
       "forearms",
@@ -19925,7 +19924,7 @@
     "id": "e25F58f",
     "name": "dumbbell one arm reverse fly (with support)",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "trapezius",
       "rhomboids"
@@ -19945,7 +19944,7 @@
     "id": "e4aFmFY",
     "name": "weighted front raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "biceps",
       "forearms"
@@ -19963,7 +19962,7 @@
     "id": "osdXT3K",
     "name": "kettlebell one arm push press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "core"
@@ -19982,7 +19981,7 @@
     "id": "kTbSH9h",
     "name": "barbell seated overhead press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -20002,7 +20001,7 @@
     "id": "903mzG8",
     "name": "smith shoulder press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -20022,7 +20021,7 @@
     "id": "laVRfDf",
     "name": "dumbbell standing front raise above head",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "trapezius",
       "biceps"
@@ -20040,7 +20039,7 @@
     "id": "Kyd9Rz5",
     "name": "barbell standing wide military press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -20058,7 +20057,7 @@
     "id": "myfUsKf",
     "name": "lever seated reverse fly",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "trapezius",
       "rhomboids"
@@ -20077,7 +20076,7 @@
     "id": "EKXOMEh",
     "name": "dumbbell rear delt row_shoulder",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "trapezius",
       "rhomboids"
@@ -20098,7 +20097,7 @@
     "id": "xiHiJcA",
     "name": "lever seated reverse fly (parallel grip)",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "trapezius",
       "rhomboids"
@@ -20117,7 +20116,7 @@
     "id": "4Leypho",
     "name": "barbell skier",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "core"
@@ -20136,7 +20135,7 @@
     "id": "Gpn4ADc",
     "name": "smith behind neck press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -20158,7 +20157,7 @@
     "id": "dRTfGZT",
     "name": "lever lateral raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "traps",
       "upper back"
@@ -20177,7 +20176,7 @@
     "id": "mu5Guxt",
     "name": "dumbbell rear delt raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "trapezius",
       "rhomboids"
@@ -20196,7 +20195,7 @@
     "id": "1TkiAFK",
     "name": "dumbbell one arm shoulder press v. 2",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -20214,7 +20213,7 @@
     "id": "xDh0lJr",
     "name": "standing behind neck press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -20233,7 +20232,7 @@
     "id": "ZfyAGhK",
     "name": "cable standing rear delt row (with rope)",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "trapezius",
       "rhomboids",
@@ -20254,7 +20253,7 @@
     "id": "fprd84i",
     "name": "ez barbell anti gravity press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "chest"
@@ -20272,7 +20271,7 @@
     "id": "yWxMvB5",
     "name": "kettlebell thruster",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "quadriceps",
       "glutes",
@@ -20293,7 +20292,7 @@
     "id": "S93zLTG",
     "name": "resistance band seated shoulder press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -20312,7 +20311,7 @@
     "id": "KwFGiEP",
     "name": "dumbbell lying one arm rear lateral raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "traps",
       "rhomboids"
@@ -20330,7 +20329,7 @@
     "id": "izMnLqz",
     "name": "dumbbell alternate side press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "core"
@@ -20348,7 +20347,7 @@
     "id": "MRaFiZP",
     "name": "inverted style smith seated shoulder press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -20369,7 +20368,7 @@
     "id": "eZ79rbI",
     "name": "cable kneeling rear delt row (with rope) (male) expanded",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "trapezius",
       "rhomboids",
@@ -20390,7 +20389,7 @@
     "id": "V7rWsT5",
     "name": "lever military press with strength",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper chest"
@@ -20409,7 +20408,7 @@
     "id": "1RIkUHT",
     "name": "dumbbell iron cross - improved variation",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "triceps",
       "chest"
@@ -20427,7 +20426,7 @@
     "id": "hTLtkXL",
     "name": "resistance band seated shoulder press with declined",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -20446,7 +20445,7 @@
     "id": "1oE78pm",
     "name": "core barbell upright row v. 2",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "traps",
       "biceps"
@@ -20465,7 +20464,7 @@
     "id": "u1iHcoD",
     "name": "prone dumbbell upright shoulder external rotation",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "rear delts",
     "secondaryMuscles": [
       "rotator cuff",
       "trapezius"
@@ -20484,7 +20483,7 @@
     "id": "VRBGPHB",
     "name": "single smith shoulder press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -20504,7 +20503,7 @@
     "id": "hVzPY5j",
     "name": "athletic style battling ropes",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "forearms",
       "core"
@@ -20523,7 +20522,7 @@
     "id": "Mr8d4KA",
     "name": "kettlebell arnold press - beginner variation",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "upper back"
@@ -20541,7 +20540,7 @@
     "id": "89HVjEp",
     "name": "kettlebell seated press with high",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "core"
@@ -20560,7 +20559,7 @@
     "id": "myJeTAe",
     "name": "tough cable one arm lateral raise",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "side delts",
     "secondaryMuscles": [
       "traps",
       "triceps"
@@ -20579,7 +20578,7 @@
     "id": "gWcZD4q",
     "name": "horizontal dumbbell standing alternate overhead press",
     "bodyPart": "shoulders",
-    "targetMuscles": "delts",
+    "targetMuscles": "front delts",
     "secondaryMuscles": [
       "triceps",
       "core"

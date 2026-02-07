@@ -35,10 +35,10 @@ No external API calls are required. The frontend reads and filters exercises in-
 
 ## Target Muscles (for filtering)
 
-The app filters by these 13 target muscles:
+The app filters by these 15 target muscles:
 - abs, abductors, adductors, biceps, calves
-- cardiovascular system, delts, forearms, glutes
-- hamstrings, lats, triceps, upper back
+- cardiovascular system, forearms, front delts, glutes
+- hamstrings, lats, rear delts, side delts, triceps, upper back
 
 ## Muscle Mapping
 

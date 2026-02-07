@@ -179,18 +179,30 @@ export function RoutineBuilderPage() {
             <p>Drag exercises to build your weekly plan</p>
           </div>
           <div className="header-right">
-            <label className="secondary-toggle">
-              <span className="secondary-toggle-label">Count Secondary</span>
-              <button
-                type="button"
-                role="switch"
-                aria-checked={countSecondary}
-                className={`secondary-toggle-switch ${countSecondary ? 'active' : ''}`}
-                onClick={handleToggleSecondary}
-              >
-                <span className="secondary-toggle-knob" />
-              </button>
-            </label>
+            <div className="secondary-toggle-group">
+              <label className="secondary-toggle">
+                <span className="secondary-toggle-label">Count Secondary Muscles</span>
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={countSecondary}
+                  className={`secondary-toggle-switch ${countSecondary ? 'active' : ''}`}
+                  onClick={handleToggleSecondary}
+                >
+                  <span className="secondary-toggle-knob" />
+                </button>
+              </label>
+              <span className="secondary-toggle-tooltip-wrapper">
+                <svg className="secondary-toggle-help" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                <span className="secondary-toggle-tooltip">
+                  When enabled, secondary muscles receive half credit toward their weekly set totals. When disabled, only primary muscles are counted.
+                </span>
+              </span>
+            </div>
             {totalExercises > 0 && (
               <button className="clear-btn" onClick={clearRoutine}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

@@ -45,11 +45,11 @@ export function calculateMuscleFatigue(weeklyRoutine, countSecondary = true) {
         });
       }
 
-      // Add secondary muscle sets (only if toggle is on)
+      // Add secondary muscle sets at half credit (only if toggle is on)
       if (countSecondary && exercise.secondaryMuscles) {
         exercise.secondaryMuscles.forEach(muscle => {
           if (sets[muscle] !== undefined) {
-            sets[muscle] += exerciseSets;
+            sets[muscle] += exerciseSets * 0.5;
           }
         });
       }
