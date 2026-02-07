@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { ExerciseCard } from './ExerciseCard';
@@ -14,6 +15,8 @@ const DAY_NAMES = {
 };
 
 export function DayBucket({ day, dayAbbrev, dayIndex, scheduledExercises, onRemoveExercise, onUpdateSetsReps }) {
+  const [editingInstanceId, setEditingInstanceId] = useState(null);
+
   const { setNodeRef, isOver } = useDroppable({
     id: day,
     data: {
@@ -63,6 +66,16 @@ export function DayBucket({ day, dayAbbrev, dayIndex, scheduledExercises, onRemo
               onUpdateSetsReps={onUpdateSetsReps}
               day={day}
               exerciseIndex={idx}
+              isEditing={editingInstanceId === instance.instanceId}
+              onStartEditing={() => setEditingInstanceId(instance.instanceId)}
+              onStopEditing={() => setEditingInstanceId(null)}
+              onTabToNext={() => {
+                if (idx + 1 < exerciseInstances.length) {
+                  setEditingInstanceId(exerciseInstances[idx + 1].instanceId);
+                } else {
+                  setEditingInstanceId(null);
+                }
+              }}
             />
           ))}
         </SortableContext>

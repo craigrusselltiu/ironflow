@@ -7,10 +7,10 @@ import type { Exercise, ExerciseFilters } from '../types/exercise';
 
 export function ExerciseBrowserPage() {
   const { addExerciseToDay } = useRoutine();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState('');
-  const [activeTarget, setActiveTarget] = useState<string | null>(null);
-  const [activeEquipment, setActiveEquipment] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState(() => sessionStorage.getItem('exerciseBrowser_search') || '');
+  const [debouncedSearch, setDebouncedSearch] = useState(() => sessionStorage.getItem('exerciseBrowser_search') || '');
+  const [activeTarget, setActiveTarget] = useState<string | null>(() => sessionStorage.getItem('exerciseBrowser_target'));
+  const [activeEquipment, setActiveEquipment] = useState<string | null>(() => sessionStorage.getItem('exerciseBrowser_equipment'));
   const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
 
   // Debounce search input
@@ -20,6 +20,20 @@ export function ExerciseBrowserPage() {
     }, 300);
     return () => clearTimeout(timer);
   }, [searchTerm]);
+
+  // Persist filters to sessionStorage
+  useEffect(() => {
+    if (searchTerm) sessionStorage.setItem('exerciseBrowser_search', searchTerm);
+    else sessionStorage.removeItem('exerciseBrowser_search');
+  }, [searchTerm]);
+  useEffect(() => {
+    if (activeTarget) sessionStorage.setItem('exerciseBrowser_target', activeTarget);
+    else sessionStorage.removeItem('exerciseBrowser_target');
+  }, [activeTarget]);
+  useEffect(() => {
+    if (activeEquipment) sessionStorage.setItem('exerciseBrowser_equipment', activeEquipment);
+    else sessionStorage.removeItem('exerciseBrowser_equipment');
+  }, [activeEquipment]);
 
   const filters: ExerciseFilters = {};
   if (debouncedSearch) {
@@ -55,6 +69,9 @@ export function ExerciseBrowserPage() {
     setSearchTerm('');
     setActiveTarget(null);
     setActiveEquipment(null);
+    sessionStorage.removeItem('exerciseBrowser_search');
+    sessionStorage.removeItem('exerciseBrowser_target');
+    sessionStorage.removeItem('exerciseBrowser_equipment');
   };
 
   const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {

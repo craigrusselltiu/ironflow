@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { CATEGORY_COLORS } from '../data/exercises';
@@ -47,10 +47,22 @@ export function ExerciseCard({
   onUpdateSetsReps,
   day,
   exerciseIndex = 0,
+  isEditing = false,
+  onStartEditing,
+  onStopEditing,
+  onTabToNext,
 }) {
-  const [isEditing, setIsEditing] = useState(false);
   const [sets, setSets] = useState(plannedSets || '');
   const [reps, setReps] = useState(plannedReps || '');
+  const skipBlurRef = useRef(false);
+
+  // Initialize local state when editing starts
+  useEffect(() => {
+    if (isEditing) {
+      setSets(plannedSets || '');
+      setReps(plannedReps || '');
+    }
+  }, [isEditing]);
 
   const {
     attributes,
@@ -87,26 +99,37 @@ export function ExerciseCard({
 
   const handleEditClick = (e) => {
     e.stopPropagation();
-    setIsEditing(true);
-    setSets(plannedSets || '');
-    setReps(plannedReps || '');
+    onStartEditing?.();
   };
 
-  const handleSave = (e) => {
-    e.stopPropagation();
+  const saveValues = () => {
     const newSets = sets ? parseInt(sets, 10) : null;
     const newReps = reps ? parseInt(reps, 10) : null;
     if (onUpdateSetsReps) {
       onUpdateSetsReps(day, instanceId, newSets, newReps);
     }
-    setIsEditing(false);
+  };
+
+  const handleSave = (e) => {
+    e.stopPropagation();
+    saveValues();
+    onStopEditing?.();
   };
 
   const handleCancel = (e) => {
     e.stopPropagation();
-    setIsEditing(false);
-    setSets(plannedSets || '');
-    setReps(plannedReps || '');
+    onStopEditing?.();
+  };
+
+  const handleBlur = (e) => {
+    if (skipBlurRef.current) {
+      skipBlurRef.current = false;
+      return;
+    }
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      saveValues();
+      onStopEditing?.();
+    }
   };
 
   const handleKeyDown = (e) => {
@@ -114,6 +137,15 @@ export function ExerciseCard({
       handleSave(e);
     } else if (e.key === 'Escape') {
       handleCancel(e);
+    } else if (e.key === 'Tab' && !e.shiftKey && e.target.classList.contains('reps-input-modern')) {
+      e.preventDefault();
+      skipBlurRef.current = true;
+      saveValues();
+      if (onTabToNext) {
+        onTabToNext();
+      } else {
+        onStopEditing?.();
+      }
     }
   };
 
@@ -159,6 +191,7 @@ export function ExerciseCard({
                   className="sets-reps-editor"
                   onClick={(e) => e.stopPropagation()}
                   onPointerDown={(e) => e.stopPropagation()}
+                  onBlur={handleBlur}
                 >
                   <input
                     type="number"
