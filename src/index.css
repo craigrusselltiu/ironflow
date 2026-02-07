@@ -1371,10 +1371,15 @@
     font-family: var(--font-family-mono);
   }
 
+  .template-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   .template-card-days {
     display: flex;
     gap: 0.375rem;
-    margin-bottom: 0.75rem;
   }
 
   .template-day-dot {
