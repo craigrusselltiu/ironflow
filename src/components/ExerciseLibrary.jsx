@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useRef } from 'react';
+import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { ExerciseCard } from './ExerciseCard';
 import { cacheExercise } from '../data/exerciseCache';
@@ -54,9 +54,22 @@ function mapExercise(exercise) {
 }
 
 export function ExerciseLibrary() {
-  const [selectedTarget, setSelectedTarget] = useState('all');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [selectedTarget, setSelectedTarget] = useState(() => sessionStorage.getItem('library_target') || 'all');
+  const [searchTerm, setSearchTerm] = useState(() => sessionStorage.getItem('library_search') || '');
+  const [filtersOpen, setFiltersOpen] = useState(() => sessionStorage.getItem('library_filtersOpen') === 'true');
+
+  // Persist filters to sessionStorage
+  useEffect(() => {
+    if (searchTerm) sessionStorage.setItem('library_search', searchTerm);
+    else sessionStorage.removeItem('library_search');
+  }, [searchTerm]);
+  useEffect(() => {
+    if (selectedTarget !== 'all') sessionStorage.setItem('library_target', selectedTarget);
+    else sessionStorage.removeItem('library_target');
+  }, [selectedTarget]);
+  useEffect(() => {
+    sessionStorage.setItem('library_filtersOpen', filtersOpen ? 'true' : 'false');
+  }, [filtersOpen]);
 
   // Get targets from the exercise lists hook
   const { targets: availableTargets } = useExerciseLists();

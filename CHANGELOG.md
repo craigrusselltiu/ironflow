@@ -5,6 +5,15 @@ All notable changes to IronFlow will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.7.8 - 2026-02-07
+
+### Added
+- Visual divider between "Count Secondary Muscles" toggle and "Clear All" button in the Routine Builder header
+- Filter persistence on the Exercises page (search, target muscle, equipment) across navigation using sessionStorage
+- Filter persistence on the Routine Builder exercise sidebar (search, target filter, filter panel open state)
+- Tab-to-next exercise: pressing Tab on the reps input saves and moves to editing the next exercise in the same day
+- Auto-save sets/reps on blur (clicking away from the editor saves values automatically)
+
 ## v2.7.7 - 2026-02-07
 
 ### Changed

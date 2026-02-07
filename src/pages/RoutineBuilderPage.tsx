@@ -21,7 +21,7 @@ export function RoutineBuilderPage() {
   const [activeExercise, setActiveExercise] = useState(null);
   const [countSecondary, setCountSecondary] = useState(() => {
     const stored = localStorage.getItem('ironflow_count_secondary');
-    return stored !== null ? JSON.parse(stored) : true;
+    return stored !== null ? JSON.parse(stored) : false;
   });
 
   const sensors = useSensors(
@@ -204,6 +204,8 @@ export function RoutineBuilderPage() {
               </span>
             </div>
             {totalExercises > 0 && (
+              <>
+              <div className="header-divider" />
               <button className="clear-btn" onClick={clearRoutine}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <polyline points="3 6 5 6 21 6"/>
@@ -211,6 +213,7 @@ export function RoutineBuilderPage() {
                 </svg>
                 <span>Clear All</span>
               </button>
+              </>
             )}
           </div>
         </header>

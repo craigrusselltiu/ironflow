@@ -1049,6 +1049,12 @@
     background: var(--color-background-primary);
   }
 
+  .header-divider {
+    width: 1px;
+    height: 24px;
+    background: var(--color-border);
+  }
+
   .clear-btn {
     display: flex;
     align-items: center;
