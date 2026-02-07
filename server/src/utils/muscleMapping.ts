@@ -54,12 +54,9 @@ const targetMapping: Record<string, IronFlowMuscle | null> = {
   // Shoulder muscles
   delts: 'sideDelts',
   deltoids: 'sideDelts',
-  shoulders: 'sideDelts',
   'lateral raise': 'sideDelts',
   'side delts': 'sideDelts',
   'front delts': 'frontDelts',
-  'anterior deltoids': 'frontDelts',
-  'rear deltoids': 'rearDelts',
   'rotator cuff': 'rearDelts',
 
   // Arm muscles
