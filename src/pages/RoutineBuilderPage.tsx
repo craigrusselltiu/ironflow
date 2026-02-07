@@ -13,12 +13,15 @@ import { WeeklyPlanner } from '../components/WeeklyPlanner';
 import { SvgMuscleMap } from '../components/SvgMuscleMap';
 import { MuscleBreakdown } from '../components/MuscleBreakdown';
 import { ExerciseCard } from '../components/ExerciseCard';
+import { RoutineSaveDropdown } from '../components/RoutineSaveDropdown';
+import { TemplateModal } from '../components/TemplateModal';
 import { useRoutine } from '../contexts/RoutineContext';
 import { calculateMuscleFatigue } from '../utils/muscleCalculations';
 
 export function RoutineBuilderPage() {
   const { weeklyRoutine, setWeeklyRoutine, addExerciseToDay, removeExerciseFromDay, clearRoutine, updateExerciseSetsReps, isLoading } = useRoutine();
   const [activeExercise, setActiveExercise] = useState(null);
+  const [showTemplateModal, setShowTemplateModal] = useState(false);
   const [countSecondary, setCountSecondary] = useState(() => {
     const stored = localStorage.getItem('ironflow_count_secondary');
     return stored !== null ? JSON.parse(stored) : true;
@@ -179,6 +182,7 @@ export function RoutineBuilderPage() {
             <p>Drag exercises to build your weekly plan</p>
           </div>
           <div className="header-right">
+            <RoutineSaveDropdown onOpenTemplates={() => setShowTemplateModal(true)} />
             <div className="secondary-toggle-group">
               <label className="secondary-toggle">
                 <span className="secondary-toggle-label">Count Secondary Muscles</span>
@@ -252,6 +256,10 @@ export function RoutineBuilderPage() {
           />
         ) : null}
       </DragOverlay>
+
+      {showTemplateModal && (
+        <TemplateModal onClose={() => setShowTemplateModal(false)} />
+      )}
     </DndContext>
   );
 }

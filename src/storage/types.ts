@@ -1,5 +1,28 @@
 // Storage types for the routine management system
 
+export interface TemplateExercise {
+  exerciseId: string;
+  day: number; // 0=Monday, 6=Sunday
+  orderIndex: number;
+  plannedSets?: number | null;
+  plannedReps?: number | null;
+}
+
+export interface Template {
+  id: string;
+  name: string;
+  description?: string | null;
+  isSystem: boolean;
+  exercises: TemplateExercise[];
+  createdAt?: string;
+}
+
+export interface CreateTemplateInput {
+  name: string;
+  description?: string;
+  exercises: TemplateExercise[];
+}
+
 export interface ScheduledExercise {
   id: string;
   exerciseId: string;
@@ -63,4 +86,10 @@ export interface RoutineStorage {
   updateExercise(routineId: string, exerciseId: string, data: UpdateExerciseInput): Promise<ScheduledExercise>;
   removeExercise(routineId: string, exerciseId: string): Promise<void>;
   reorderExercises(routineId: string, data: ReorderInput): Promise<Routine>;
+
+  // Template management
+  getTemplates(): Promise<Template[]>;
+  createTemplate(data: CreateTemplateInput): Promise<Template>;
+  deleteTemplate(id: string): Promise<void>;
+  applyTemplate(templateId: string, routineId: string): Promise<Routine>;
 }

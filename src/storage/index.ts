@@ -11,6 +11,9 @@ export type {
   AddExerciseInput,
   UpdateExerciseInput,
   ReorderInput,
+  Template,
+  TemplateExercise,
+  CreateTemplateInput,
 } from './types';
 
 export { LocalStorage } from './localStorage';

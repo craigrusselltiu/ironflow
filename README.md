@@ -1,6 +1,6 @@
 # IronFlow
 
-![Version](https://img.shields.io/badge/version-2.7.7-green)
+![Version](https://img.shields.io/badge/version-2.8.0-green)
 ![React](https://img.shields.io/badge/react-18-blue)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
@@ -90,6 +90,13 @@ IronFlow has three main sections accessible via the tab navigation:
 3. **Set reps & sets** - Click on an exercise to configure planned sets and reps
 4. **Reorder** - Drag exercises within a day to reorder
 5. **Remove** - Click the × button on any exercise to remove it
+
+### Templates
+
+Use the **Routine** dropdown in the builder header to:
+
+- **Load Template** - Apply a pre-built routine (PPL, Upper/Lower, Full Body) or one of your saved templates
+- **Save as Template** - Save your current routine as a reusable template
 
 ### Reading the Muscle Map
 
