@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRoutine } from '../contexts/RoutineContext';
+import { ConfirmModal } from './ConfirmModal';
 import type { Template } from '../storage/types';
 import exercises from '../data/exercises.json';
 
@@ -29,6 +30,7 @@ export function TemplateModal({ onClose }: TemplateModalProps) {
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [isApplying, setIsApplying] = useState(false);
   const [confirmTemplate, setConfirmTemplate] = useState<Template | null>(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
   const totalExercises = Object.values(weeklyRoutine).reduce((sum, day) => sum + day.length, 0);
   const systemTemplates = templates.filter(t => t.isSystem);
@@ -55,13 +57,17 @@ export function TemplateModal({ onClose }: TemplateModalProps) {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (window.confirm('Delete this template?')) {
-      await deleteTemplate(id);
-      if (selectedTemplate?.id === id) {
-        setSelectedTemplate(null);
-      }
+  const handleDelete = (id: string) => {
+    setConfirmDeleteId(id);
+  };
+
+  const doDelete = async () => {
+    if (!confirmDeleteId) return;
+    await deleteTemplate(confirmDeleteId);
+    if (selectedTemplate?.id === confirmDeleteId) {
+      setSelectedTemplate(null);
     }
+    setConfirmDeleteId(null);
   };
 
   return (
@@ -179,6 +185,17 @@ export function TemplateModal({ onClose }: TemplateModalProps) {
           </div>
         )}
       </div>
+
+      {confirmDeleteId && (
+        <ConfirmModal
+          title="Delete Template?"
+          message="This template will be permanently removed. This action cannot be undone."
+          confirmLabel="Delete"
+          variant="danger"
+          onConfirm={doDelete}
+          onCancel={() => setConfirmDeleteId(null)}
+        />
+      )}
     </div>
   );
 }
@@ -232,7 +249,7 @@ function TemplateCard({
               </svg>
             </button>
           )}
-          <button className="btn-accent template-card-apply" onClick={onApply}>
+          <button className="btn-apply template-card-apply" onClick={onApply}>
             Apply
           </button>
         </div>

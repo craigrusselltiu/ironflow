@@ -180,6 +180,25 @@
     background: var(--color-accent-hover);
   }
 
+  .btn-apply {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #f59e0b;
+    color: #000;
+    font-weight: 600;
+    font-size: 0.875rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .btn-apply:hover {
+    background: #fbbf24;
+  }
+
   .btn-lg {
     padding: 1rem 2rem;
     font-size: 1rem;
@@ -1571,6 +1590,23 @@
     display: flex;
     gap: 0.75rem;
     margin-top: 0.5rem;
+  }
+
+  .template-confirm-icon.danger {
+    color: #ef4444;
+  }
+
+  .confirm-modal {
+    max-width: 400px;
+  }
+
+  .btn-primary-danger {
+    background: #ef4444;
+    color: #fff;
+  }
+
+  .btn-primary-danger:hover {
+    background: #dc2626;
   }
 
   /* Content Layout */

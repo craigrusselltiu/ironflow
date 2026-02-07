@@ -413,20 +413,18 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
   const clearRoutine = useCallback(async () => {
     if (!activeRoutine) return;
 
-    if (window.confirm('Are you sure you want to clear your entire routine?')) {
-      try {
-        // Remove all exercises
-        const promises = activeRoutine.exercises.map(e =>
-          storage.removeExercise(activeRoutine.id, e.id)
-        );
-        await Promise.all(promises);
+    try {
+      // Remove all exercises
+      const promises = activeRoutine.exercises.map(e =>
+        storage.removeExercise(activeRoutine.id, e.id)
+      );
+      await Promise.all(promises);
 
-        setWeeklyRoutineState(INITIAL_ROUTINE);
-        setActiveRoutine(prev => (prev ? { ...prev, exercises: [] } : null));
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to clear routine');
-        console.error('Failed to clear routine:', err);
-      }
+      setWeeklyRoutineState(INITIAL_ROUTINE);
+      setActiveRoutine(prev => (prev ? { ...prev, exercises: [] } : null));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to clear routine');
+      console.error('Failed to clear routine:', err);
     }
   }, [activeRoutine, storage]);
 
