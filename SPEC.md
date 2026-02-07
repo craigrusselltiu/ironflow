@@ -1,6 +1,6 @@
 # IronFlow Product Specification
 
-Version: 2.7.7
+Version: 2.8.0
 
 ## Overview
 
@@ -129,8 +129,11 @@ Navigation:
 
 ### v2.8.0 - Templates
 - Pre-built routine templates (PPL, Upper/Lower, Full Body)
-- Save routine as template
-- Apply template to routine
+- Save routine as template via dropdown in Routine Builder header
+- Apply template to routine with modal confirmation when replacing existing exercises
+- Template modal for browsing and previewing templates
+- Modal confirmation dialogs for delete template and clear routine (replaces browser confirm)
+- Backend API for template CRUD and application
 
 ### v2.9.0 - Polish
 - Loading states refinement
@@ -340,6 +343,28 @@ DELETE /api/templates/:id                Delete template
 - Exercise library sidebar with collapsible muscle filter panel
 - "Count Secondary" toggle to include/exclude secondary muscles from set volume
 - Muscle Breakdown shows sets-based volume (X / Y sets per muscle)
+
+### Routine Save Dropdown (v2.8.0)
+- Located in Routine Builder header toolbar
+- Dropdown trigger button labeled "Routine" with list icon and chevron
+- Two menu items:
+  - Save as Template: Opens inline form with name/description inputs
+  - Load Template: Opens Template Modal
+- Success feedback after saving
+
+### Template Modal (v2.8.0)
+- Modal with three views: list, detail, confirm
+- List view: Pre-Built Templates section + My Templates section
+- Template cards show name, description, exercise count, active days indicator (lime dots)
+- Apply button in amber color to distinguish from day indicators
+- Detail view: Full exercise breakdown by day with sets/reps
+- Apply button with modal confirmation dialog if routine is non-empty
+- Delete button on user templates with modal confirmation (danger variant)
+
+### Clear Routine (v2.8.0)
+- Clear All button in Routine Builder header shows modal confirmation dialog
+- Displays exercise count and warns action cannot be undone
+- Uses danger variant styling (red confirm button)
 
 ### Workout Logger (v2.6.0)
 - Current exercise with GIF

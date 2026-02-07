@@ -8,9 +8,13 @@ import type {
   AddExerciseInput,
   UpdateExerciseInput,
   ReorderInput,
+  Template,
+  CreateTemplateInput,
 } from './types';
+import { SYSTEM_TEMPLATES } from '../data/templates';
 
 const STORAGE_KEY = 'ironflow-routines';
+const TEMPLATES_KEY = 'ironflow-templates';
 
 function generateId(): string {
   return `local-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
@@ -181,5 +185,70 @@ export class LocalStorage implements RoutineStorage {
     saveRoutines(routines);
 
     return routine;
+  }
+
+  // Template methods
+
+  async getTemplates(): Promise<Template[]> {
+    const userTemplates = this.getStoredTemplates();
+    return [...SYSTEM_TEMPLATES, ...userTemplates];
+  }
+
+  async createTemplate(data: CreateTemplateInput): Promise<Template> {
+    const templates = this.getStoredTemplates();
+    const newTemplate: Template = {
+      id: generateId(),
+      name: data.name,
+      description: data.description || null,
+      isSystem: false,
+      exercises: data.exercises,
+      createdAt: new Date().toISOString(),
+    };
+    templates.push(newTemplate);
+    localStorage.setItem(TEMPLATES_KEY, JSON.stringify(templates));
+    return newTemplate;
+  }
+
+  async deleteTemplate(id: string): Promise<void> {
+    const templates = this.getStoredTemplates();
+    const filtered = templates.filter(t => t.id !== id);
+    localStorage.setItem(TEMPLATES_KEY, JSON.stringify(filtered));
+  }
+
+  async applyTemplate(templateId: string, routineId: string): Promise<Routine> {
+    const allTemplates = await this.getTemplates();
+    const template = allTemplates.find(t => t.id === templateId);
+    if (!template) {
+      throw new Error('Template not found');
+    }
+
+    const routines = getStoredRoutines();
+    const routine = routines.find(r => r.id === routineId);
+    if (!routine) {
+      throw new Error('Routine not found');
+    }
+
+    // Clear existing exercises and apply template exercises
+    routine.exercises = template.exercises.map(ex => ({
+      id: generateId(),
+      exerciseId: ex.exerciseId,
+      day: ex.day,
+      orderIndex: ex.orderIndex,
+      plannedSets: ex.plannedSets || null,
+      plannedReps: ex.plannedReps || null,
+    }));
+    routine.updatedAt = new Date().toISOString();
+    saveRoutines(routines);
+
+    return routine;
+  }
+
+  private getStoredTemplates(): Template[] {
+    try {
+      const data = localStorage.getItem(TEMPLATES_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch {
+      return [];
+    }
   }
 }

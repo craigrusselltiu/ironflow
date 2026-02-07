@@ -13,12 +13,17 @@ import { WeeklyPlanner } from '../components/WeeklyPlanner';
 import { SvgMuscleMap } from '../components/SvgMuscleMap';
 import { MuscleBreakdown } from '../components/MuscleBreakdown';
 import { ExerciseCard } from '../components/ExerciseCard';
+import { RoutineSaveDropdown } from '../components/RoutineSaveDropdown';
+import { TemplateModal } from '../components/TemplateModal';
+import { ConfirmModal } from '../components/ConfirmModal';
 import { useRoutine } from '../contexts/RoutineContext';
 import { calculateMuscleFatigue } from '../utils/muscleCalculations';
 
 export function RoutineBuilderPage() {
   const { weeklyRoutine, setWeeklyRoutine, addExerciseToDay, removeExerciseFromDay, clearRoutine, updateExerciseSetsReps, persistRoutineOrder, isLoading } = useRoutine();
   const [activeExercise, setActiveExercise] = useState(null);
+  const [showTemplateModal, setShowTemplateModal] = useState(false);
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
   const [countSecondary, setCountSecondary] = useState(() => {
     const stored = localStorage.getItem('ironflow_count_secondary');
     return stored !== null ? JSON.parse(stored) : false;
@@ -189,6 +194,7 @@ export function RoutineBuilderPage() {
             <p>Drag exercises to build your weekly plan</p>
           </div>
           <div className="header-right">
+            <RoutineSaveDropdown onOpenTemplates={() => setShowTemplateModal(true)} />
             <div className="secondary-toggle-group">
               <label className="secondary-toggle">
                 <span className="secondary-toggle-label">Count Secondary Muscles</span>
@@ -216,7 +222,7 @@ export function RoutineBuilderPage() {
             {totalExercises > 0 && (
               <>
               <div className="header-divider" />
-              <button className="clear-btn" onClick={clearRoutine}>
+              <button className="clear-btn" onClick={() => setShowClearConfirm(true)}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <polyline points="3 6 5 6 21 6"/>
                   <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
@@ -265,6 +271,24 @@ export function RoutineBuilderPage() {
           />
         ) : null}
       </DragOverlay>
+
+      {showTemplateModal && (
+        <TemplateModal onClose={() => setShowTemplateModal(false)} />
+      )}
+
+      {showClearConfirm && (
+        <ConfirmModal
+          title="Clear Entire Routine?"
+          message={`This will remove all ${totalExercises} exercise${totalExercises !== 1 ? 's' : ''} from your routine. This action cannot be undone.`}
+          confirmLabel="Clear All"
+          variant="danger"
+          onConfirm={() => {
+            clearRoutine();
+            setShowClearConfirm(false);
+          }}
+          onCancel={() => setShowClearConfirm(false)}
+        />
+      )}
     </DndContext>
   );
 }

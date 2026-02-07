@@ -9,6 +9,8 @@ import type {
   AddExerciseInput,
   UpdateExerciseInput,
   ReorderInput,
+  Template,
+  CreateTemplateInput,
 } from './types';
 
 // API response types
@@ -128,6 +130,32 @@ export class ApiStorage implements RoutineStorage {
 
   async reorderExercises(routineId: string, data: ReorderInput): Promise<Routine> {
     const response = await api.put<ApiRoutine>(`/routines/${routineId}/reorder`, data);
+    return {
+      id: response.id,
+      name: response.name,
+      isActive: response.isActive,
+      exercises: response.exercises,
+      createdAt: response.createdAt,
+      updatedAt: response.updatedAt,
+    };
+  }
+
+  // Template methods
+
+  async getTemplates(): Promise<Template[]> {
+    return api.get<Template[]>('/templates');
+  }
+
+  async createTemplate(data: CreateTemplateInput): Promise<Template> {
+    return api.post<Template>('/templates', data);
+  }
+
+  async deleteTemplate(id: string): Promise<void> {
+    await api.delete(`/templates/${id}`);
+  }
+
+  async applyTemplate(templateId: string, routineId: string): Promise<Routine> {
+    const response = await api.post<ApiRoutine>(`/templates/${templateId}/apply`, { routineId });
     return {
       id: response.id,
       name: response.name,

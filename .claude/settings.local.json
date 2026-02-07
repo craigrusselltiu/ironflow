@@ -13,7 +13,10 @@
       "Bash(gh pr merge:*)",
       "Bash(npm install:*)",
       "Bash(npm run build:*)",
-      "Bash(node -e:*)"
+      "Bash(node -e:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh pr view:*)",
+      "Bash(git merge:*)"
     ]
   }
 }

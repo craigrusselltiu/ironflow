@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { useAuth } from './AuthContext';
 import { getStorage } from '../storage';
-import type { Routine, ScheduledExercise, RoutineStorage } from '../storage';
+import type { Routine, ScheduledExercise, RoutineStorage, Template, CreateTemplateInput } from '../storage';
 
 // Day mapping for UI
 const DAY_MAP: Record<string, number> = {
@@ -44,7 +44,7 @@ interface RoutineContextType {
   persistRoutineOrder: (routine: WeeklyRoutine) => Promise<void>;
   clearRoutine: () => void;
 
-  // New interface for routine management
+  // Routine management
   routines: Routine[];
   activeRoutine: Routine | null;
   isLoading: boolean;
@@ -54,6 +54,13 @@ interface RoutineContextType {
   deleteRoutine: (id: string) => Promise<void>;
   renameRoutine: (id: string, name: string) => Promise<void>;
   refreshRoutines: () => Promise<void>;
+
+  // Template management
+  templates: Template[];
+  loadTemplates: () => Promise<void>;
+  saveAsTemplate: (name: string, description?: string) => Promise<Template>;
+  applyTemplate: (templateId: string) => Promise<void>;
+  deleteTemplate: (id: string) => Promise<void>;
 }
 
 const INITIAL_ROUTINE: WeeklyRoutine = {
@@ -106,6 +113,7 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
   const [weeklyRoutine, setWeeklyRoutineState] = useState<WeeklyRoutine>(INITIAL_ROUTINE);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [templates, setTemplates] = useState<Template[]>([]);
 
   // Update storage when auth state changes
   useEffect(() => {
@@ -185,6 +193,58 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
     await storage.updateRoutine(id, { name });
     await loadRoutines();
   }, [storage, loadRoutines]);
+
+  // Template management
+  const loadTemplates = useCallback(async () => {
+    try {
+      const loaded = await storage.getTemplates();
+      setTemplates(loaded);
+    } catch (err) {
+      console.error('Failed to load templates:', err);
+    }
+  }, [storage]);
+
+  useEffect(() => {
+    loadTemplates();
+  }, [loadTemplates]);
+
+  const saveAsTemplate = useCallback(async (name: string, description?: string): Promise<Template> => {
+    if (!activeRoutine) {
+      throw new Error('No active routine to save as template');
+    }
+
+    const templateExercises = activeRoutine.exercises.map(ex => ({
+      exerciseId: ex.exerciseId,
+      day: ex.day,
+      orderIndex: ex.orderIndex,
+      plannedSets: ex.plannedSets,
+      plannedReps: ex.plannedReps,
+    }));
+
+    const template = await storage.createTemplate({
+      name,
+      description,
+      exercises: templateExercises,
+    });
+
+    await loadTemplates();
+    return template;
+  }, [activeRoutine, storage, loadTemplates]);
+
+  const applyTemplateToRoutine = useCallback(async (templateId: string) => {
+    if (!activeRoutine) {
+      throw new Error('No active routine to apply template to');
+    }
+
+    const updated = await storage.applyTemplate(templateId, activeRoutine.id);
+    setActiveRoutine(updated);
+    setWeeklyRoutineState(storageToWeekly(updated));
+  }, [activeRoutine, storage]);
+
+  const deleteTemplateById = useCallback(async (id: string) => {
+    await storage.deleteTemplate(id);
+    await loadTemplates();
+  }, [storage, loadTemplates]);
 
   // Auto-create a default routine if none exists (for first-time users)
   useEffect(() => {
@@ -353,20 +413,18 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
   const clearRoutine = useCallback(async () => {
     if (!activeRoutine) return;
 
-    if (window.confirm('Are you sure you want to clear your entire routine?')) {
-      try {
-        // Remove all exercises
-        const promises = activeRoutine.exercises.map(e =>
-          storage.removeExercise(activeRoutine.id, e.id)
-        );
-        await Promise.all(promises);
+    try {
+      // Remove all exercises
+      const promises = activeRoutine.exercises.map(e =>
+        storage.removeExercise(activeRoutine.id, e.id)
+      );
+      await Promise.all(promises);
 
-        setWeeklyRoutineState(INITIAL_ROUTINE);
-        setActiveRoutine(prev => (prev ? { ...prev, exercises: [] } : null));
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to clear routine');
-        console.error('Failed to clear routine:', err);
-      }
+      setWeeklyRoutineState(INITIAL_ROUTINE);
+      setActiveRoutine(prev => (prev ? { ...prev, exercises: [] } : null));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to clear routine');
+      console.error('Failed to clear routine:', err);
     }
   }, [activeRoutine, storage]);
 
@@ -389,6 +447,11 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
         deleteRoutine,
         renameRoutine,
         refreshRoutines,
+        templates,
+        loadTemplates,
+        saveAsTemplate,
+        applyTemplate: applyTemplateToRoutine,
+        deleteTemplate: deleteTemplateById,
       }}
     >
       {children}

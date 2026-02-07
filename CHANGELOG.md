@@ -5,6 +5,25 @@ All notable changes to IronFlow will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.8.0 - 2026-02-08
+
+### Added
+- Routine save dropdown in the Routine Builder header with "Save as Template" and "Load Template" options
+- Template modal for browsing, previewing, and applying templates
+- Three pre-built system templates: Push/Pull/Legs, Upper/Lower, and Full Body
+- Save current routine as a reusable template with name and description
+- Apply templates to replace the active routine's exercises
+- Modal confirmation dialogs for applying templates, deleting templates, and clearing routines
+- Template detail view showing exercises organized by day with sets/reps
+- Backend API endpoints for template CRUD and application (GET/POST/DELETE /api/templates, POST /api/templates/:id/apply)
+- Template storage in localStorage for guest users
+- Reusable ConfirmModal component with warning and danger variants
+
+### Changed
+- Routine dropdown icon changed from save/floppy disk to list icon (menu contains both save and load actions)
+- Template Apply button uses amber color to distinguish from the lime active-day indicators
+- Delete template and clear routine confirmations use styled modals instead of browser confirm dialogs
+
 ## v2.7.9 - 2026-02-07
 
 ### Fixed
