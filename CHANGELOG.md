@@ -5,6 +5,13 @@ All notable changes to IronFlow will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.7.7 - 2026-02-07
+
+### Changed
+- Normalized exercise secondaryMuscles: replaced "rear deltoids", "deltoids", and "shoulders" with specific delt groups ("front delts", "side delts", "rear delts")
+- Trimmed incorrect delt secondary muscles from 487 exercises based on actual movement patterns (e.g. pressing exercises keep only front delts, rowing exercises keep only rear delts)
+- Removed dead deltoid/shoulder mapping entries from frontend and backend muscle mappings
+
 ## v2.7.6 - 2026-02-07
 
 ### Changed
