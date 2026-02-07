@@ -41,6 +41,7 @@ interface RoutineContextType {
   addExerciseToDay: (exerciseId: string, day: string, sets?: number, reps?: number) => void;
   removeExerciseFromDay: (day: string, instanceId: string) => void;
   updateExerciseSetsReps: (day: string, instanceId: string, sets?: number | null, reps?: number | null) => void;
+  persistRoutineOrder: (routine: WeeklyRoutine) => Promise<void>;
   clearRoutine: () => void;
 
   // New interface for routine management
@@ -330,6 +331,25 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
     [activeRoutine, storage]
   );
 
+  const persistRoutineOrder = useCallback(async (routine: WeeklyRoutine) => {
+    if (!activeRoutine) return;
+
+    const exercises: Array<{ id: string; day: number; orderIndex: number }> = [];
+    DAY_NAMES.forEach((dayName, dayIndex) => {
+      const dayKey = dayName as keyof WeeklyRoutine;
+      routine[dayKey].forEach((ex, orderIndex) => {
+        exercises.push({ id: ex.instanceId, day: dayIndex, orderIndex });
+      });
+    });
+
+    try {
+      const updated = await storage.reorderExercises(activeRoutine.id, { exercises });
+      setActiveRoutine(updated);
+    } catch (err) {
+      console.error('Failed to persist routine order:', err);
+    }
+  }, [activeRoutine, storage]);
+
   const clearRoutine = useCallback(async () => {
     if (!activeRoutine) return;
 
@@ -358,6 +378,7 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
         addExerciseToDay,
         removeExerciseFromDay,
         updateExerciseSetsReps,
+        persistRoutineOrder,
         clearRoutine,
         routines,
         activeRoutine,

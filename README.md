@@ -1,6 +1,6 @@
 # IronFlow
 
-![Version](https://img.shields.io/badge/version-2.7.8-green)
+![Version](https://img.shields.io/badge/version-2.7.9-green)
 ![React](https://img.shields.io/badge/react-18-blue)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 

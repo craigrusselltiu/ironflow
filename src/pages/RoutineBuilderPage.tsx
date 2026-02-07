@@ -17,7 +17,7 @@ import { useRoutine } from '../contexts/RoutineContext';
 import { calculateMuscleFatigue } from '../utils/muscleCalculations';
 
 export function RoutineBuilderPage() {
-  const { weeklyRoutine, setWeeklyRoutine, addExerciseToDay, removeExerciseFromDay, clearRoutine, updateExerciseSetsReps, isLoading } = useRoutine();
+  const { weeklyRoutine, setWeeklyRoutine, addExerciseToDay, removeExerciseFromDay, clearRoutine, updateExerciseSetsReps, persistRoutineOrder, isLoading } = useRoutine();
   const [activeExercise, setActiveExercise] = useState(null);
   const [countSecondary, setCountSecondary] = useState(() => {
     const stored = localStorage.getItem('ironflow_count_secondary');
@@ -111,9 +111,16 @@ export function RoutineBuilderPage() {
     const { active, over } = event;
     setActiveExercise(null);
 
-    if (!over) return;
-
     const activeData = active.data.current;
+
+    if (!over) {
+      // Persist any cross-day moves that happened during drag-over
+      if (activeData?.type === 'scheduled') {
+        persistRoutineOrder(weeklyRoutine);
+      }
+      return;
+    }
+
     const overId = over.id;
     const overData = over.data.current;
 
@@ -142,18 +149,21 @@ export function RoutineBuilderPage() {
       const overDay = findDayContaining(overInstanceId);
 
       if (sourceDay === overDay && overDay) {
-        setWeeklyRoutine(prev => {
-          const dayExercises = [...prev[sourceDay]];
-          const oldIndex = dayExercises.findIndex(e => e.instanceId === activeInstanceId);
-          const newIndex = dayExercises.findIndex(e => e.instanceId === overInstanceId);
+        const dayExercises = [...weeklyRoutine[sourceDay]];
+        const oldIndex = dayExercises.findIndex(e => e.instanceId === activeInstanceId);
+        const newIndex = dayExercises.findIndex(e => e.instanceId === overInstanceId);
 
-          if (oldIndex === -1 || newIndex === -1) return prev;
+        if (oldIndex === -1 || newIndex === -1) return;
 
-          return {
-            ...prev,
-            [sourceDay]: arrayMove(dayExercises, oldIndex, newIndex),
-          };
-        });
+        const newRoutine = {
+          ...weeklyRoutine,
+          [sourceDay]: arrayMove(dayExercises, oldIndex, newIndex),
+        };
+        setWeeklyRoutine(newRoutine);
+        persistRoutineOrder(newRoutine);
+      } else {
+        // Cross-day move already happened in handleDragOver, persist current state
+        persistRoutineOrder(weeklyRoutine);
       }
     }
   };
