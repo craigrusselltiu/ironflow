@@ -5,6 +5,18 @@ All notable changes to IronFlow will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.8.1 - 2026-02-09
+
+### Added
+- Export routine as a JSON file from the Routine dropdown menu
+- Import routine from a JSON file via the Routine dropdown menu
+- Versioned export format (`ironflow.version`) for future compatibility
+- Backend `POST /api/routines/import` endpoint for atomic routine creation with exercises
+- `importRoutine` method in storage interface for both API and localStorage modes
+- Visual divider in Routine dropdown separating template and import/export actions
+- Validation for imported routine files with user-friendly error messages
+- Success feedback after importing a routine
+
 ## v2.8.0 - 2026-02-08
 
 ### Added

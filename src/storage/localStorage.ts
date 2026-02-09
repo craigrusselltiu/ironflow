@@ -8,6 +8,7 @@ import type {
   AddExerciseInput,
   UpdateExerciseInput,
   ReorderInput,
+  ImportRoutineData,
   Template,
   CreateTemplateInput,
 } from './types';
@@ -185,6 +186,32 @@ export class LocalStorage implements RoutineStorage {
     saveRoutines(routines);
 
     return routine;
+  }
+
+  async importRoutine(data: ImportRoutineData): Promise<Routine> {
+    const routines = getStoredRoutines();
+    const now = new Date().toISOString();
+
+    const newRoutine: Routine = {
+      id: generateId(),
+      name: data.name,
+      isActive: false,
+      exercises: data.exercises.map(ex => ({
+        id: generateId(),
+        exerciseId: ex.exerciseId,
+        day: ex.day,
+        orderIndex: ex.orderIndex,
+        plannedSets: ex.plannedSets ?? null,
+        plannedReps: ex.plannedReps ?? null,
+      })),
+      createdAt: now,
+      updatedAt: now,
+    };
+
+    routines.push(newRoutine);
+    saveRoutines(routines);
+
+    return newRoutine;
   }
 
   // Template methods

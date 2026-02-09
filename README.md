@@ -1,6 +1,6 @@
 # IronFlow
 
-![Version](https://img.shields.io/badge/version-2.8.0-green)
+![Version](https://img.shields.io/badge/version-2.8.1-green)
 ![React](https://img.shields.io/badge/react-18-blue)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
@@ -97,6 +97,15 @@ Use the **Routine** dropdown in the builder header to:
 
 - **Load Template** - Apply a pre-built routine (PPL, Upper/Lower, Full Body) or one of your saved templates
 - **Save as Template** - Save your current routine as a reusable template
+
+### Import / Export
+
+Share routines or back them up using the **Routine** dropdown:
+
+- **Export Routine** - Downloads the active routine as a `.json` file
+- **Import Routine** - Loads a routine from a `.json` file (creates a new routine)
+
+Exported files are portable and can be shared between users or across devices.
 
 ### Reading the Muscle Map
 

@@ -9,6 +9,7 @@ import type {
   AddExerciseInput,
   UpdateExerciseInput,
   ReorderInput,
+  ImportRoutineData,
   Template,
   CreateTemplateInput,
 } from './types';
@@ -130,6 +131,18 @@ export class ApiStorage implements RoutineStorage {
 
   async reorderExercises(routineId: string, data: ReorderInput): Promise<Routine> {
     const response = await api.put<ApiRoutine>(`/routines/${routineId}/reorder`, data);
+    return {
+      id: response.id,
+      name: response.name,
+      isActive: response.isActive,
+      exercises: response.exercises,
+      createdAt: response.createdAt,
+      updatedAt: response.updatedAt,
+    };
+  }
+
+  async importRoutine(data: ImportRoutineData): Promise<Routine> {
+    const response = await api.post<ApiRoutine>('/routines/import', data);
     return {
       id: response.id,
       name: response.name,

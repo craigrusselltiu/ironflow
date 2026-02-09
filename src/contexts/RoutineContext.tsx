@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { useAuth } from './AuthContext';
 import { getStorage } from '../storage';
-import type { Routine, ScheduledExercise, RoutineStorage, Template, CreateTemplateInput } from '../storage';
+import type { Routine, ScheduledExercise, RoutineStorage, Template, CreateTemplateInput, ImportRoutineData } from '../storage';
 
 // Day mapping for UI
 const DAY_MAP: Record<string, number> = {
@@ -61,6 +61,10 @@ interface RoutineContextType {
   saveAsTemplate: (name: string, description?: string) => Promise<Template>;
   applyTemplate: (templateId: string) => Promise<void>;
   deleteTemplate: (id: string) => Promise<void>;
+
+  // Import/Export
+  exportRoutine: () => void;
+  importRoutine: (file: File) => Promise<void>;
 }
 
 const INITIAL_ROUTINE: WeeklyRoutine = {
@@ -428,6 +432,100 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
     }
   }, [activeRoutine, storage]);
 
+  const exportRoutine = useCallback(() => {
+    if (!activeRoutine) return;
+
+    const exportData = {
+      ironflow: {
+        version: 1,
+        exportedAt: new Date().toISOString(),
+      },
+      routine: {
+        name: activeRoutine.name,
+        exercises: activeRoutine.exercises.map(ex => ({
+          exerciseId: ex.exerciseId,
+          day: ex.day,
+          orderIndex: ex.orderIndex,
+          plannedSets: ex.plannedSets ?? null,
+          plannedReps: ex.plannedReps ?? null,
+        })),
+      },
+    };
+
+    const json = JSON.stringify(exportData, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${activeRoutine.name.replace(/[^a-zA-Z0-9_-]/g, '_')}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, [activeRoutine]);
+
+  const importRoutineFromFile = useCallback(async (file: File) => {
+    const text = await file.text();
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(text);
+    } catch {
+      throw new Error('Invalid JSON file');
+    }
+
+    // Validate structure
+    if (
+      !parsed ||
+      typeof parsed !== 'object' ||
+      !('ironflow' in parsed) ||
+      !('routine' in parsed)
+    ) {
+      throw new Error('Not a valid IronFlow routine file');
+    }
+
+    const data = parsed as {
+      ironflow: { version: number };
+      routine: {
+        name: string;
+        exercises: Array<{
+          exerciseId: string;
+          day: number;
+          orderIndex: number;
+          plannedSets?: number | null;
+          plannedReps?: number | null;
+        }>;
+      };
+    };
+
+    if (!data.routine.name || typeof data.routine.name !== 'string') {
+      throw new Error('Routine file is missing a name');
+    }
+
+    if (!Array.isArray(data.routine.exercises)) {
+      throw new Error('Routine file is missing exercises');
+    }
+
+    // Validate each exercise
+    for (const ex of data.routine.exercises) {
+      if (!ex.exerciseId || typeof ex.exerciseId !== 'string') {
+        throw new Error('Invalid exercise data: missing exerciseId');
+      }
+      if (typeof ex.day !== 'number' || ex.day < 0 || ex.day > 6) {
+        throw new Error('Invalid exercise data: day must be 0-6');
+      }
+      if (typeof ex.orderIndex !== 'number' || ex.orderIndex < 0) {
+        throw new Error('Invalid exercise data: invalid orderIndex');
+      }
+    }
+
+    await storage.importRoutine({
+      name: data.routine.name,
+      exercises: data.routine.exercises,
+    });
+
+    await loadRoutines();
+  }, [storage, loadRoutines]);
+
   return (
     <RoutineContext.Provider
       value={{
@@ -452,6 +550,8 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
         saveAsTemplate,
         applyTemplate: applyTemplateToRoutine,
         deleteTemplate: deleteTemplateById,
+        exportRoutine,
+        importRoutine: importRoutineFromFile,
       }}
     >
       {children}
