@@ -1,6 +1,6 @@
 # IronFlow Product Specification
 
-Version: 2.9.0
+Version: 2.10.0
 
 ## Overview
 
@@ -74,7 +74,21 @@ Typography:
 Navigation:
 - Sticky header with backdrop blur
 - Tab-based navigation (Home, Routine Builder, Exercises)
-- Mobile hamburger menu with slide-down animation
+- Mobile hamburger menu with slide-down animation (< 1024px)
+
+Responsive Breakpoints:
+- **1400px**: Hero visual card resizing
+- **1200px**: Builder sidebar narrowing, hero visual hidden, hero content centered
+- **1024px**: Navigation collapses to hamburger menu, iOS zoom prevention on inputs
+- **900px**: Builder layout stacks vertically, days grid to 4 columns, browser filters horizontal scroll
+- **768px**: Hero CTA stacks, touch target minimums (44px), hover effects disabled
+- **600px**: Days grid to 2 columns, bottom-sheet modals, compact headers and spacing
+
+Mobile Features:
+- Safe area inset support for notched phones
+- TouchSensor for drag-and-drop on touch devices (200ms long-press)
+- Dynamic viewport height (dvh) for mobile browser chrome
+- 16px minimum font on inputs to prevent iOS auto-zoom
 
 ## Features
 

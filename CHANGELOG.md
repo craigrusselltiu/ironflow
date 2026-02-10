@@ -5,6 +5,28 @@ All notable changes to IronFlow will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.10.0 - 2026-02-10
+
+### Added
+- Mobile usability overhaul with comprehensive responsive improvements
+- Safe area inset support for notched phones (viewport-fit=cover)
+- TouchSensor for drag-and-drop on mobile devices (long-press to drag)
+- Bottom-sheet style modals on small screens (< 600px)
+- Horizontal scroll for filter chips on tablet/mobile
+- iOS zoom prevention on input focus (16px minimum font-size)
+- Mobile-optimized touch targets (44px minimum tap areas)
+
+### Changed
+- Routine builder scrolls vertically on mobile instead of fixed viewport height
+- Builder sidebars get proportional height (40vh/45vh) on mobile instead of fixed 280px
+- Remove buttons always visible on touch devices (no hover required)
+- Exercise browser filters scroll horizontally on tablet instead of vertically
+- Modals use slide-up animation and bottom-sheet layout on phones
+- Nav height reduced to 60px on tablet and below for more content space
+- Exercise detail modal uses full-width bottom-sheet on phones
+- Feature cards and browser cards skip hover transforms on mobile (prevents jank)
+- Hero section uses dynamic viewport height (dvh) on mobile
+
 ## v2.9.0 - 2026-02-10
 
 ### Added

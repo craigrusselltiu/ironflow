@@ -3838,3 +3838,437 @@
     margin: 0;
   }
 }
+
+/* ============================================
+   MOBILE USABILITY OVERHAUL
+   All styles below are scoped to mobile/tablet
+   breakpoints — desktop layout is unchanged.
+   ============================================ */
+
+/* --- Safe area insets for notched phones --- */
+@supports (padding: env(safe-area-inset-bottom)) {
+  @media (max-width: 1024px) {
+    .main-nav .nav-container {
+      padding-left: max(1rem, env(safe-area-inset-left));
+      padding-right: max(1rem, env(safe-area-inset-right));
+    }
+
+    .site-footer {
+      padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+    }
+
+    .toast-container {
+      bottom: calc(1.5rem + env(safe-area-inset-bottom));
+      right: calc(1rem + env(safe-area-inset-right));
+      left: calc(1rem + env(safe-area-inset-left));
+      max-width: none;
+    }
+  }
+}
+
+/* --- Prevent iOS zoom on input focus (font-size must be >= 16px) --- */
+@media (max-width: 1024px) {
+  .browser-search-input,
+  .search-input-modern,
+  .form-input,
+  .save-template-input,
+  .day-select,
+  .sets-input-modern,
+  .reps-input-modern {
+    font-size: 16px;
+  }
+}
+
+/* --- Tablet & below: touch-friendly nav --- */
+@media (max-width: 1024px) {
+  .mobile-menu {
+    padding: 0.5rem 1rem calc(0.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .mobile-menu-item {
+    min-height: 48px;
+  }
+
+  .nav-container {
+    height: 60px;
+  }
+}
+
+/* --- Routine builder on mobile: scroll instead of fixed viewport --- */
+@media (max-width: 900px) {
+  .routine-builder-modern {
+    height: auto;
+    min-height: calc(100vh - 60px);
+    min-height: calc(100dvh - 60px);
+    overflow: visible;
+  }
+
+  .builder-content {
+    min-height: 0;
+  }
+
+  .sidebar-left {
+    max-height: 40vh;
+    border-right: none;
+  }
+
+  .sidebar-right {
+    max-height: 45vh;
+    border-left: none;
+  }
+
+  .main-area {
+    min-height: 300px;
+    padding: 0.75rem;
+  }
+
+  .days-scroll {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .days-track {
+    min-width: 0;
+  }
+
+  /* Improve muscle breakdown layout on mobile */
+  .muscle-breakdown-list {
+    gap: 0.375rem 1rem;
+  }
+
+  .muscle-breakdown-item {
+    min-width: 140px;
+  }
+}
+
+/* --- Touch targets: ensure minimum 44px tap areas --- */
+@media (max-width: 768px) {
+  /* Remove button: always visible on touch (no hover state on mobile) */
+  .remove-btn-modern {
+    opacity: 1;
+    min-width: 36px;
+    min-height: 36px;
+  }
+
+  /* Sets/reps display: larger tap target */
+  .sets-reps-display-modern {
+    min-height: 38px;
+    padding: 0.375rem 0.625rem;
+  }
+
+  /* Filter chips: larger tap targets */
+  .filter-chip {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem;
+  }
+
+  /* Category tabs in exercise library: touch-friendly */
+  .category-tab {
+    min-height: 38px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  /* Filter toggle button: touch-friendly */
+  .filter-toggle {
+    min-height: 38px;
+    padding: 0.5rem 0.75rem;
+  }
+
+  /* Clear button: touch-friendly */
+  .clear-btn {
+    min-height: 44px;
+  }
+
+  /* Save dropdown trigger: touch-friendly */
+  .save-dropdown-trigger {
+    min-height: 44px;
+  }
+
+  /* Exercise card drag handle area */
+  .exercise-card-modern {
+    min-height: 44px;
+  }
+
+  /* Library load more button: touch-friendly */
+  .library-load-more-btn {
+    min-height: 44px;
+  }
+
+  /* Load more button on browser: touch-friendly */
+  .load-more-btn {
+    min-height: 48px;
+  }
+
+  /* Modal close button: easier to tap */
+  .modal-close {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Builder header: reduce padding, stack properly */
+  .builder-header-modern {
+    padding: 0.75rem 1rem;
+  }
+
+  .header-left h1 {
+    font-size: 1.125rem;
+  }
+
+  .header-left p {
+    font-size: 0.75rem;
+  }
+
+  /* Secondary toggle group: wrap-friendly on mobile */
+  .header-right {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .secondary-toggle-label {
+    font-size: 0.6875rem;
+  }
+
+  /* Hero adjustments for mobile */
+  .hero {
+    min-height: calc(100vh - 60px);
+    min-height: calc(100dvh - 60px);
+    padding: 2rem 1rem;
+  }
+
+  .hero-badge {
+    font-size: 0.6875rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .hero-cta .btn-primary,
+  .hero-cta .btn-outline {
+    width: 100%;
+    justify-content: center;
+    min-height: 48px;
+  }
+
+  /* Footer: compact on mobile */
+  .footer-container {
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+
+  .footer-links {
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* Feature cards: no hover transform on mobile (prevents janky touch) */
+  .feature-card:hover {
+    transform: none;
+  }
+
+  .exercise-browser-card:hover {
+    transform: none;
+  }
+
+  /* Auth card: full width on mobile */
+  .auth-card {
+    padding: 1.5rem;
+  }
+}
+
+/* --- Exercise browser mobile: collapsible filter panel --- */
+@media (max-width: 900px) {
+  .browser-header {
+    padding: 1.5rem 1rem;
+  }
+
+  .browser-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .browser-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .search-container {
+    margin-bottom: 0;
+  }
+
+  /* Filter sections scroll horizontally on tablet (overrides existing vertical scroll) */
+  .filter-chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: visible;
+    max-height: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.25rem;
+    scrollbar-width: none;
+  }
+
+  .filter-chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter-chip {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+}
+
+/* --- Small phone: bottom-sheet modals, compact layouts --- */
+@media (max-width: 600px) {
+  /* Bottom-sheet style modals */
+  .modal-backdrop {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .modal-content {
+    max-height: 92vh;
+    max-height: 92dvh;
+    border-radius: 16px 16px 0 0;
+    margin: 0;
+    animation: slideUpMobile 0.3s ease;
+  }
+
+  @keyframes slideUpMobile {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Exercise detail modal: full-width bottom sheet */
+  .exercise-detail-modal {
+    max-width: 100%;
+    width: 100%;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .edm-gif-panel {
+    border-radius: 16px 16px 0 0;
+    max-height: 40vh;
+  }
+
+  .edm-info-panel {
+    padding: 1.25rem;
+    max-height: 50vh;
+  }
+
+  .edm-name {
+    font-size: 1.125rem;
+  }
+
+  /* Template modal: bottom sheet */
+  .template-modal {
+    max-width: 100%;
+    padding: 1.25rem;
+    border-radius: 16px 16px 0 0;
+  }
+
+  /* Confirm modal: bottom sheet */
+  .confirm-modal {
+    max-width: 100%;
+    border-radius: 16px 16px 0 0;
+  }
+
+  /* Add-to-day controls: stack vertically */
+  .add-to-day-btn {
+    flex: 1 1 auto;
+    min-height: 48px;
+  }
+
+  .day-select {
+    min-height: 48px;
+  }
+
+  /* Routine builder: compact header */
+  .builder-header-modern {
+    padding: 0.75rem;
+  }
+
+  /* Save dropdown: wider on small screens */
+  .save-dropdown-menu {
+    min-width: 220px;
+    right: -0.5rem;
+  }
+
+  /* Exercise card in day bucket: slightly larger text */
+  .exercise-name-modern {
+    font-size: 0.8125rem;
+  }
+
+  /* Day bucket: more compact but still usable */
+  .day-header-modern {
+    padding: 0.625rem 0.625rem;
+  }
+
+  .day-content {
+    padding: 0.375rem;
+  }
+
+  /* Planner stats: compact */
+  .planner-title {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  /* Days grid: allow horizontal scroll on 2-col */
+  .days-scroll {
+    padding-bottom: 0.75rem;
+  }
+
+  .days-track {
+    gap: 0.5rem;
+  }
+
+  /* Skeleton loader: fewer columns on mobile */
+  .skeleton-days {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Browser content: tighter spacing */
+  .browser-content {
+    padding: 0.75rem;
+    gap: 1rem;
+  }
+
+  /* Exercise grid: tighter cards */
+  .exercise-browser-card {
+    border-radius: 10px;
+  }
+
+  .card-meta {
+    gap: 0.375rem;
+  }
+
+  /* CTA section: compact */
+  .cta-section {
+    padding: 3rem 1rem;
+  }
+
+  /* Features section: compact */
+  .features {
+    padding: 3rem 1rem;
+  }
+
+  .feature-card {
+    padding: 1.5rem;
+  }
+
+  /* Muscle map sidebar: make SVGs smaller */
+  .svg-muscle-map > h2 {
+    font-size: 0.875rem;
+  }
+}

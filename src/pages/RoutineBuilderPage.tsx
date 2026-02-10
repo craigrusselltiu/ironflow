@@ -6,6 +6,7 @@ import {
   useSensor,
   useSensors,
   PointerSensor,
+  TouchSensor,
 } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import { ExerciseLibrary } from '../components/ExerciseLibrary';
@@ -33,6 +34,12 @@ export function RoutineBuilderPage() {
     useSensor(PointerSensor, {
       activationConstraint: {
         distance: 8,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 200,
+        tolerance: 8,
       },
     })
   );
