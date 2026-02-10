@@ -242,8 +242,21 @@ export function RoutineBuilderPage() {
           <main className="main-area">
             {isLoading ? (
               <div className="builder-loading-modern">
-                <div className="loading-pulse"></div>
-                <p>Loading your routine...</p>
+                <div className="skeleton-planner">
+                  <div className="skeleton-header">
+                    <div className="skeleton-bar skeleton-title" />
+                    <div className="skeleton-bar skeleton-subtitle" />
+                  </div>
+                  <div className="skeleton-days">
+                    {Array.from({ length: 7 }).map((_, i) => (
+                      <div key={i} className="skeleton-day">
+                        <div className="skeleton-bar skeleton-day-label" />
+                        <div className="skeleton-bar skeleton-card" />
+                        <div className="skeleton-bar skeleton-card short" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             ) : (
               <>

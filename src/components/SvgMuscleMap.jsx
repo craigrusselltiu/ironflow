@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { MUSCLE_GROUPS } from '../data/exercises';
 import { getFatigueColor } from '../utils/muscleCalculations';
 
@@ -108,7 +109,7 @@ const BACK_MUSCLES = {
   },
 };
 
-function MuscleGroup({ path, color, opacity }) {
+const MuscleGroup = memo(function MuscleGroup({ path, color, opacity }) {
   return (
     <path
       d={path}
@@ -120,9 +121,9 @@ function MuscleGroup({ path, color, opacity }) {
       style={{ transition: 'fill 0.3s, fill-opacity 0.3s' }}
     />
   );
-}
+});
 
-function BodyView({ title, muscles, fatigue }) {
+const BodyView = memo(function BodyView({ title, muscles, fatigue }) {
   return (
     <div className="svg-body-view">
       <h4>{title}</h4>
@@ -169,9 +170,9 @@ function BodyView({ title, muscles, fatigue }) {
       </svg>
     </div>
   );
-}
+});
 
-export function SvgMuscleMap({ fatigue }) {
+export const SvgMuscleMap = memo(function SvgMuscleMap({ fatigue }) {
   return (
     <div className="svg-muscle-map">
       <h2>Targeted Muscle Groups</h2>
@@ -198,4 +199,4 @@ export function SvgMuscleMap({ fatigue }) {
       </div>
     </div>
   );
-}
+});

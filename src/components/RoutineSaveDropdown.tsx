@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useRoutine } from '../contexts/RoutineContext';
+import { useToast } from '../contexts/ToastContext';
 
 interface RoutineSaveDropdownProps {
   onOpenTemplates: () => void;
@@ -7,6 +8,7 @@ interface RoutineSaveDropdownProps {
 
 export function RoutineSaveDropdown({ onOpenTemplates }: RoutineSaveDropdownProps) {
   const { activeRoutine, weeklyRoutine, saveAsTemplate, exportRoutine, importRoutine } = useRoutine();
+  const { showToast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [showSaveDialog, setShowSaveDialog] = useState(false);
   const [templateName, setTemplateName] = useState('');
@@ -44,7 +46,7 @@ export function RoutineSaveDropdown({ onOpenTemplates }: RoutineSaveDropdownProp
         setIsOpen(false);
       }, 1500);
     } catch (err) {
-      console.error('Failed to save template:', err);
+      showToast('Failed to save template', 'error');
     } finally {
       setIsSaving(false);
     }

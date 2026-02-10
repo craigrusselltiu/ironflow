@@ -1,6 +1,6 @@
 # IronFlow Product Specification
 
-Version: 2.8.1
+Version: 2.9.0
 
 ## Overview
 
@@ -143,10 +143,14 @@ Navigation:
 - Works in both online (API) and offline (localStorage) modes
 
 ### v2.9.0 - Polish
-- Loading states refinement
-- Error boundaries
-- Empty states
-- Performance optimization
+- React Error Boundary components wrapping key routes and the full app
+- Toast notification system for surfacing errors and success messages to users
+- Skeleton loading screens for Routine Builder and Exercise Browser
+- Improved empty states with icons and guidance across Exercise Browser, Muscle Breakdown
+- React.memo optimization on ExerciseCard, DayBucket, SvgMuscleMap, MuscleBreakdown
+- useMemo optimization for template filtering in TemplateModal
+- All RoutineContext operations now show toast notifications on error instead of silent console.error
+- Template and import/export operations show toast feedback on error
 
 ---
 

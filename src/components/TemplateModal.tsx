@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { useRoutine } from '../contexts/RoutineContext';
+import { useToast } from '../contexts/ToastContext';
 import { ConfirmModal } from './ConfirmModal';
 import type { Template } from '../storage/types';
 import exercises from '../data/exercises.json';
@@ -27,14 +28,15 @@ function getTemplateDaySummary(template: Template): { day: string; count: number
 
 export function TemplateModal({ onClose }: TemplateModalProps) {
   const { templates, applyTemplate, deleteTemplate, weeklyRoutine } = useRoutine();
+  const { showToast } = useToast();
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [isApplying, setIsApplying] = useState(false);
   const [confirmTemplate, setConfirmTemplate] = useState<Template | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
   const totalExercises = Object.values(weeklyRoutine).reduce((sum, day) => sum + day.length, 0);
-  const systemTemplates = templates.filter(t => t.isSystem);
-  const userTemplates = templates.filter(t => !t.isSystem);
+  const systemTemplates = useMemo(() => templates.filter(t => t.isSystem), [templates]);
+  const userTemplates = useMemo(() => templates.filter(t => !t.isSystem), [templates]);
 
   const handleApply = async (template: Template) => {
     if (totalExercises > 0) {
@@ -51,7 +53,7 @@ export function TemplateModal({ onClose }: TemplateModalProps) {
       setConfirmTemplate(null);
       onClose();
     } catch (err) {
-      console.error('Failed to apply template:', err);
+      showToast('Failed to apply template', 'error');
     } finally {
       setIsApplying(false);
     }
