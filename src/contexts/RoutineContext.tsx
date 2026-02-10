@@ -527,11 +527,13 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
       }
     }
 
-    await storage.importRoutine({
+    const imported = await storage.importRoutine({
       name: data.routine.name,
       exercises: data.routine.exercises,
     });
 
+    // Activate the imported routine so it becomes visible
+    await storage.updateRoutine(imported.id, { isActive: true });
     await loadRoutines();
   }, [storage, loadRoutines]);
 
