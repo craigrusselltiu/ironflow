@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { useRoutine } from '../contexts/RoutineContext';
 
 interface RoutineSaveDropdownProps {
@@ -6,13 +6,16 @@ interface RoutineSaveDropdownProps {
 }
 
 export function RoutineSaveDropdown({ onOpenTemplates }: RoutineSaveDropdownProps) {
-  const { activeRoutine, weeklyRoutine, saveAsTemplate } = useRoutine();
+  const { activeRoutine, weeklyRoutine, saveAsTemplate, exportRoutine, importRoutine } = useRoutine();
   const [isOpen, setIsOpen] = useState(false);
   const [showSaveDialog, setShowSaveDialog] = useState(false);
   const [templateName, setTemplateName] = useState('');
   const [templateDesc, setTemplateDesc] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [importError, setImportError] = useState<string | null>(null);
+  const [importSuccess, setImportSuccess] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const totalExercises = Object.values(weeklyRoutine).reduce((sum, day) => sum + day.length, 0);
@@ -51,6 +54,38 @@ export function RoutineSaveDropdown({ onOpenTemplates }: RoutineSaveDropdownProp
     setIsOpen(false);
     onOpenTemplates();
   };
+
+  const handleExport = () => {
+    exportRoutine();
+    setIsOpen(false);
+  };
+
+  const handleImportClick = () => {
+    setImportError(null);
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setImportError(null);
+    try {
+      await importRoutine(file);
+      setImportSuccess(true);
+      setTimeout(() => {
+        setImportSuccess(false);
+        setIsOpen(false);
+      }, 1500);
+    } catch (err) {
+      setImportError(err instanceof Error ? err.message : 'Failed to import routine');
+    }
+
+    // Reset file input so the same file can be selected again
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  }, [importRoutine]);
 
   return (
     <div className="routine-save-dropdown" ref={dropdownRef}>
@@ -108,6 +143,49 @@ export function RoutineSaveDropdown({ onOpenTemplates }: RoutineSaveDropdownProp
                   <span className="dropdown-item-desc">Apply a pre-built or saved template</span>
                 </div>
               </button>
+              <div className="save-dropdown-divider" />
+              <button
+                className="save-dropdown-item"
+                onClick={handleExport}
+                disabled={totalExercises === 0}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                <div className="dropdown-item-text">
+                  <span className="dropdown-item-label">Export Routine</span>
+                  <span className="dropdown-item-desc">Download as JSON file</span>
+                </div>
+              </button>
+              <button
+                className="save-dropdown-item"
+                onClick={handleImportClick}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/>
+                  <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+                <div className="dropdown-item-text">
+                  <span className="dropdown-item-label">Import Routine</span>
+                  <span className="dropdown-item-desc">Load from a JSON file</span>
+                </div>
+              </button>
+              {importSuccess && (
+                <div className="save-success" style={{ padding: '8px 12px' }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                  <span>Routine imported!</span>
+                </div>
+              )}
+              {importError && (
+                <div className="import-error" style={{ padding: '6px 12px', color: '#ef4444', fontSize: '12px' }}>
+                  {importError}
+                </div>
+              )}
             </>
           ) : (
             <div className="save-template-form">
@@ -162,6 +240,13 @@ export function RoutineSaveDropdown({ onOpenTemplates }: RoutineSaveDropdownProp
           )}
         </div>
       )}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".json"
+        onChange={handleFileChange}
+        style={{ display: 'none' }}
+      />
     </div>
   );
 }

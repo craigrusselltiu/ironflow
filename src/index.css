@@ -1182,6 +1182,16 @@
     border-top: 1px solid var(--color-border-subtle);
   }
 
+  .save-dropdown-divider {
+    height: 1px;
+    background: var(--color-border);
+    margin: 0.25rem 0;
+  }
+
+  .save-dropdown-divider + .save-dropdown-item {
+    border-top: none;
+  }
+
   .dropdown-item-text {
     display: flex;
     flex-direction: column;

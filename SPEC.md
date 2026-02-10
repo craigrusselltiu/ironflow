@@ -1,6 +1,6 @@
 # IronFlow Product Specification
 
-Version: 2.8.0
+Version: 2.8.1
 
 ## Overview
 
@@ -135,6 +135,13 @@ Navigation:
 - Modal confirmation dialogs for delete template and clear routine (replaces browser confirm)
 - Backend API for template CRUD and application
 
+### v2.8.1 - Import/Export
+- Export routine as JSON file via Routine dropdown
+- Import routine from JSON file via Routine dropdown
+- Versioned export format with metadata for future compatibility
+- Backend bulk import endpoint for atomic routine creation
+- Works in both online (API) and offline (localStorage) modes
+
 ### v2.9.0 - Polish
 - Loading states refinement
 - Error boundaries
@@ -256,6 +263,11 @@ DELETE /api/routines/:id                 Delete routine
 PUT    /api/routines/:id/activate        Set as active routine
 ```
 
+### Routine Import (v2.8.1)
+```
+POST   /api/routines/import              Import routine from JSON
+```
+
 ### Scheduled Exercises (v2.2.0)
 ```
 POST   /api/routines/:id/exercises       Add exercise to routine
@@ -347,10 +359,13 @@ DELETE /api/templates/:id                Delete template
 ### Routine Save Dropdown (v2.8.0)
 - Located in Routine Builder header toolbar
 - Dropdown trigger button labeled "Routine" with list icon and chevron
-- Two menu items:
+- Menu items:
   - Save as Template: Opens inline form with name/description inputs
   - Load Template: Opens Template Modal
-- Success feedback after saving
+  - Export Routine (v2.8.1): Downloads active routine as JSON file
+  - Import Routine (v2.8.1): Opens file picker to load routine from JSON file
+- Visual divider separating template and import/export actions
+- Success/error feedback for save, import operations
 
 ### Template Modal (v2.8.0)
 - Modal with three views: list, detail, confirm

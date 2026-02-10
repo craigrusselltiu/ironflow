@@ -14,6 +14,7 @@ export type {
   Template,
   TemplateExercise,
   CreateTemplateInput,
+  ImportRoutineData,
 } from './types';
 
 export { LocalStorage } from './localStorage';

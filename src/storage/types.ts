@@ -72,6 +72,17 @@ export interface ReorderInput {
   }>;
 }
 
+export interface ImportRoutineData {
+  name: string;
+  exercises: Array<{
+    exerciseId: string;
+    day: number;
+    orderIndex: number;
+    plannedSets?: number | null;
+    plannedReps?: number | null;
+  }>;
+}
+
 // Storage interface - implemented by both ApiStorage and LocalStorage
 export interface RoutineStorage {
   // Routine CRUD
@@ -86,6 +97,9 @@ export interface RoutineStorage {
   updateExercise(routineId: string, exerciseId: string, data: UpdateExerciseInput): Promise<ScheduledExercise>;
   removeExercise(routineId: string, exerciseId: string): Promise<void>;
   reorderExercises(routineId: string, data: ReorderInput): Promise<Routine>;
+
+  // Import
+  importRoutine(data: ImportRoutineData): Promise<Routine>;
 
   // Template management
   getTemplates(): Promise<Template[]>;

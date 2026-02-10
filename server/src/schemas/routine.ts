@@ -33,6 +33,19 @@ export const reorderSchema = z.object({
   ),
 });
 
+export const importRoutineSchema = z.object({
+  name: z.string().min(1, 'Name is required').max(100),
+  exercises: z.array(
+    z.object({
+      exerciseId: z.string().min(1),
+      day: z.number().int().min(0).max(6),
+      orderIndex: z.number().int().min(0),
+      plannedSets: z.number().int().min(1).nullable().optional(),
+      plannedReps: z.number().int().min(1).nullable().optional(),
+    })
+  ),
+});
+
 export type CreateRoutineInput = z.infer<typeof createRoutineSchema>;
 export type UpdateRoutineInput = z.infer<typeof updateRoutineSchema>;
 export type AddExerciseInput = z.infer<typeof addExerciseSchema>;

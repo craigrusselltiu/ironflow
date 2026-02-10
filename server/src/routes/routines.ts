@@ -9,6 +9,7 @@ import {
   addExerciseSchema,
   updateExerciseSchema,
   reorderSchema,
+  importRoutineSchema,
 } from '../schemas/routine.js';
 
 const router = Router();
@@ -43,6 +44,48 @@ router.post('/', validate(createRoutineSchema), async (req, res, next) => {
         userId: req.user!.userId,
         name,
       },
+    });
+
+    res.status(201).json(routine);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// POST /api/routines/import - Import routine from JSON
+router.post('/import', validate(importRoutineSchema), async (req, res, next) => {
+  try {
+    const { name, exercises } = req.body;
+
+    const routine = await prisma.$transaction(async (tx) => {
+      const created = await tx.weeklyRoutine.create({
+        data: {
+          userId: req.user!.userId,
+          name,
+        },
+      });
+
+      if (exercises.length > 0) {
+        await tx.scheduledExercise.createMany({
+          data: exercises.map((ex: { exerciseId: string; day: number; orderIndex: number; plannedSets?: number | null; plannedReps?: number | null }) => ({
+            routineId: created.id,
+            exerciseId: ex.exerciseId,
+            day: ex.day,
+            orderIndex: ex.orderIndex,
+            plannedSets: ex.plannedSets ?? null,
+            plannedReps: ex.plannedReps ?? null,
+          })),
+        });
+      }
+
+      return tx.weeklyRoutine.findUnique({
+        where: { id: created.id },
+        include: {
+          exercises: {
+            orderBy: [{ day: 'asc' }, { orderIndex: 'asc' }],
+          },
+        },
+      });
     });
 
     res.status(201).json(routine);
