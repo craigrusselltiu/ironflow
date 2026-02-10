@@ -1,4 +1,5 @@
 import { exercises as hardcodedExercises, CATEGORIES } from './exercises';
+import bundledExercises from './exercises.json';
 import type { Exercise } from '../types/exercise';
 
 // Storage key for persisting API exercises
@@ -20,6 +21,74 @@ function bodyPartToCategory(bodyPart: string): string {
   };
   return mapping[bodyPart.toLowerCase()] || CATEGORIES.PUSH;
 }
+
+// Map ExerciseDB target/muscle names to IronFlow muscle names
+const targetToMuscle: Record<string, string | null> = {
+  abs: 'abs', abdominals: 'abs', obliques: 'abs',
+  lats: 'lats', 'latissimus dorsi': 'lats',
+  'upper back': 'upperBack', rhomboids: 'upperBack',
+  spine: 'lowerBack', 'lower back': 'lowerBack',
+  delts: 'sideDelts', 'side delts': 'sideDelts',
+  'front delts': 'frontDelts',
+  'rotator cuff': 'rearDelts',
+  biceps: 'biceps', brachialis: 'biceps',
+  triceps: 'triceps',
+  forearms: 'forearms', 'wrist flexors': 'forearms', 'wrist extensors': 'forearms',
+  pectorals: 'chest', 'serratus anterior': 'chest', 'upper chest': 'chest',
+  traps: 'traps', trapezius: 'traps', 'levator scapulae': 'traps', sternocleidomastoid: 'traps',
+  quads: 'quads', quadriceps: 'quads', adductors: 'quads',
+  hamstrings: 'hamstrings',
+  glutes: 'glutes', abductors: 'glutes', 'hip flexors': 'glutes',
+  calves: 'calves', soleus: 'calves',
+  'cardiovascular system': null,
+};
+
+function mapTarget(name: string): string | null {
+  return targetToMuscle[name.toLowerCase()] ?? null;
+}
+
+// Build a lookup map from the bundled exercises.json
+interface BundledExercise {
+  id: string;
+  name: string;
+  bodyPart: string;
+  target: string;
+  equipment: string;
+  gifUrl: string;
+  secondaryMuscles: string[];
+  instructions: string[];
+}
+
+let bundledMap: Map<string, CachedExercise> | null = null;
+
+function getBundledMap(): Map<string, CachedExercise> {
+  if (bundledMap) return bundledMap;
+  bundledMap = new Map();
+  for (const ex of bundledExercises as BundledExercise[]) {
+    const primary = mapTarget(ex.target);
+    const secondaryMuscles: string[] = [];
+    for (const m of ex.secondaryMuscles) {
+      const mapped = mapTarget(m);
+      if (mapped && mapped !== primary) {
+        secondaryMuscles.push(mapped);
+      }
+    }
+
+    bundledMap.set(ex.id, {
+      id: ex.id,
+      name: formatName(ex.name),
+      category: bodyPartToCategory(ex.bodyPart),
+      primaryMuscles: primary ? [primary] : [],
+      secondaryMuscles,
+      bodyPart: ex.bodyPart,
+      targetMuscles: ex.target,
+      equipment: ex.equipment,
+      gifUrl: ex.gifUrl,
+    });
+  }
+  return bundledMap;
+}
+
 
 // Get hardcoded exercises (for fallback)
 export function getHardcodedExercises() {
@@ -104,7 +173,7 @@ export function cacheExercise(exercise: Exercise): void {
   saveCache(exerciseCache);
 }
 
-// Get an exercise by ID (checks hardcoded first, then cache)
+// Get an exercise by ID (checks hardcoded first, then bundled JSON, then cache)
 export function getExerciseById(id: string): CachedExercise | undefined {
   // Check hardcoded exercises first
   const hardcoded = hardcodedExercises.find(e => e.id === id);
@@ -112,20 +181,33 @@ export function getExerciseById(id: string): CachedExercise | undefined {
     return hardcoded as CachedExercise;
   }
 
+  // Check bundled exercises.json data
+  const bundled = getBundledMap().get(id);
+  if (bundled) {
+    return bundled;
+  }
+
   // Check cache for API exercises
   return exerciseCache.get(id);
 }
 
-// Get all exercises from both sources (for ExerciseLibrary)
+// Get all exercises from all sources (for ExerciseLibrary)
 export function getAllExercises(): CachedExercise[] {
-  // Start with hardcoded exercises
   const all = new Map<string, CachedExercise>();
 
+  // Start with hardcoded exercises
   for (const exercise of hardcodedExercises) {
     all.set(exercise.id, exercise as CachedExercise);
   }
 
-  // Add cached API exercises (won't override hardcoded with same ID)
+  // Add bundled exercises.json data
+  for (const [id, exercise] of getBundledMap()) {
+    if (!all.has(id)) {
+      all.set(id, exercise);
+    }
+  }
+
+  // Add cached API exercises (won't override existing)
   for (const [id, exercise] of exerciseCache) {
     if (!all.has(id)) {
       all.set(id, exercise);
