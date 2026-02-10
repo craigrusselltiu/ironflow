@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { ExerciseCard } from './ExerciseCard';
@@ -14,7 +14,7 @@ const DAY_NAMES = {
   sunday: 'Sunday',
 };
 
-export function DayBucket({ day, dayAbbrev, dayIndex, scheduledExercises, onRemoveExercise, onUpdateSetsReps }) {
+export const DayBucket = memo(function DayBucket({ day, dayAbbrev, dayIndex, scheduledExercises, onRemoveExercise, onUpdateSetsReps }) {
   const [editingInstanceId, setEditingInstanceId] = useState(null);
 
   const { setNodeRef, isOver } = useDroppable({
@@ -92,4 +92,4 @@ export function DayBucket({ day, dayAbbrev, dayIndex, scheduledExercises, onRemo
       </div>
     </div>
   );
-}
+});

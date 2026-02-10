@@ -156,17 +156,32 @@ export function ExerciseBrowserPage() {
         <div className="exercise-grid-container" onScroll={handleScroll}>
           {error && (
             <div className="browser-error">
-              <p>Failed to load exercises: {error}</p>
+              <div className="browser-error-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="12"/>
+                  <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+              </div>
+              <h3>Failed to load exercises</h3>
+              <p>{error}</p>
               <p className="error-hint">Make sure the backend server is running.</p>
             </div>
           )}
 
           {!error && exercises.length === 0 && !isLoading && (
             <div className="browser-empty">
-              <p>No exercises found</p>
+              <div className="browser-empty-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                  <circle cx="11" cy="11" r="8"/>
+                  <path d="M21 21l-4.35-4.35"/>
+                </svg>
+              </div>
+              <h3>No exercises found</h3>
+              <p>Try adjusting your search or filters to find what you're looking for.</p>
               {hasActiveFilters && (
-                <button className="clear-filters-btn" onClick={clearFilters}>
-                  Clear filters
+                <button className="btn-primary" onClick={clearFilters} style={{ marginTop: '1rem' }}>
+                  Clear All Filters
                 </button>
               )}
             </div>

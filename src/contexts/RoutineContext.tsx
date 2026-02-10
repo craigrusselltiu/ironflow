@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { useAuth } from './AuthContext';
+import { useToast } from './ToastContext';
 import { getStorage } from '../storage';
 import type { Routine, ScheduledExercise, RoutineStorage, Template, CreateTemplateInput, ImportRoutineData } from '../storage';
 
@@ -111,6 +112,7 @@ function storageToWeekly(routine: Routine | null): WeeklyRoutine {
 
 export function RoutineProvider({ children }: { children: ReactNode }) {
   const { isAuthenticated } = useAuth();
+  const { showToast } = useToast();
   const [storage, setStorage] = useState<RoutineStorage>(() => getStorage(isAuthenticated));
   const [routines, setRoutines] = useState<Routine[]>([]);
   const [activeRoutine, setActiveRoutine] = useState<Routine | null>(null);
@@ -152,8 +154,9 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
         setWeeklyRoutineState(INITIAL_ROUTINE);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load routines');
-      console.error('Failed to load routines:', err);
+      const msg = err instanceof Error ? err.message : 'Failed to load routines';
+      setError(msg);
+      showToast(msg, 'error');
     } finally {
       setIsLoading(false);
     }
@@ -178,7 +181,9 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
       setWeeklyRoutineState(storageToWeekly(fullRoutine));
       await loadRoutines();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to select routine');
+      const msg = err instanceof Error ? err.message : 'Failed to select routine';
+      setError(msg);
+      showToast(msg, 'error');
     } finally {
       setIsLoading(false);
     }
@@ -204,7 +209,7 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
       const loaded = await storage.getTemplates();
       setTemplates(loaded);
     } catch (err) {
-      console.error('Failed to load templates:', err);
+      showToast('Failed to load templates', 'error');
     }
   }, [storage]);
 
@@ -313,8 +318,9 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
           };
         });
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to add exercise');
-        console.error('Failed to add exercise:', err);
+        const msg = err instanceof Error ? err.message : 'Failed to add exercise';
+        setError(msg);
+        showToast(msg, 'error');
       }
     },
     [activeRoutine, storage]
@@ -345,8 +351,9 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
           };
         });
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to remove exercise');
-        console.error('Failed to remove exercise:', err);
+        const msg = err instanceof Error ? err.message : 'Failed to remove exercise';
+        setError(msg);
+        showToast(msg, 'error');
       }
     },
     [activeRoutine, storage]
@@ -388,8 +395,9 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
           };
         });
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to update exercise');
-        console.error('Failed to update exercise:', err);
+        const msg = err instanceof Error ? err.message : 'Failed to update exercise';
+        setError(msg);
+        showToast(msg, 'error');
       }
     },
     [activeRoutine, storage]
@@ -410,7 +418,7 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
       const updated = await storage.reorderExercises(activeRoutine.id, { exercises });
       setActiveRoutine(updated);
     } catch (err) {
-      console.error('Failed to persist routine order:', err);
+      showToast('Failed to save routine order', 'error');
     }
   }, [activeRoutine, storage]);
 
@@ -427,8 +435,9 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
       setWeeklyRoutineState(INITIAL_ROUTINE);
       setActiveRoutine(prev => (prev ? { ...prev, exercises: [] } : null));
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to clear routine');
-      console.error('Failed to clear routine:', err);
+      const msg = err instanceof Error ? err.message : 'Failed to clear routine';
+      setError(msg);
+      showToast(msg, 'error');
     }
   }, [activeRoutine, storage]);
 

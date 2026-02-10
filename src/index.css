@@ -3545,3 +3545,296 @@
     display: none;
   }
 }
+
+/* ============================================
+   ERROR BOUNDARY (v2.9.0)
+   ============================================ */
+
+@layer components {
+  .error-boundary-fallback {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+    min-height: 40vh;
+    color: var(--color-text-secondary);
+  }
+
+  .error-boundary-icon {
+    color: var(--color-danger);
+    margin-bottom: 1.5rem;
+    opacity: 0.8;
+  }
+
+  .error-boundary-fallback h2 {
+    font-family: var(--font-family-sans);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .error-boundary-message {
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+    max-width: 400px;
+  }
+}
+
+/* ============================================
+   TOAST NOTIFICATIONS (v2.9.0)
+   ============================================ */
+
+@layer components {
+  .toast-container {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 380px;
+  }
+
+  .toast {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    background: var(--color-background-elevated);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-elevated);
+    animation: toast-slide-in 0.25s ease-out;
+    font-size: 0.875rem;
+  }
+
+  @keyframes toast-slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .toast-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .toast-success .toast-icon {
+    color: var(--color-accent);
+  }
+
+  .toast-error .toast-icon {
+    color: var(--color-danger);
+  }
+
+  .toast-info .toast-icon {
+    color: var(--color-text-secondary);
+  }
+
+  .toast-message {
+    flex: 1;
+    color: var(--color-text-primary);
+    line-height: 1.4;
+  }
+
+  .toast-dismiss {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    color: var(--color-text-tertiary);
+    cursor: pointer;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    transition: color 0.15s;
+  }
+
+  .toast-dismiss:hover {
+    color: var(--color-text-primary);
+  }
+}
+
+/* ============================================
+   SKELETON LOADING (v2.9.0)
+   ============================================ */
+
+@layer components {
+  .skeleton-bar {
+    background: var(--color-background-elevated);
+    border-radius: 6px;
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes skeleton-pulse {
+    0%, 100% {
+      opacity: 0.4;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  .skeleton-shimmer {
+    background: linear-gradient(90deg,
+      var(--color-background-elevated) 0%,
+      var(--color-background-card) 50%,
+      var(--color-background-elevated) 100%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  }
+
+  @keyframes skeleton-shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  /* Routine Builder Skeleton */
+  .skeleton-planner {
+    width: 100%;
+    padding: 1rem 0;
+  }
+
+  .skeleton-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .skeleton-title {
+    width: 180px;
+    height: 20px;
+    margin-bottom: 0.5rem;
+  }
+
+  .skeleton-subtitle {
+    width: 120px;
+    height: 14px;
+  }
+
+  .skeleton-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.75rem;
+  }
+
+  .skeleton-day {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .skeleton-day-label {
+    width: 40px;
+    height: 14px;
+  }
+
+  .skeleton-card {
+    width: 100%;
+    height: 48px;
+  }
+
+  .skeleton-card.short {
+    width: 80%;
+    height: 48px;
+  }
+
+  /* Browser Skeleton */
+  .skeleton-grid {
+    opacity: 0.6;
+  }
+
+  .skeleton-card-browser .card-gif-container {
+    background: var(--color-background-elevated);
+    min-height: 160px;
+  }
+
+  /* Browser Empty/Error states */
+  .browser-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+
+  .browser-empty-icon {
+    color: var(--color-text-tertiary);
+    margin-bottom: 1rem;
+    opacity: 0.6;
+  }
+
+  .browser-empty h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .browser-empty p {
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    max-width: 320px;
+  }
+
+  .browser-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+
+  .browser-error-icon {
+    color: var(--color-danger);
+    margin-bottom: 1rem;
+    opacity: 0.7;
+  }
+
+  .browser-error h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .browser-error p {
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+  }
+
+  /* Improved empty state for muscle breakdown */
+  .no-fatigue {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.5rem 1rem;
+    color: var(--color-text-tertiary);
+    text-align: center;
+    font-size: 0.8125rem;
+  }
+
+  .no-fatigue svg {
+    opacity: 0.4;
+  }
+
+  .no-fatigue p {
+    margin: 0;
+  }
+}

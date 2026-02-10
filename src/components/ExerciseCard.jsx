@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, memo } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { CATEGORY_COLORS } from '../data/exercises';
@@ -37,7 +37,7 @@ function formatLabel(str) {
     .join(' ');
 }
 
-export function ExerciseCard({
+export const ExerciseCard = memo(function ExerciseCard({
   exercise,
   instanceId,
   onRemove,
@@ -254,4 +254,4 @@ export function ExerciseCard({
       </div>
     </div>
   );
-}
+});

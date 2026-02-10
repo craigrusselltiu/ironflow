@@ -5,6 +5,27 @@ All notable changes to IronFlow will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.9.0 - 2026-02-10
+
+### Added
+- React Error Boundary component with user-friendly fallback UI and recovery button
+- Error boundaries wrapping the full app and individual routes (Routine Builder, Exercise Browser)
+- Toast notification system (success, error, info) with auto-dismiss and manual close
+- Toast notifications for all RoutineContext operations (load, add, remove, update, clear, reorder)
+- Toast notifications for template save/apply errors and import errors
+- Skeleton loading screen for Routine Builder (7-day grid skeleton)
+- Improved empty state for Exercise Browser with icon, description, and clear-filters button
+- Improved empty state for Muscle Breakdown with icon
+- Improved error state for Exercise Browser with icon and structured layout
+
+### Changed
+- ExerciseCard wrapped with React.memo to prevent unnecessary re-renders
+- DayBucket wrapped with React.memo to prevent re-renders when other days change
+- SvgMuscleMap, BodyView, and MuscleGroup wrapped with React.memo for render efficiency
+- MuscleBreakdown wrapped with React.memo
+- TemplateModal system/user template lists memoized with useMemo
+- RoutineContext error handling upgraded from console.error to user-visible toast notifications
+
 ## v2.8.1 - 2026-02-09
 
 ### Added
