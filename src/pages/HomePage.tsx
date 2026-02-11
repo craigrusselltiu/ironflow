@@ -38,7 +38,7 @@ export function HomePage() {
           </div>
           <div className="hero-stats">
             <div className="stat">
-              <span className="stat-value">1300+</span>
+              <span className="stat-value">1500+</span>
               <span className="stat-label">Exercises</span>
             </div>
             <div className="stat-divider"></div>
@@ -137,7 +137,7 @@ export function HomePage() {
                 </svg>
               </div>
               <h3>Exercise Library</h3>
-              <p>Browse 1300+ exercises with GIF demonstrations, detailed instructions, and smart filtering by muscle or equipment.</p>
+              <p>Browse 1500+ exercises with GIF demonstrations, detailed instructions, and smart filtering by muscle or equipment.</p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">

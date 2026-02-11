@@ -1,6 +1,6 @@
 # IronFlow Product Specification
 
-Version: 2.9.0
+Version: 2.9.1
 
 ## Overview
 
@@ -141,6 +141,14 @@ Navigation:
 - Versioned export format with metadata for future compatibility
 - Backend bulk import endpoint for atomic routine creation
 - Works in both online (API) and offline (localStorage) modes
+
+### v2.9.1 - Day Swapping & Template Updates
+- Bucket-level drag-and-drop to swap entire days in the weekly planner via grip handle
+- Template tracking: displays loaded template name as badge in Routine Builder header
+- "Save to [Template Name]" in Routine dropdown to update a loaded user template in place
+- `PUT /api/templates/:id` endpoint for updating user templates
+- `updateTemplate` in storage interface and `updateLoadedTemplate` in RoutineContext
+- Exercise count updated from 1300+ to 1500+
 
 ### v2.9.0 - Polish
 - React Error Boundary components wrapping key routes and the full app

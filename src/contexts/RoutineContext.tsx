@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect, useCallback, ReactNode 
 import { useAuth } from './AuthContext';
 import { useToast } from './ToastContext';
 import { getStorage } from '../storage';
-import type { Routine, ScheduledExercise, RoutineStorage, Template, CreateTemplateInput, ImportRoutineData } from '../storage';
+import type { Routine, ScheduledExercise, RoutineStorage, Template, CreateTemplateInput, UpdateTemplateInput, ImportRoutineData } from '../storage';
 
 // Day mapping for UI
 const DAY_MAP: Record<string, number> = {
@@ -35,6 +35,12 @@ export interface WeeklyRoutine {
   sunday: ExerciseInstance[];
 }
 
+export interface LoadedTemplate {
+  id: string;
+  name: string;
+  isSystem: boolean;
+}
+
 interface RoutineContextType {
   // Legacy interface for existing components
   weeklyRoutine: WeeklyRoutine;
@@ -58,10 +64,12 @@ interface RoutineContextType {
 
   // Template management
   templates: Template[];
+  loadedTemplate: LoadedTemplate | null;
   loadTemplates: () => Promise<void>;
   saveAsTemplate: (name: string, description?: string) => Promise<Template>;
   applyTemplate: (templateId: string) => Promise<void>;
   deleteTemplate: (id: string) => Promise<void>;
+  updateLoadedTemplate: () => Promise<void>;
 
   // Import/Export
   exportRoutine: () => void;
@@ -120,6 +128,7 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [templates, setTemplates] = useState<Template[]>([]);
+  const [loadedTemplate, setLoadedTemplate] = useState<LoadedTemplate | null>(null);
 
   // Update storage when auth state changes
   useEffect(() => {
@@ -237,6 +246,7 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
     });
 
     await loadTemplates();
+    setLoadedTemplate({ id: template.id, name: template.name, isSystem: template.isSystem });
     return template;
   }, [activeRoutine, storage, loadTemplates]);
 
@@ -248,12 +258,37 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
     const updated = await storage.applyTemplate(templateId, activeRoutine.id);
     setActiveRoutine(updated);
     setWeeklyRoutineState(storageToWeekly(updated));
-  }, [activeRoutine, storage]);
+
+    const template = templates.find(t => t.id === templateId);
+    if (template) {
+      setLoadedTemplate({ id: template.id, name: template.name, isSystem: template.isSystem });
+    }
+  }, [activeRoutine, storage, templates]);
 
   const deleteTemplateById = useCallback(async (id: string) => {
     await storage.deleteTemplate(id);
+    if (loadedTemplate?.id === id) {
+      setLoadedTemplate(null);
+    }
     await loadTemplates();
-  }, [storage, loadTemplates]);
+  }, [storage, loadTemplates, loadedTemplate]);
+
+  const updateLoadedTemplate = useCallback(async () => {
+    if (!loadedTemplate || !activeRoutine) {
+      throw new Error('No loaded template or active routine');
+    }
+
+    const exercises = activeRoutine.exercises.map(ex => ({
+      exerciseId: ex.exerciseId,
+      day: ex.day,
+      orderIndex: ex.orderIndex,
+      plannedSets: ex.plannedSets,
+      plannedReps: ex.plannedReps,
+    }));
+
+    await storage.updateTemplate(loadedTemplate.id, { exercises });
+    await loadTemplates();
+  }, [loadedTemplate, activeRoutine, storage, loadTemplates]);
 
   // Auto-create a default routine if none exists (for first-time users)
   useEffect(() => {
@@ -434,6 +469,7 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
 
       setWeeklyRoutineState(INITIAL_ROUTINE);
       setActiveRoutine(prev => (prev ? { ...prev, exercises: [] } : null));
+      setLoadedTemplate(null);
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Failed to clear routine';
       setError(msg);
@@ -466,12 +502,13 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${activeRoutine.name.replace(/[^a-zA-Z0-9_-]/g, '_')}.json`;
+    const fileName = (loadedTemplate?.name || activeRoutine.name).replace(/[^a-zA-Z0-9_-]/g, '_');
+    a.download = `${fileName}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-  }, [activeRoutine]);
+  }, [activeRoutine, loadedTemplate]);
 
   const importRoutineFromFile = useCallback(async (file: File) => {
     const text = await file.text();
@@ -557,10 +594,12 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
         renameRoutine,
         refreshRoutines,
         templates,
+        loadedTemplate,
         loadTemplates,
         saveAsTemplate,
         applyTemplate: applyTemplateToRoutine,
         deleteTemplate: deleteTemplateById,
+        updateLoadedTemplate,
         exportRoutine,
         importRoutine: importRoutineFromFile,
       }}

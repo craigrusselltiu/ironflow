@@ -11,7 +11,7 @@ const DAY_ABBREV = {
   sunday: 'SUN',
 };
 
-export function WeeklyPlanner({ weeklyRoutine, onRemoveExercise, onUpdateSetsReps }) {
+export function WeeklyPlanner({ weeklyRoutine, onRemoveExercise, onUpdateSetsReps, bucketOverDay, activeBucketDay }) {
   const totalExercises = Object.values(weeklyRoutine).reduce((sum, day) => sum + day.length, 0);
   const activeDays = Object.values(weeklyRoutine).filter(day => day.length > 0).length;
 
@@ -43,6 +43,8 @@ export function WeeklyPlanner({ weeklyRoutine, onRemoveExercise, onUpdateSetsRep
               scheduledExercises={weeklyRoutine[day] || []}
               onRemoveExercise={(instanceId) => onRemoveExercise(day, instanceId)}
               onUpdateSetsReps={onUpdateSetsReps}
+              isBucketDropTarget={bucketOverDay === day}
+              isBucketDragActive={!!activeBucketDay}
             />
           ))}
         </div>

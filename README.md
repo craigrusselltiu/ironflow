@@ -1,6 +1,6 @@
 # IronFlow
 
-![Version](https://img.shields.io/badge/version-2.9.0-green)
+![Version](https://img.shields.io/badge/version-2.9.1-green)
 ![React](https://img.shields.io/badge/react-18-blue)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
@@ -11,7 +11,7 @@
 
 ## Overview
 
-IronFlow is a web application for building weekly workout routines. It features an interactive drag-and-drop interface for scheduling exercises across the week, and an SVG muscle heatmap that shows which muscles you're targeting to help identify imbalances.
+IronFlow is a web application for building weekly workout routines. It features an interactive drag-and-drop interface for scheduling exercises across the week, swap entire days by dragging their grip handle, and an SVG muscle heatmap that shows which muscles you're targeting to help identify imbalances.
 
 IronFlow works without an account - your routines save to your browser automatically. Optionally create an account to sync routines across devices.
 

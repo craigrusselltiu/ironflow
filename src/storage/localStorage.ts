@@ -11,6 +11,7 @@ import type {
   ImportRoutineData,
   Template,
   CreateTemplateInput,
+  UpdateTemplateInput,
 } from './types';
 import { SYSTEM_TEMPLATES } from '../data/templates';
 
@@ -234,6 +235,17 @@ export class LocalStorage implements RoutineStorage {
     templates.push(newTemplate);
     localStorage.setItem(TEMPLATES_KEY, JSON.stringify(templates));
     return newTemplate;
+  }
+
+  async updateTemplate(id: string, data: UpdateTemplateInput): Promise<Template> {
+    const templates = this.getStoredTemplates();
+    const index = templates.findIndex(t => t.id === id);
+    if (index === -1) {
+      throw new Error('Template not found');
+    }
+    templates[index] = { ...templates[index], ...data };
+    localStorage.setItem(TEMPLATES_KEY, JSON.stringify(templates));
+    return templates[index];
   }
 
   async deleteTemplate(id: string): Promise<void> {

@@ -7,7 +7,7 @@ interface RoutineSaveDropdownProps {
 }
 
 export function RoutineSaveDropdown({ onOpenTemplates }: RoutineSaveDropdownProps) {
-  const { activeRoutine, weeklyRoutine, saveAsTemplate, exportRoutine, importRoutine } = useRoutine();
+  const { activeRoutine, weeklyRoutine, saveAsTemplate, exportRoutine, importRoutine, loadedTemplate, updateLoadedTemplate } = useRoutine();
   const { showToast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [showSaveDialog, setShowSaveDialog] = useState(false);
@@ -15,6 +15,8 @@ export function RoutineSaveDropdown({ onOpenTemplates }: RoutineSaveDropdownProp
   const [templateDesc, setTemplateDesc] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [isUpdatingTemplate, setIsUpdatingTemplate] = useState(false);
+  const [updateSuccess, setUpdateSuccess] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);
   const [importSuccess, setImportSuccess] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -49,6 +51,22 @@ export function RoutineSaveDropdown({ onOpenTemplates }: RoutineSaveDropdownProp
       showToast('Failed to save template', 'error');
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleUpdateTemplate = async () => {
+    setIsUpdatingTemplate(true);
+    try {
+      await updateLoadedTemplate();
+      setUpdateSuccess(true);
+      setTimeout(() => {
+        setUpdateSuccess(false);
+        setIsOpen(false);
+      }, 1500);
+    } catch (err) {
+      showToast('Failed to update template', 'error');
+    } finally {
+      setIsUpdatingTemplate(false);
     }
   };
 
@@ -113,10 +131,39 @@ export function RoutineSaveDropdown({ onOpenTemplates }: RoutineSaveDropdownProp
         <div className="save-dropdown-menu">
           {!showSaveDialog ? (
             <>
+              {loadedTemplate && !loadedTemplate.isSystem && (
+                <>
+                  {updateSuccess ? (
+                    <div className="save-success" style={{ padding: '8px 12px' }}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                      <span>Template updated!</span>
+                    </div>
+                  ) : (
+                    <button
+                      className="save-dropdown-item save-to-template-item"
+                      onClick={handleUpdateTemplate}
+                      disabled={isUpdatingTemplate || totalExercises === 0}
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                        <polyline points="17 21 17 13 7 13 7 21"/>
+                        <polyline points="7 3 7 8 15 8"/>
+                      </svg>
+                      <div className="dropdown-item-text">
+                        <span className="dropdown-item-label">{isUpdatingTemplate ? 'Saving...' : `Save to "${loadedTemplate.name}"`}</span>
+                        <span className="dropdown-item-desc">Update the loaded template</span>
+                      </div>
+                    </button>
+                  )}
+                  <div className="save-dropdown-divider" />
+                </>
+              )}
               <button
                 className="save-dropdown-item"
                 onClick={() => {
-                  setTemplateName(activeRoutine?.name || 'My Template');
+                  setTemplateName(loadedTemplate?.name || activeRoutine?.name || 'My Template');
                   setShowSaveDialog(true);
                 }}
                 disabled={totalExercises === 0}

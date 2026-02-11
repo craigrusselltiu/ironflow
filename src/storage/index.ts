@@ -14,6 +14,7 @@ export type {
   Template,
   TemplateExercise,
   CreateTemplateInput,
+  UpdateTemplateInput,
   ImportRoutineData,
 } from './types';
 

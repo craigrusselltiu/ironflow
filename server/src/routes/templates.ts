@@ -3,7 +3,7 @@ import { prisma } from '../db.js';
 import { authenticate } from '../middleware/auth.js';
 import { validate } from '../middleware/validate.js';
 import { AppError } from '../middleware/errorHandler.js';
-import { createTemplateSchema, applyTemplateSchema } from '../schemas/template.js';
+import { createTemplateSchema, updateTemplateSchema, applyTemplateSchema } from '../schemas/template.js';
 
 const router = Router();
 
@@ -44,6 +44,32 @@ router.post('/', validate(createTemplateSchema), async (req, res, next) => {
     });
 
     res.status(201).json(template);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// PUT /api/templates/:id - Update user template
+router.put('/:id', validate(updateTemplateSchema), async (req, res, next) => {
+  try {
+    const template = await prisma.template.findFirst({
+      where: {
+        id: req.params.id,
+        userId: req.user!.userId,
+        isSystem: false,
+      },
+    });
+
+    if (!template) {
+      throw new AppError(404, 'Template not found');
+    }
+
+    const updated = await prisma.template.update({
+      where: { id: req.params.id },
+      data: req.body,
+    });
+
+    res.json(updated);
   } catch (err) {
     next(err);
   }

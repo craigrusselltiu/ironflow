@@ -96,7 +96,7 @@ export function ExerciseBrowserPage() {
         <div className="browser-header-content">
           <h1>Exercise Library</h1>
           <p className="browser-subtitle">
-            Browse and search through 1300+ exercises with detailed instructions
+            Browse and search through 1500+ exercises with detailed instructions
           </p>
         </div>
       </header>

@@ -5,6 +5,26 @@ All notable changes to IronFlow will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.9.1 - 2026-02-11
+
+### Added
+- Bucket-level drag-and-drop to swap entire days in the weekly planner
+- Drag handle (grip dots) on each day bucket header for initiating day swaps
+- Bucket drag preview overlay showing day name, exercise count, and first 3 exercise names
+- Template tracking: loaded template name shown as badge in Routine Builder header
+- "Save to [Template Name]" option in Routine dropdown to update a loaded user template
+- `PUT /api/templates/:id` backend endpoint for updating user templates
+- `updateTemplate` method in storage interface (API and localStorage)
+- `updateLoadedTemplate` method in RoutineContext
+
+### Fixed
+- Exercise cache now reads `targetMuscles` field from exercises.json (was reading nonexistent `target` field, causing bundled exercise map to silently fail and exercises to go missing)
+
+### Changed
+- Exercise lookup order: bundled JSON checked first, API cache second, hardcoded exercises as last resort
+- Default template name in "Save as Template" now pre-fills from the loaded template name
+- Exercise count updated from 1300+ to 1500+ on Home and Exercise Browser pages
+
 ## v2.9.0 - 2026-02-10
 
 ### Added

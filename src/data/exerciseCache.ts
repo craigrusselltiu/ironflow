@@ -52,7 +52,7 @@ interface BundledExercise {
   id: string;
   name: string;
   bodyPart: string;
-  target: string;
+  targetMuscles: string;
   equipment: string;
   gifUrl: string;
   secondaryMuscles: string[];
@@ -65,7 +65,7 @@ function getBundledMap(): Map<string, CachedExercise> {
   if (bundledMap) return bundledMap;
   bundledMap = new Map();
   for (const ex of bundledExercises as BundledExercise[]) {
-    const primary = mapTarget(ex.target);
+    const primary = mapTarget(ex.targetMuscles);
     const secondaryMuscles: string[] = [];
     for (const m of ex.secondaryMuscles) {
       const mapped = mapTarget(m);
@@ -81,7 +81,7 @@ function getBundledMap(): Map<string, CachedExercise> {
       primaryMuscles: primary ? [primary] : [],
       secondaryMuscles,
       bodyPart: ex.bodyPart,
-      targetMuscles: ex.target,
+      targetMuscles: ex.targetMuscles,
       equipment: ex.equipment,
       gifUrl: ex.gifUrl,
     });
@@ -173,44 +173,49 @@ export function cacheExercise(exercise: Exercise): void {
   saveCache(exerciseCache);
 }
 
-// Get an exercise by ID (checks hardcoded first, then bundled JSON, then cache)
+// Get an exercise by ID (checks bundled JSON first, then cache, then hardcoded as fallback)
 export function getExerciseById(id: string): CachedExercise | undefined {
-  // Check hardcoded exercises first
-  const hardcoded = hardcodedExercises.find(e => e.id === id);
-  if (hardcoded) {
-    return hardcoded as CachedExercise;
-  }
-
-  // Check bundled exercises.json data
+  // Check bundled exercises.json data first (most complete data with gifUrl, instructions, etc.)
   const bundled = getBundledMap().get(id);
   if (bundled) {
     return bundled;
   }
 
   // Check cache for API exercises
-  return exerciseCache.get(id);
+  const cached = exerciseCache.get(id);
+  if (cached) {
+    return cached;
+  }
+
+  // Fallback to hardcoded exercises
+  const hardcoded = hardcodedExercises.find(e => e.id === id);
+  if (hardcoded) {
+    return hardcoded as CachedExercise;
+  }
+
+  return undefined;
 }
 
 // Get all exercises from all sources (for ExerciseLibrary)
 export function getAllExercises(): CachedExercise[] {
   const all = new Map<string, CachedExercise>();
 
-  // Start with hardcoded exercises
-  for (const exercise of hardcodedExercises) {
-    all.set(exercise.id, exercise as CachedExercise);
+  // Start with bundled exercises.json data (most complete)
+  for (const [id, exercise] of getBundledMap()) {
+    all.set(id, exercise);
   }
 
-  // Add bundled exercises.json data
-  for (const [id, exercise] of getBundledMap()) {
+  // Add cached API exercises (won't override bundled)
+  for (const [id, exercise] of exerciseCache) {
     if (!all.has(id)) {
       all.set(id, exercise);
     }
   }
 
-  // Add cached API exercises (won't override existing)
-  for (const [id, exercise] of exerciseCache) {
-    if (!all.has(id)) {
-      all.set(id, exercise);
+  // Add hardcoded exercises as fallback (won't override existing)
+  for (const exercise of hardcodedExercises) {
+    if (!all.has(exercise.id)) {
+      all.set(exercise.id, exercise as CachedExercise);
     }
   }
 

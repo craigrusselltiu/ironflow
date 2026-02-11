@@ -12,6 +12,7 @@ import type {
   ImportRoutineData,
   Template,
   CreateTemplateInput,
+  UpdateTemplateInput,
 } from './types';
 
 // API response types
@@ -161,6 +162,10 @@ export class ApiStorage implements RoutineStorage {
 
   async createTemplate(data: CreateTemplateInput): Promise<Template> {
     return api.post<Template>('/templates', data);
+  }
+
+  async updateTemplate(id: string, data: UpdateTemplateInput): Promise<Template> {
+    return api.put<Template>(`/templates/${id}`, data);
   }
 
   async deleteTemplate(id: string): Promise<void> {

@@ -23,6 +23,12 @@ export interface CreateTemplateInput {
   exercises: TemplateExercise[];
 }
 
+export interface UpdateTemplateInput {
+  name?: string;
+  description?: string;
+  exercises?: TemplateExercise[];
+}
+
 export interface ScheduledExercise {
   id: string;
   exerciseId: string;
@@ -104,6 +110,7 @@ export interface RoutineStorage {
   // Template management
   getTemplates(): Promise<Template[]>;
   createTemplate(data: CreateTemplateInput): Promise<Template>;
+  updateTemplate(id: string, data: UpdateTemplateInput): Promise<Template>;
   deleteTemplate(id: string): Promise<void>;
   applyTemplate(templateId: string, routineId: string): Promise<Routine>;
 }

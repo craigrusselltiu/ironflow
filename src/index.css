@@ -971,6 +971,18 @@
     font-size: 0.8125rem;
   }
 
+  .loaded-template-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.125rem 0.5rem;
+    background: var(--color-accent-dim);
+    color: var(--color-accent);
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
   .header-right {
     display: flex;
     align-items: center;
@@ -1190,6 +1202,10 @@
 
   .save-dropdown-divider + .save-dropdown-item {
     border-top: none;
+  }
+
+  .save-to-template-item .dropdown-item-label {
+    color: var(--color-accent);
   }
 
   .dropdown-item-text {
@@ -2289,6 +2305,93 @@
     border-color: var(--color-border);
   }
 
+  .day-bucket-modern.bucket-dragging {
+    opacity: 0.4;
+    border-style: dashed;
+    border-color: var(--color-accent);
+  }
+
+  .day-bucket-modern.bucket-drop-target {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-dim), 0 8px 24px rgba(0, 0, 0, 0.3);
+    transform: scale(1.01);
+  }
+
+  .bucket-drag-handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: none;
+    color: var(--color-text-tertiary);
+    cursor: grab;
+    padding: 0;
+    border-radius: 4px;
+    flex-shrink: 0;
+    transition: color 0.15s;
+  }
+
+  .bucket-drag-handle:hover {
+    color: var(--color-accent);
+  }
+
+  .bucket-drag-handle:active {
+    cursor: grabbing;
+  }
+
+  .bucket-drag-handle-spacer {
+    width: 20px;
+    flex-shrink: 0;
+  }
+
+  .bucket-drag-preview {
+    background: var(--color-background-secondary);
+    border: 2px solid var(--color-accent);
+    border-radius: 12px;
+    padding: 0.75rem;
+    min-width: 160px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .bucket-preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .bucket-preview-day {
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: var(--color-accent);
+  }
+
+  .bucket-preview-count {
+    font-size: 0.6875rem;
+    color: var(--color-text-tertiary);
+  }
+
+  .bucket-preview-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .bucket-preview-item {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .bucket-preview-more {
+    color: var(--color-text-tertiary);
+    font-style: italic;
+  }
+
   .day-header-modern {
     padding: 0.875rem 0.75rem;
     border-bottom: 1px solid var(--color-border);
@@ -2320,6 +2423,11 @@
 
   .weekend .day-abbrev {
     color: var(--color-accent);
+  }
+
+  .exercise-count-spacer {
+    width: 22px;
+    flex-shrink: 0;
   }
 
   .exercise-count-modern {

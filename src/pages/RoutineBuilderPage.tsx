@@ -18,10 +18,18 @@ import { TemplateModal } from '../components/TemplateModal';
 import { ConfirmModal } from '../components/ConfirmModal';
 import { useRoutine } from '../contexts/RoutineContext';
 import { calculateMuscleFatigue } from '../utils/muscleCalculations';
+import { getExerciseById } from '../data/exerciseCache';
+
+const DAY_DISPLAY: Record<string, string> = {
+  monday: 'Monday', tuesday: 'Tuesday', wednesday: 'Wednesday', thursday: 'Thursday',
+  friday: 'Friday', saturday: 'Saturday', sunday: 'Sunday',
+};
 
 export function RoutineBuilderPage() {
-  const { weeklyRoutine, setWeeklyRoutine, addExerciseToDay, removeExerciseFromDay, clearRoutine, updateExerciseSetsReps, persistRoutineOrder, isLoading } = useRoutine();
+  const { weeklyRoutine, setWeeklyRoutine, addExerciseToDay, removeExerciseFromDay, clearRoutine, updateExerciseSetsReps, persistRoutineOrder, isLoading, loadedTemplate } = useRoutine();
   const [activeExercise, setActiveExercise] = useState(null);
+  const [activeBucketDay, setActiveBucketDay] = useState<string | null>(null);
+  const [bucketOverDay, setBucketOverDay] = useState<string | null>(null);
   const [showTemplateModal, setShowTemplateModal] = useState(false);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const [countSecondary, setCountSecondary] = useState(() => {
@@ -60,7 +68,10 @@ export function RoutineBuilderPage() {
     const { active } = event;
     const data = active.data.current;
 
-    if (data?.type === 'library') {
+    if (data?.type === 'bucket') {
+      setActiveBucketDay(data.day);
+      setActiveExercise(null);
+    } else if (data?.type === 'library') {
       setActiveExercise(data.exercise);
     } else if (data?.type === 'scheduled') {
       setActiveExercise(data.exercise);
@@ -69,13 +80,32 @@ export function RoutineBuilderPage() {
 
   const handleDragOver = (event) => {
     const { active, over } = event;
-    if (!over) return;
+    if (!over) {
+      setBucketOverDay(null);
+      return;
+    }
 
     const activeData = active.data.current;
     const overId = over.id;
     const overData = over.data.current;
 
+    if (activeData?.type === 'bucket') {
+      // Resolve which day the bucket is hovering over for visual feedback
+      const overIdStr = String(overId);
+      let targetDay: string | null = null;
+      if (overData?.type === 'day') targetDay = overData.day;
+      else if (overData?.type === 'bucket') targetDay = overData.day;
+      else if (overIdStr.startsWith('bucket-')) targetDay = overIdStr.replace('bucket-', '');
+      else {
+        targetDay = findDayContaining(overId);
+        if (!targetDay && overIdStr in weeklyRoutine) targetDay = overIdStr;
+      }
+      setBucketOverDay(targetDay !== activeData.day ? targetDay : null);
+      return;
+    }
+
     if (activeData?.type === 'library') {
+      setBucketOverDay(null);
       return;
     }
 
@@ -117,6 +147,45 @@ export function RoutineBuilderPage() {
     setActiveExercise(null);
 
     const activeData = active.data.current;
+
+    // Handle bucket swap
+    if (activeData?.type === 'bucket') {
+      setActiveBucketDay(null);
+      setBucketOverDay(null);
+      if (!over) return;
+
+      const overData = over.data.current;
+      const overId = String(over.id);
+      let targetDay: string | null = null;
+
+      // Target can be a droppable day zone, another bucket's draggable, or an exercise inside a day
+      if (overData?.type === 'day') {
+        targetDay = overData.day;
+      } else if (overData?.type === 'bucket') {
+        targetDay = overData.day;
+      } else if (overId.startsWith('bucket-')) {
+        targetDay = overId.replace('bucket-', '');
+      } else {
+        // Dropped on an exercise card or other element - find which day it belongs to
+        targetDay = findDayContaining(overId);
+        // Also check if overId is a day name directly (droppable zone)
+        if (!targetDay && overId in weeklyRoutine) {
+          targetDay = overId;
+        }
+      }
+
+      const sourceDay = activeData.day;
+      if (!targetDay || sourceDay === targetDay) return;
+
+      const newRoutine = {
+        ...weeklyRoutine,
+        [sourceDay]: weeklyRoutine[targetDay],
+        [targetDay]: weeklyRoutine[sourceDay],
+      };
+      setWeeklyRoutine(newRoutine);
+      persistRoutineOrder(newRoutine);
+      return;
+    }
 
     if (!over) {
       // Persist any cross-day moves that happened during drag-over
@@ -191,7 +260,13 @@ export function RoutineBuilderPage() {
         <header className="builder-header-modern">
           <div className="header-left">
             <h1>Routine Builder</h1>
-            <p>Drag exercises to build your weekly plan</p>
+            <p>
+              {loadedTemplate ? (
+                <span className="loaded-template-badge">{loadedTemplate.name}</span>
+              ) : (
+                'Drag exercises to build your weekly plan'
+              )}
+            </p>
           </div>
           <div className="header-right">
             <RoutineSaveDropdown onOpenTemplates={() => setShowTemplateModal(true)} />
@@ -264,6 +339,8 @@ export function RoutineBuilderPage() {
                   weeklyRoutine={weeklyRoutine}
                   onRemoveExercise={handleRemoveExercise}
                   onUpdateSetsReps={updateExerciseSetsReps}
+                  bucketOverDay={bucketOverDay}
+                  activeBucketDay={activeBucketDay}
                 />
                 <MuscleBreakdown fatigue={fatigue} sets={sets} />
               </>
@@ -282,6 +359,8 @@ export function RoutineBuilderPage() {
             exercise={activeExercise}
             isLibraryItem={true}
           />
+        ) : activeBucketDay ? (
+          <BucketDragPreview day={activeBucketDay} exercises={weeklyRoutine[activeBucketDay]} />
         ) : null}
       </DragOverlay>
 
@@ -303,5 +382,27 @@ export function RoutineBuilderPage() {
         />
       )}
     </DndContext>
+  );
+}
+
+function BucketDragPreview({ day, exercises }: { day: string; exercises: Array<{ exerciseId: string }> }) {
+  const names = exercises.slice(0, 3).map(e => getExerciseById(e.exerciseId)?.name).filter(Boolean);
+  const remaining = exercises.length - names.length;
+
+  return (
+    <div className="bucket-drag-preview">
+      <div className="bucket-preview-header">
+        <span className="bucket-preview-day">{DAY_DISPLAY[day] || day}</span>
+        <span className="bucket-preview-count">{exercises.length} exercise{exercises.length !== 1 ? 's' : ''}</span>
+      </div>
+      <div className="bucket-preview-list">
+        {names.map((name, i) => (
+          <div key={i} className="bucket-preview-item">{name}</div>
+        ))}
+        {remaining > 0 && (
+          <div className="bucket-preview-item bucket-preview-more">+{remaining} more</div>
+        )}
+      </div>
+    </div>
   );
 }
