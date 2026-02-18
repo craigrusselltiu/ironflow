@@ -128,7 +128,23 @@ export function RoutineProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [templates, setTemplates] = useState<Template[]>([]);
-  const [loadedTemplate, setLoadedTemplate] = useState<LoadedTemplate | null>(null);
+  const [loadedTemplate, setLoadedTemplate] = useState<LoadedTemplate | null>(() => {
+    try {
+      const stored = localStorage.getItem('ironflow_loaded_template');
+      return stored ? JSON.parse(stored) : null;
+    } catch {
+      return null;
+    }
+  });
+
+  // Persist loadedTemplate to localStorage so it survives page refreshes
+  useEffect(() => {
+    if (loadedTemplate) {
+      localStorage.setItem('ironflow_loaded_template', JSON.stringify(loadedTemplate));
+    } else {
+      localStorage.removeItem('ironflow_loaded_template');
+    }
+  }, [loadedTemplate]);
 
   // Update storage when auth state changes
   useEffect(() => {

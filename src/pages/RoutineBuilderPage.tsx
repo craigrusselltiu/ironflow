@@ -34,7 +34,7 @@ export function RoutineBuilderPage() {
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const [countSecondary, setCountSecondary] = useState(() => {
     const stored = localStorage.getItem('ironflow_count_secondary');
-    return stored !== null ? JSON.parse(stored) : false;
+    return stored !== null ? JSON.parse(stored) : true;
   });
 
   const sensors = useSensors(

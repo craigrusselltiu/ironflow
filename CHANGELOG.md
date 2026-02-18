@@ -5,6 +5,23 @@ All notable changes to IronFlow will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v2.9.3 - 2026-02-18
+
+### Fixed
+- Lower back muscle utilisation: exercises like deadlifts and Romanian deadlifts correctly contribute to lower back sets — the root cause was `exerciseCache.ts` missing 14 muscle name mappings that `useExercises.ts` had (most notably `rear delts`, `core`, `chest`, `back`, and others), causing secondary muscles to be silently dropped in the bundled exercise map
+- Rear delts utilisation: 38 exercises with `targetMuscles: 'rear delts'` previously mapped to no primary muscle; rear delts now correctly tracked as primary
+- Secondary muscles now included by default (count secondary toggle defaults to on), so lower back and other secondary contributions are visible without needing to manually enable the toggle
+
+## v2.9.2 - 2026-02-18
+
+### Added
+- Equipment filter group in the Exercise Library sidebar of the Routine Builder, matching the muscle target filter UI with session-persisted state
+- Filter toggle button now shows active filter count ("Filter (2)") when both muscle and equipment filters are applied
+
+### Fixed
+- Template cache: loaded template is now persisted to localStorage so returning to the Routine Builder page correctly restores the last opened template instead of treating the routine as brand new
+- Lower back muscle heatmap: lower back SVG region was being painted over by the glutes region (rendered on top due to SVG z-order); lower back is now rendered after glutes so it always remains visible, and its path is adjusted to sit cleanly above the glutes boundary
+
 ## v2.9.1 - 2026-02-11
 
 ### Added

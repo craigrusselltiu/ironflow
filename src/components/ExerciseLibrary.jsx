@@ -55,6 +55,7 @@ function mapExercise(exercise) {
 
 export function ExerciseLibrary() {
   const [selectedTarget, setSelectedTarget] = useState(() => sessionStorage.getItem('library_target') || 'all');
+  const [selectedEquipment, setSelectedEquipment] = useState(() => sessionStorage.getItem('library_equipment') || null);
   const [searchTerm, setSearchTerm] = useState(() => sessionStorage.getItem('library_search') || '');
   const [filtersOpen, setFiltersOpen] = useState(() => sessionStorage.getItem('library_filtersOpen') === 'true');
 
@@ -68,17 +69,22 @@ export function ExerciseLibrary() {
     else sessionStorage.removeItem('library_target');
   }, [selectedTarget]);
   useEffect(() => {
+    if (selectedEquipment) sessionStorage.setItem('library_equipment', selectedEquipment);
+    else sessionStorage.removeItem('library_equipment');
+  }, [selectedEquipment]);
+  useEffect(() => {
     sessionStorage.setItem('library_filtersOpen', filtersOpen ? 'true' : 'false');
   }, [filtersOpen]);
 
-  // Get targets from the exercise lists hook
-  const { targets: availableTargets } = useExerciseLists();
+  // Get targets and equipment from the exercise lists hook
+  const { targets: availableTargets, equipment: availableEquipment } = useExerciseLists();
 
   // Fetch exercises with filters
   const filters = useMemo(() => ({
     search: searchTerm || undefined,
     targetMuscles: selectedTarget !== 'all' ? selectedTarget : undefined,
-  }), [searchTerm, selectedTarget]);
+    equipment: selectedEquipment || undefined,
+  }), [searchTerm, selectedTarget, selectedEquipment]);
 
   const { exercises: rawExercises, loadMore, hasMore } = useExercises({
     limit: 50,
@@ -109,6 +115,20 @@ export function ExerciseLibrary() {
     setSearchTerm('');
     setSelectedTarget(prev => prev === target ? 'all' : target);
   };
+
+  const handleEquipmentClick = (equipment) => {
+    setSearchTerm('');
+    setSelectedEquipment(prev => prev === equipment ? null : equipment);
+  };
+
+  const hasActiveFilters = selectedTarget !== 'all' || selectedEquipment;
+
+  const filterLabel = (() => {
+    if (selectedTarget !== 'all' && selectedEquipment) return 'Filter (2)';
+    if (selectedTarget !== 'all') return TARGET_CONFIG[selectedTarget]?.label || selectedTarget;
+    if (selectedEquipment) return selectedEquipment.charAt(0).toUpperCase() + selectedEquipment.slice(1);
+    return 'Filter';
+  })();
 
   return (
     <div className="exercise-library-modern">
@@ -142,17 +162,13 @@ export function ExerciseLibrary() {
           )}
         </div>
         <button
-          className={`filter-toggle ${filtersOpen ? 'open' : ''} ${selectedTarget !== 'all' ? 'has-active' : ''}`}
+          className={`filter-toggle ${filtersOpen ? 'open' : ''} ${hasActiveFilters ? 'has-active' : ''}`}
           onClick={() => setFiltersOpen(prev => !prev)}
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/>
           </svg>
-          <span>
-            {selectedTarget !== 'all'
-              ? (TARGET_CONFIG[selectedTarget]?.label || selectedTarget)
-              : 'Filter'}
-          </span>
+          <span>{filterLabel}</span>
           <svg className="filter-toggle-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <polyline points="6 9 12 15 18 9"/>
           </svg>
@@ -160,27 +176,48 @@ export function ExerciseLibrary() {
       </div>
 
       {filtersOpen && (
-        <div className="category-tabs">
-          <button
-            className={`category-tab ${selectedTarget === 'all' ? 'active' : ''}`}
-            onClick={() => setSelectedTarget('all')}
-          >
-            <span className="tab-label">All</span>
-          </button>
-          {targets.map((target) => {
-            const config = TARGET_CONFIG[target] || { label: target, color: '#888' };
-            return (
+        <>
+          <div className="filter-section-label">Muscle</div>
+          <div className="category-tabs">
+            <button
+              className={`category-tab ${selectedTarget === 'all' ? 'active' : ''}`}
+              onClick={() => setSelectedTarget('all')}
+            >
+              <span className="tab-label">All</span>
+            </button>
+            {targets.map((target) => {
+              const config = TARGET_CONFIG[target] || { label: target, color: '#888' };
+              return (
+                <button
+                  key={target}
+                  className={`category-tab ${selectedTarget === target ? 'active' : ''}`}
+                  onClick={() => handleTargetClick(target)}
+                  style={{ '--tab-color': config.color }}
+                >
+                  <span className="tab-label">{config.label}</span>
+                </button>
+              );
+            })}
+          </div>
+          <div className="filter-section-label">Equipment</div>
+          <div className="category-tabs">
+            <button
+              className={`category-tab ${!selectedEquipment ? 'active' : ''}`}
+              onClick={() => setSelectedEquipment(null)}
+            >
+              <span className="tab-label">All</span>
+            </button>
+            {availableEquipment.map((eq) => (
               <button
-                key={target}
-                className={`category-tab ${selectedTarget === target ? 'active' : ''}`}
-                onClick={() => handleTargetClick(target)}
-                style={{ '--tab-color': config.color }}
+                key={eq}
+                className={`category-tab ${selectedEquipment === eq ? 'active' : ''}`}
+                onClick={() => handleEquipmentClick(eq)}
               >
-                <span className="tab-label">{config.label}</span>
+                <span className="tab-label">{eq.charAt(0).toUpperCase() + eq.slice(1)}</span>
               </button>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        </>
       )}
 
       <div
