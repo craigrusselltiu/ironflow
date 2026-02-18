@@ -89,13 +89,13 @@ const BACK_MUSCLES = {
     path: `M33,54 Q35,52 37,54 L36,62 Q34,64 32,62 Z
            M67,54 Q65,52 63,54 L64,62 Q66,64 68,62 Z`,
   },
-  [MUSCLE_GROUPS.LOWER_BACK]: {
-    // Lower back
-    path: `M46,54 L54,54 L53,64 Q50,66 47,64 Z`,
-  },
   [MUSCLE_GROUPS.GLUTES]: {
     // Glutes
     path: `M44,64 Q50,62 56,64 L55,72 Q50,74 45,72 Z`,
+  },
+  [MUSCLE_GROUPS.LOWER_BACK]: {
+    // Lower back - rendered after glutes so it stays visible above the glutes region
+    path: `M46,54 L54,54 L53,62 Q50,64 47,62 Z`,
   },
   [MUSCLE_GROUPS.HAMSTRINGS]: {
     // Back of thighs

@@ -1825,6 +1825,15 @@
     background: var(--color-background-card);
   }
 
+  .filter-section-label {
+    padding: 0.25rem 0.5rem 0.125rem;
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--color-text-tertiary);
+  }
+
   .category-tabs {
     display: flex;
     flex-wrap: wrap;
