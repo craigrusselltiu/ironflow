@@ -24,22 +24,24 @@ function bodyPartToCategory(bodyPart: string): string {
 
 // Map ExerciseDB target/muscle names to IronFlow muscle names
 const targetToMuscle: Record<string, string | null> = {
-  abs: 'abs', abdominals: 'abs', obliques: 'abs',
+  abs: 'abs', abdominals: 'abs', obliques: 'abs', core: 'abs', 'lower abs': 'abs',
   lats: 'lats', 'latissimus dorsi': 'lats',
-  'upper back': 'upperBack', rhomboids: 'upperBack',
+  'upper back': 'upperBack', back: 'upperBack', rhomboids: 'upperBack',
   spine: 'lowerBack', 'lower back': 'lowerBack',
   delts: 'sideDelts', 'side delts': 'sideDelts',
   'front delts': 'frontDelts',
-  'rotator cuff': 'rearDelts',
+  'rear delts': 'rearDelts', 'rotator cuff': 'rearDelts',
   biceps: 'biceps', brachialis: 'biceps',
   triceps: 'triceps',
   forearms: 'forearms', 'wrist flexors': 'forearms', 'wrist extensors': 'forearms',
-  pectorals: 'chest', 'serratus anterior': 'chest', 'upper chest': 'chest',
+  'grip muscles': 'forearms', wrists: 'forearms', hands: 'forearms',
+  pectorals: 'chest', chest: 'chest', 'serratus anterior': 'chest', 'upper chest': 'chest',
   traps: 'traps', trapezius: 'traps', 'levator scapulae': 'traps', sternocleidomastoid: 'traps',
-  quads: 'quads', quadriceps: 'quads', adductors: 'quads',
+  quads: 'quads', quadriceps: 'quads', adductors: 'quads', 'inner thighs': 'quads', groin: 'quads',
   hamstrings: 'hamstrings',
   glutes: 'glutes', abductors: 'glutes', 'hip flexors': 'glutes',
-  calves: 'calves', soleus: 'calves',
+  calves: 'calves', soleus: 'calves', shins: 'calves', 'ankle stabilizers': 'calves',
+  ankles: 'calves', feet: 'calves',
   'cardiovascular system': null,
 };
 
