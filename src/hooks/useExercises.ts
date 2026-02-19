@@ -115,7 +115,7 @@ const allExercises: Exercise[] = (exercisesData as RawExercise[]).map(enrichExer
 // Derive unique values for filters
 const uniqueBodyParts = [...new Set(allExercises.map(e => e.bodyPart))].filter(Boolean).sort();
 const uniqueEquipment = [...new Set(allExercises.map(e => e.equipment))].filter(Boolean).sort();
-const uniqueTargets = [...new Set(allExercises.map(e => e.targetMuscles))].filter(Boolean).sort();
+const uniqueTargets = [...new Set(allExercises.map(e => e.primaryMuscle).filter((m): m is string => m !== null))].sort();
 
 interface UseExercisesOptions {
   limit?: number;
@@ -154,7 +154,7 @@ export function useExercises(options: UseExercisesOptions = {}): UseExercisesRes
     }
 
     if (filters.targetMuscles) {
-      result = result.filter(e => e.targetMuscles.toLowerCase() === filters.targetMuscles!.toLowerCase());
+      result = result.filter(e => e.primaryMuscle === filters.targetMuscles);
     }
 
     return result;

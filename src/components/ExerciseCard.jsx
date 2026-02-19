@@ -3,15 +3,34 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { CATEGORY_COLORS } from '../data/exercises';
 
-// Target muscle colors (matches ExerciseLibrary TARGET_CONFIG)
+// Target muscle colors and display names (keyed by IronFlow muscle names)
+const MUSCLE_DISPLAY = {
+  chest: 'Chest',
+  frontDelts: 'Front Delts',
+  sideDelts: 'Side Delts',
+  rearDelts: 'Rear Delts',
+  lats: 'Lats',
+  upperBack: 'Upper Back',
+  lowerBack: 'Lower Back',
+  traps: 'Traps',
+  biceps: 'Biceps',
+  triceps: 'Triceps',
+  forearms: 'Forearms',
+  abs: 'Abs',
+  glutes: 'Glutes',
+  quads: 'Quads',
+  hamstrings: 'Hamstrings',
+  calves: 'Calves',
+};
+
 const TARGET_COLORS = {
   abs: '#ffd93d',
-  pectorals: '#e53935',
+  chest: '#e53935',
   lats: '#7c4dff',
-  'upper back': '#9575cd',
-  'front delts': '#00acc1',
-  'side delts': '#00bcd4',
-  'rear delts': '#0097a7',
+  upperBack: '#9575cd',
+  frontDelts: '#00acc1',
+  sideDelts: '#00bcd4',
+  rearDelts: '#0097a7',
   biceps: '#ff9800',
   triceps: '#ff5722',
   forearms: '#e64a19',
@@ -20,12 +39,7 @@ const TARGET_COLORS = {
   hamstrings: '#ec407a',
   calves: '#e91e63',
   traps: '#26a69a',
-  spine: '#8d6e63',
-  'serratus anterior': '#ef5350',
-  abductors: '#ad1457',
-  adductors: '#c2185b',
-  'levator scapulae': '#5c6bc0',
-  'cardiovascular system': '#6bcb77',
+  lowerBack: '#8d6e63',
 };
 
 // Format label for display
@@ -80,14 +94,14 @@ export const ExerciseCard = memo(function ExerciseCard({
     }
   });
 
-  // Use target color if available, otherwise fall back to category color
-  const cardColor = exercise.targetMuscles
-    ? TARGET_COLORS[exercise.targetMuscles] || '#888'
+  // Use IronFlow primaryMuscle for color and display label
+  const primaryMuscle = exercise.primaryMuscles?.[0];
+  const cardColor = primaryMuscle && TARGET_COLORS[primaryMuscle]
+    ? TARGET_COLORS[primaryMuscle]
     : CATEGORY_COLORS[exercise.category] || '#888';
 
-  // Display target muscle if available, otherwise category
-  const displayLabel = exercise.targetMuscles
-    ? formatLabel(exercise.targetMuscles)
+  const displayLabel = primaryMuscle && MUSCLE_DISPLAY[primaryMuscle]
+    ? MUSCLE_DISPLAY[primaryMuscle]
     : exercise.category || '';
 
   const style = {
