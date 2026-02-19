@@ -88,6 +88,25 @@ export function ExerciseBrowserPage() {
       .join(' ');
   };
 
+  const MUSCLE_LABELS: Record<string, string> = {
+    abs: 'Abs',
+    chest: 'Chest',
+    frontDelts: 'Front Delts',
+    sideDelts: 'Side Delts',
+    rearDelts: 'Rear Delts',
+    lats: 'Lats',
+    upperBack: 'Upper Back',
+    lowerBack: 'Lower Back',
+    traps: 'Traps',
+    biceps: 'Biceps',
+    triceps: 'Triceps',
+    forearms: 'Forearms',
+    glutes: 'Glutes',
+    quads: 'Quads',
+    hamstrings: 'Hamstrings',
+    calves: 'Calves',
+  };
+
   const hasActiveFilters = debouncedSearch || activeTarget || activeEquipment;
 
   return (
@@ -129,7 +148,7 @@ export function ExerciseBrowserPage() {
                       className={`filter-chip ${activeTarget === target ? 'active' : ''}`}
                       onClick={() => handleTargetClick(target)}
                     >
-                      {formatLabel(target)}
+                      {MUSCLE_LABELS[target] || formatLabel(target)}
                     </button>
                   ))}
                 </div>
@@ -205,7 +224,7 @@ export function ExerciseBrowserPage() {
                 <div className="card-info">
                   <h3 className="card-name">{exercise.name}</h3>
                   <div className="card-meta">
-                    <span className="card-target">{formatLabel(exercise.targetMuscles)}</span>
+                    <span className="card-target">{exercise.primaryMuscle ? (MUSCLE_LABELS[exercise.primaryMuscle] || formatLabel(exercise.primaryMuscle)) : formatLabel(exercise.targetMuscles)}</span>
                     <span className="card-equipment">{formatLabel(exercise.equipment)}</span>
                   </div>
                 </div>
