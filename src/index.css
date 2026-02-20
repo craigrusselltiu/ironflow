@@ -3511,6 +3511,17 @@
   }
 }
 
+/* Tablet-specific: hamburger menu only between 769-1024px */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .mobile-menu-btn {
+    display: flex;
+  }
+
+  .mobile-menu {
+    display: flex;
+  }
+}
+
 @media (max-width: 900px) {
   .builder-content {
     grid-template-columns: 1fr;
@@ -3558,6 +3569,7 @@
 @media (max-width: 768px) {
   .hero {
     padding: 3rem 1.5rem;
+    min-height: calc(100vh - 56px - 60px);
   }
 
   .hero-title {
@@ -3590,9 +3602,543 @@
     flex-direction: column;
     text-align: center;
   }
+
+  /* --- Mobile Bottom Tab Bar --- */
+  .mobile-bottom-bar {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(5, 5, 5, 0.95);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid var(--color-border-subtle);
+    padding: 0.375rem 0;
+    padding-bottom: max(0.375rem, env(safe-area-inset-bottom));
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .bottom-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.375rem 1rem;
+    color: var(--color-text-tertiary);
+    text-decoration: none;
+    font-size: 0.625rem;
+    font-weight: 500;
+    transition: color 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .bottom-tab.active {
+    color: var(--color-accent);
+  }
+
+  .bottom-tab svg {
+    transition: transform 0.15s ease;
+  }
+
+  .bottom-tab.active svg {
+    transform: scale(1.1);
+  }
+
+  /* --- Mobile Nav Adjustments --- */
+  .nav-container {
+    height: 56px;
+    padding: 0 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .brand-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .brand-text {
+    font-size: 1.1rem;
+  }
+
+  /* Hide hamburger on phones - use bottom bar instead */
+  .mobile-menu-btn {
+    display: none !important;
+  }
+
+  .mobile-menu {
+    display: none !important;
+  }
+
+  /* Show mobile user button */
+  .mobile-user-btn-wrapper {
+    display: block;
+    position: relative;
+    margin-left: auto;
+  }
+
+  .mobile-user-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--color-background-card);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-user-btn .user-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 0.875rem;
+  }
+
+  .mobile-user-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 49;
+  }
+
+  .mobile-user-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 180px;
+    background: var(--color-background-card);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    box-shadow: var(--shadow-elevated);
+    z-index: 50;
+    animation: fadeIn 0.15s ease;
+    overflow: hidden;
+  }
+
+  .mobile-user-dropdown-name {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.875rem 1rem;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .mobile-user-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: transparent;
+    border: none;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    font-family: var(--font-family-sans);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-user-dropdown-item:active {
+    background: var(--color-background-elevated);
+  }
+
+  /* --- Layout with bottom bar --- */
+  .app-layout {
+    padding-bottom: 60px;
+  }
+
+  .main-content-area {
+    min-height: calc(100vh - 56px - 60px);
+  }
+
+  /* --- Routine Builder Mobile --- */
+  .routine-builder-modern {
+    height: calc(100vh - 56px - 60px);
+  }
+
+  .mobile-builder-tabs {
+    display: flex;
+    background: var(--color-background-secondary);
+    border-bottom: 1px solid var(--color-border);
+    padding: 0 0.25rem;
+    gap: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  .mobile-builder-tab {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    padding: 0.625rem 0.5rem;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--color-text-tertiary);
+    font-size: 0.75rem;
+    font-weight: 500;
+    font-family: var(--font-family-sans);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.15s ease;
+  }
+
+  .mobile-builder-tab.active {
+    color: var(--color-accent);
+    border-bottom-color: var(--color-accent);
+  }
+
+  /* Builder content - tab-driven panels */
+  .builder-content {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: 1fr !important;
+  }
+
+  .builder-content .sidebar-left,
+  .builder-content .sidebar-right,
+  .builder-content .main-area {
+    max-height: none !important;
+    border: none !important;
+    overflow-y: auto;
+  }
+
+  .builder-content .sidebar-left {
+    display: none;
+    padding: 0.5rem;
+    height: 100%;
+  }
+
+  .builder-content .sidebar-right {
+    display: none;
+    padding: 0.75rem;
+    height: 100%;
+  }
+
+  .builder-content .main-area {
+    display: none;
+    height: 100%;
+  }
+
+  .builder-content[data-mobile-tab="library"] .sidebar-left {
+    display: block;
+  }
+
+  .builder-content[data-mobile-tab="planner"] .main-area {
+    display: flex;
+  }
+
+  .builder-content[data-mobile-tab="muscles"] .sidebar-right {
+    display: block;
+  }
+
+  /* Builder header - compact on mobile */
+  .builder-header-modern {
+    padding: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .header-left h1 {
+    font-size: 1.125rem;
+  }
+
+  .header-left p {
+    font-size: 0.75rem;
+  }
+
+  .header-right {
+    gap: 0.75rem;
+  }
+
+  .secondary-toggle-label {
+    display: none;
+  }
+
+  .header-divider {
+    display: none;
+  }
+
+  .clear-btn span {
+    display: none;
+  }
+
+  .clear-btn {
+    padding: 0.5rem;
+  }
+
+  /* --- Days Track: swipeable horizontal --- */
+  .days-track {
+    grid-template-columns: repeat(7, 75vw) !important;
+    min-width: unset !important;
+    gap: 0.5rem;
+    scroll-snap-type: x mandatory;
+    padding: 0 0.25rem;
+  }
+
+  .days-scroll {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .day-bucket-modern {
+    min-height: 200px;
+    scroll-snap-align: center;
+  }
+
+  /* --- Exercise cards touch-friendly --- */
+  .exercise-card-modern {
+    min-height: 44px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .remove-btn-modern {
+    opacity: 1 !important;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+  }
+
+  .sets-reps-display-modern {
+    min-height: 32px;
+    padding: 0.375rem 0.625rem;
+    font-size: 0.75rem;
+  }
+
+  .sets-reps-editor {
+    gap: 0.375rem;
+  }
+
+  .sets-input-modern,
+  .reps-input-modern {
+    width: 40px;
+    padding: 0.375rem;
+    font-size: 0.875rem;
+  }
+
+  .editor-btn {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+  }
+
+  /* --- Exercise Browser mobile --- */
+  .browser-header {
+    padding: 1rem;
+  }
+
+  .browser-header h1 {
+    font-size: 1.375rem;
+  }
+
+  .browser-content {
+    flex-direction: column;
+    padding: 0.75rem;
+    gap: 0.75rem;
+  }
+
+  .browser-filters {
+    width: 100%;
+  }
+
+  .filter-section {
+    margin-bottom: 0.75rem;
+  }
+
+  .filter-section h3 {
+    margin-bottom: 0.5rem;
+  }
+
+  .filter-chips {
+    gap: 0.375rem;
+  }
+
+  .filter-chip {
+    padding: 0.375rem 0.625rem;
+    font-size: 0.6875rem;
+  }
+
+  .exercise-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.625rem;
+  }
+
+  .card-gif-container {
+    height: 110px;
+  }
+
+  .card-info {
+    padding: 0.625rem;
+  }
+
+  .card-name {
+    font-size: 0.75rem;
+    margin-bottom: 0.375rem;
+  }
+
+  .exercise-browser-card:hover {
+    transform: none;
+  }
+
+  /* --- Modals nearly full-screen on mobile --- */
+  .modal-backdrop {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .modal-content {
+    max-width: 100%;
+    max-height: 92vh;
+    margin: 0;
+    border-radius: 16px 16px 0 0;
+    animation: mobileSlideUp 0.25s ease;
+  }
+
+  @keyframes mobileSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .exercise-detail-modal {
+    max-width: 100%;
+    max-height: 92vh;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .edm-layout {
+    flex-direction: column;
+  }
+
+  .edm-gif-panel {
+    width: 100%;
+    height: auto;
+    max-height: 40vh;
+    aspect-ratio: 1 / 1;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .edm-info-panel {
+    max-height: 50vh;
+    padding: 1.25rem;
+  }
+
+  .modal-close {
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 32px;
+    height: 32px;
+  }
+
+  .template-modal {
+    max-width: 100%;
+    max-height: 92vh;
+    padding: 1.25rem;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .confirm-modal {
+    max-width: 100%;
+    border-radius: 16px 16px 0 0;
+  }
+
+  /* --- Muscle map & breakdown on mobile --- */
+  .svg-body-views {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .svg-body-view {
+    flex: 1;
+  }
+
+  .svg-muscle-map > h2 {
+    font-size: 0.875rem;
+  }
+
+  .muscle-breakdown {
+    padding: 0.75rem;
+  }
+
+  .muscle-breakdown-list {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .muscle-breakdown-item {
+    min-width: unset;
+  }
+
+  /* --- Auth pages mobile --- */
+  .auth-container {
+    padding: 1rem;
+    padding-bottom: calc(1rem + 60px);
+  }
+
+  .auth-card {
+    padding: 1.75rem;
+  }
+
+  .auth-title {
+    font-size: 1.5rem;
+  }
+
+  /* --- Exercise Browser page: account for bottom bar --- */
+  .exercise-browser-page {
+    min-height: calc(100vh - 56px - 60px);
+    padding-bottom: 0;
+  }
+
+  /* --- Save dropdown on mobile --- */
+  .save-dropdown-menu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    border-radius: 16px 16px 0 0;
+    min-width: unset;
+    z-index: 200;
+    animation: mobileSlideUp 0.2s ease;
+  }
+
+  .save-dropdown-item {
+    padding: 1rem 1.25rem;
+  }
+
+  /* --- Planner stats compact --- */
+  .planner-title {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .planner-stats {
+    gap: 0.5rem;
+  }
+
+  .stat-pill {
+    padding: 0.25rem 0.5rem;
+  }
+
+  /* --- Home page account for bottom bar --- */
+  .home-page .site-footer {
+    padding-bottom: 0;
+  }
 }
 
 @media (max-width: 600px) {
+  /* Only apply non-mobile-bar days-track on tablets (> 768px handles mobile) */
   .days-track {
     grid-template-columns: repeat(2, minmax(160px, 1fr));
   }
@@ -3653,13 +4199,59 @@
     flex-direction: column;
   }
 
-  .modal-content {
-    margin: 0.5rem;
-    border-radius: 12px;
+  .add-to-day-btn {
+    flex: unset;
+    width: 100%;
   }
 
   .nav-actions .btn-ghost:not(:last-child) {
     display: none;
+  }
+}
+
+/* ============================================
+   VERY SMALL SCREENS (< 400px)
+   ============================================ */
+
+@media (max-width: 400px) {
+  .bottom-tab {
+    padding: 0.375rem 0.5rem;
+    font-size: 0.5625rem;
+  }
+
+  .bottom-tab svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .mobile-builder-tab {
+    font-size: 0.6875rem;
+    gap: 0.25rem;
+  }
+
+  .mobile-builder-tab svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .builder-header-modern {
+    padding: 0.625rem;
+  }
+
+  .header-left h1 {
+    font-size: 1rem;
+  }
+
+  .exercise-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-description {
+    font-size: 0.9375rem;
   }
 }
 
@@ -3954,4 +4546,24 @@
   .no-fatigue p {
     margin: 0;
   }
+}
+
+/* ============================================
+   MOBILE BOTTOM TAB BAR
+   ============================================ */
+
+.mobile-bottom-bar {
+  display: none;
+}
+
+.mobile-user-btn-wrapper {
+  display: none;
+}
+
+/* ============================================
+   MOBILE BUILDER TABS
+   ============================================ */
+
+.mobile-builder-tabs {
+  display: none;
 }

@@ -108,7 +108,7 @@ export function RoutineSaveDropdown({ onOpenTemplates }: RoutineSaveDropdownProp
   }, [importRoutine]);
 
   return (
-    <div className="routine-save-dropdown" ref={dropdownRef}>
+    <div className={`routine-save-dropdown ${isOpen ? 'open' : ''}`} ref={dropdownRef}>
       <button
         className="save-dropdown-trigger"
         onClick={() => setIsOpen(!isOpen)}

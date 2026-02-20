@@ -32,6 +32,7 @@ export function RoutineBuilderPage() {
   const [bucketOverDay, setBucketOverDay] = useState<string | null>(null);
   const [showTemplateModal, setShowTemplateModal] = useState(false);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
+  const [mobileBuilderTab, setMobileBuilderTab] = useState<'planner' | 'library' | 'muscles'>('planner');
   const [countSecondary, setCountSecondary] = useState(() => {
     const stored = localStorage.getItem('ironflow_count_secondary');
     return stored !== null ? JSON.parse(stored) : true;
@@ -309,7 +310,44 @@ export function RoutineBuilderPage() {
           </div>
         </header>
 
-        <div className="builder-content">
+        {/* Mobile builder tab bar - visible only on mobile via CSS */}
+        <div className="mobile-builder-tabs">
+          <button
+            className={`mobile-builder-tab ${mobileBuilderTab === 'planner' ? 'active' : ''}`}
+            onClick={() => setMobileBuilderTab('planner')}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            Planner
+          </button>
+          <button
+            className={`mobile-builder-tab ${mobileBuilderTab === 'library' ? 'active' : ''}`}
+            onClick={() => setMobileBuilderTab('library')}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.35-4.35"/>
+            </svg>
+            Exercises
+          </button>
+          <button
+            className={`mobile-builder-tab ${mobileBuilderTab === 'muscles' ? 'active' : ''}`}
+            onClick={() => setMobileBuilderTab('muscles')}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/>
+              <line x1="16" y1="8" x2="2" y2="22"/>
+              <line x1="17.5" y1="15" x2="9" y2="15"/>
+            </svg>
+            Muscles
+          </button>
+        </div>
+
+        <div className="builder-content" data-mobile-tab={mobileBuilderTab}>
           <aside className="sidebar-left">
             <ExerciseLibrary />
           </aside>
