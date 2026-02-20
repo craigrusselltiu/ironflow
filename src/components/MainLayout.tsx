@@ -84,7 +84,7 @@ export function MainLayout() {
               </>
             ) : (
               <>
-                <NavLink to="/login" className="btn-ghost">
+                <NavLink to="/login" className="btn-ghost" style={{ display: 'none' }}>
                   Sign In
                 </NavLink>
                 <NavLink to="/register" className="btn-accent" style={{ display: 'none' }}>
@@ -156,6 +156,7 @@ export function MainLayout() {
                   to="/login"
                   className="mobile-menu-item"
                   onClick={() => setMobileMenuOpen(false)}
+                  style={{ display: 'none' }}
                 >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
