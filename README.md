@@ -8,6 +8,7 @@
 
 <img width="2516" height="1268" alt="image" src="https://github.com/user-attachments/assets/cbdfea1e-e650-414c-84e7-db1c74b1de5f" />
 
+<img width="2559" height="1270" alt="image" src="https://github.com/user-attachments/assets/4200d233-58cf-420b-8726-f40de8032ccb" />
 
 ## Overview
 
@@ -128,3 +129,4 @@ Use this to spot overworked muscles (too much red) or neglected areas (gray).
 | Upper Back | Traps, Upper Back, Lats, Rear Delts, Triceps |
 | Core | Abs, Lower Back |
 | Lower Body | Quads, Hamstrings, Glutes, Calves |
+
