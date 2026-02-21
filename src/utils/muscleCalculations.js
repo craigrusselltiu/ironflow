@@ -1,23 +1,27 @@
 import { MUSCLE_GROUPS } from '../data/exercises';
 import { getExerciseById } from '../data/exerciseCache';
 
+// Weekly recommended sets per muscle group based on Renaissance Periodization
+// MAV (Maximum Adaptive Volume) research by Dr. Mike Israetel.
+// Values represent the midpoint of each muscle group's MAV range,
+// adjusted for indirect stimulus from compound movements.
 export const RECOMMENDED_SETS = {
-  [MUSCLE_GROUPS.CHEST]: 16,
-  [MUSCLE_GROUPS.FRONT_DELTS]: 12,
-  [MUSCLE_GROUPS.SIDE_DELTS]: 12,
-  [MUSCLE_GROUPS.REAR_DELTS]: 12,
-  [MUSCLE_GROUPS.BICEPS]: 10,
-  [MUSCLE_GROUPS.TRICEPS]: 12,
-  [MUSCLE_GROUPS.FOREARMS]: 10,
-  [MUSCLE_GROUPS.TRAPS]: 10,
-  [MUSCLE_GROUPS.LATS]: 16,
-  [MUSCLE_GROUPS.UPPER_BACK]: 14,
-  [MUSCLE_GROUPS.LOWER_BACK]: 10,
-  [MUSCLE_GROUPS.ABS]: 10,
-  [MUSCLE_GROUPS.QUADS]: 16,
-  [MUSCLE_GROUPS.HAMSTRINGS]: 12,
-  [MUSCLE_GROUPS.GLUTES]: 14,
-  [MUSCLE_GROUPS.CALVES]: 12,
+  [MUSCLE_GROUPS.CHEST]: 16,        // MAV 12–20
+  [MUSCLE_GROUPS.FRONT_DELTS]: 8,   // MAV 6–8 (heavily stimulated by pressing)
+  [MUSCLE_GROUPS.SIDE_DELTS]: 16,   // MAV 16–22
+  [MUSCLE_GROUPS.REAR_DELTS]: 16,   // MAV 16–22
+  [MUSCLE_GROUPS.BICEPS]: 14,       // MAV 14–20
+  [MUSCLE_GROUPS.TRICEPS]: 12,      // MAV 10–14
+  [MUSCLE_GROUPS.FOREARMS]: 8,      // MAV 4–10 (indirect work from pulling/gripping)
+  [MUSCLE_GROUPS.TRAPS]: 14,        // MAV 12–20
+  [MUSCLE_GROUPS.LATS]: 16,         // MAV 14–22 (back vertical pulling)
+  [MUSCLE_GROUPS.UPPER_BACK]: 16,   // MAV 14–22 (back horizontal pulling)
+  [MUSCLE_GROUPS.LOWER_BACK]: 6,    // ~2–6 direct sets (heavy indirect from compounds)
+  [MUSCLE_GROUPS.ABS]: 16,          // MAV 16–20
+  [MUSCLE_GROUPS.QUADS]: 16,        // MAV 12–18
+  [MUSCLE_GROUPS.HAMSTRINGS]: 12,   // MAV 10–16
+  [MUSCLE_GROUPS.GLUTES]: 10,       // MAV 4–12
+  [MUSCLE_GROUPS.CALVES]: 14,       // MAV 12–16
 };
 
 export function calculateMuscleFatigue(weeklyRoutine, countSecondary = true) {
