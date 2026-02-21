@@ -1736,6 +1736,12 @@
     gap: 0.375rem;
   }
 
+  .filter-toggles {
+    display: flex;
+    gap: 0.375rem;
+    flex-wrap: wrap;
+  }
+
   .filter-toggle {
     display: flex;
     align-items: center;

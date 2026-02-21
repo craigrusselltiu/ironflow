@@ -52,7 +52,8 @@ export function ExerciseLibrary() {
   const [selectedTarget, setSelectedTarget] = useState(() => sessionStorage.getItem('library_target') || 'all');
   const [selectedEquipment, setSelectedEquipment] = useState(() => sessionStorage.getItem('library_equipment') || null);
   const [searchTerm, setSearchTerm] = useState(() => sessionStorage.getItem('library_search') || '');
-  const [filtersOpen, setFiltersOpen] = useState(() => sessionStorage.getItem('library_filtersOpen') === 'true');
+  const [muscleFiltersOpen, setMuscleFiltersOpen] = useState(() => sessionStorage.getItem('library_muscleFiltersOpen') === 'true');
+  const [equipmentFiltersOpen, setEquipmentFiltersOpen] = useState(() => sessionStorage.getItem('library_equipmentFiltersOpen') === 'true');
 
   // Persist filters to sessionStorage
   useEffect(() => {
@@ -68,8 +69,11 @@ export function ExerciseLibrary() {
     else sessionStorage.removeItem('library_equipment');
   }, [selectedEquipment]);
   useEffect(() => {
-    sessionStorage.setItem('library_filtersOpen', filtersOpen ? 'true' : 'false');
-  }, [filtersOpen]);
+    sessionStorage.setItem('library_muscleFiltersOpen', muscleFiltersOpen ? 'true' : 'false');
+  }, [muscleFiltersOpen]);
+  useEffect(() => {
+    sessionStorage.setItem('library_equipmentFiltersOpen', equipmentFiltersOpen ? 'true' : 'false');
+  }, [equipmentFiltersOpen]);
 
   // Get targets and equipment from the exercise lists hook
   const { targets: availableTargets, equipment: availableEquipment } = useExerciseLists();
@@ -116,14 +120,16 @@ export function ExerciseLibrary() {
     setSelectedEquipment(prev => prev === equipment ? null : equipment);
   };
 
-  const hasActiveFilters = selectedTarget !== 'all' || selectedEquipment;
+  const hasMuscleFilter = selectedTarget !== 'all';
+  const hasEquipmentFilter = !!selectedEquipment;
 
-  const filterLabel = (() => {
-    if (selectedTarget !== 'all' && selectedEquipment) return 'Filter (2)';
-    if (selectedTarget !== 'all') return TARGET_CONFIG[selectedTarget]?.label || selectedTarget;
-    if (selectedEquipment) return selectedEquipment.charAt(0).toUpperCase() + selectedEquipment.slice(1);
-    return 'Filter';
-  })();
+  const muscleLabel = hasMuscleFilter
+    ? TARGET_CONFIG[selectedTarget]?.label || selectedTarget
+    : 'Muscle Group';
+
+  const equipmentLabel = hasEquipmentFilter
+    ? selectedEquipment.charAt(0).toUpperCase() + selectedEquipment.slice(1)
+    : 'Equipment';
 
   return (
     <div className="exercise-library-modern">
@@ -156,23 +162,37 @@ export function ExerciseLibrary() {
             </button>
           )}
         </div>
-        <button
-          className={`filter-toggle ${filtersOpen ? 'open' : ''} ${hasActiveFilters ? 'has-active' : ''}`}
-          onClick={() => setFiltersOpen(prev => !prev)}
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/>
-          </svg>
-          <span>{filterLabel}</span>
-          <svg className="filter-toggle-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <polyline points="6 9 12 15 18 9"/>
-          </svg>
-        </button>
+        <div className="filter-toggles">
+          <button
+            className={`filter-toggle ${muscleFiltersOpen ? 'open' : ''} ${hasMuscleFilter ? 'has-active' : ''}`}
+            onClick={() => setMuscleFiltersOpen(prev => !prev)}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/>
+            </svg>
+            <span>{muscleLabel}</span>
+            <svg className="filter-toggle-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <button
+            className={`filter-toggle ${equipmentFiltersOpen ? 'open' : ''} ${hasEquipmentFilter ? 'has-active' : ''}`}
+            onClick={() => setEquipmentFiltersOpen(prev => !prev)}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/>
+            </svg>
+            <span>{equipmentLabel}</span>
+            <svg className="filter-toggle-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+        </div>
       </div>
 
-      {filtersOpen && (
+      {muscleFiltersOpen && (
         <>
-          <div className="filter-section-label">Muscle</div>
+          <div className="filter-section-label">Muscle Group</div>
           <div className="category-tabs">
             <button
               className={`category-tab ${selectedTarget === 'all' ? 'active' : ''}`}
@@ -194,6 +214,11 @@ export function ExerciseLibrary() {
               );
             })}
           </div>
+        </>
+      )}
+
+      {equipmentFiltersOpen && (
+        <>
           <div className="filter-section-label">Equipment</div>
           <div className="category-tabs">
             <button
